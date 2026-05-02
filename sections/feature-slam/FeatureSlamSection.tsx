@@ -49,8 +49,8 @@ export default function FeatureSlamSection() {
   return (
     <section
       ref={sectionRef}
-      className="relative flex w-full flex-col items-center justify-center gap-7 overflow-hidden bg-bg-night px-6 py-32 md:gap-10 md:py-40"
-      style={{ minHeight: "100vh" }}
+      className="relative flex w-full flex-col items-center justify-center gap-7 overflow-hidden bg-bg-night px-6 py-12 md:gap-10 md:py-20"
+      style={{ height: "100vh" }}
       data-section="feature-slam"
     >
       {/* Animated grain */}

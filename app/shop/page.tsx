@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { fetchProducts } from "@/lib/products";
 import ShopPage from "@/sections/shop/ShopPage";
 
 export const metadata: Metadata = {
@@ -6,6 +7,12 @@ export const metadata: Metadata = {
   description: "Pods, puffs, capsules, liquid — engineered for the discerning palate.",
 };
 
-export default function Page() {
-  return <ShopPage />;
+/**
+ * /shop is a server component. It fetches the product catalogue from
+ * Sanity (with fallback to the in-repo mock when env vars are missing),
+ * then hands it to the client `<ShopPage />` which owns filtering state.
+ */
+export default async function Page() {
+  const products = await fetchProducts();
+  return <ShopPage products={products} />;
 }

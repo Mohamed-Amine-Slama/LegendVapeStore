@@ -5,9 +5,10 @@ import SpotlightSection from "@/sections/spotlight/SpotlightSection";
 import CarouselSection from "@/sections/carousel/CarouselSection";
 import StatsSection from "@/sections/stats/StatsSection";
 import FeatureSlamSection from "@/sections/feature-slam/FeatureSlamSection";
-import MarqueeSection from "@/sections/marquee/MarqueeSection";
 import SocialProofSection from "@/sections/social-proof/SocialProofSection";
 import Footer from "@/components/layout/Footer";
+
+import PresentationSnap from "@/sections/PresentationSnap";
 
 export default function HomePage() {
   return (
@@ -17,9 +18,10 @@ export default function HomePage() {
       <ManifestoSection />
       <SpotlightSection />
       <CarouselSection />
-      <StatsSection />
-      <FeatureSlamSection />
-      <MarqueeSection />
+      <PresentationSnap>
+        <StatsSection />
+        <FeatureSlamSection />
+      </PresentationSnap>
       <SocialProofSection />
       <Footer />
     </main>

@@ -5,10 +5,10 @@ import { gsap } from "@/lib/gsap";
 import PhoneMockup from "./PhoneMockup";
 
 const PHONES = [
-  { src: "/social/phone-1.svg", alt: "Customer 1 holding device" },
-  { src: "/social/phone-2.svg", alt: "Customer 2 holding device" },
-  { src: "/social/phone-3.svg", alt: "Customer 3 holding device" },
-  { src: "/social/phone-4.svg", alt: "Customer 4 holding device" },
+  { src: "/social/phone-1.png", alt: "Customer 1 holding device" },
+  { src: "/social/phone-2.png", alt: "Customer 2 holding device" },
+  { src: "/social/phone-3.png", alt: "Customer 3 holding device" },
+  { src: "/social/phone-4.png", alt: "Customer 4 holding device" },
 ];
 
 interface FanLayout {
@@ -25,40 +25,40 @@ function pickLayout(vw: number): FanLayout {
   if (vw >= 1024) {
     return {
       count: 4,
-      width: 200,
+      width: 280,
       rotations: [-22, -10, 4, 16],
       xOffsets: ["0%", "16%", "32%", "48%"],
       yOffsets: [0, -16, -8, -22],
-      containerHeight: 560,
+      containerHeight: 700,
     };
   }
   if (vw >= 768) {
     return {
       count: 4,
-      width: 160,
+      width: 220,
       rotations: [-20, -8, 6, 18],
       xOffsets: ["0%", "20%", "40%", "60%"],
       yOffsets: [0, -12, -8, -18],
-      containerHeight: 460,
+      containerHeight: 580,
     };
   }
   if (vw >= 480) {
     return {
       count: 3,
-      width: 140,
+      width: 180,
       rotations: [-16, -2, 14],
       xOffsets: ["0%", "30%", "60%"],
       yOffsets: [0, -10, -16],
-      containerHeight: 380,
+      containerHeight: 480,
     };
   }
   return {
     count: 3,
-    width: 110,
+    width: 140,
     rotations: [-14, 0, 14],
     xOffsets: ["0%", "32%", "62%"],
     yOffsets: [0, -8, -14],
-    containerHeight: 310,
+    containerHeight: 380,
   };
 }
 

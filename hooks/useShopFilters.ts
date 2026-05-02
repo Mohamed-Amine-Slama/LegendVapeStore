@@ -19,8 +19,12 @@ import type {
  * Owns the entire shop UI state and derives the visible product list.
  * Returned setters are stable (useCallback) so child components can be
  * memoized without re-renders.
+ *
+ * Accepts the catalogue as an argument so the data source is decoupled —
+ * server fetches via `fetchProducts()` (Sanity → mock fallback), passes
+ * the result down through ShopPage.
  */
-export function useShopFilters() {
+export function useShopFilters(catalogue: ShopProduct[] = SHOP_PRODUCTS) {
   const [activeCategory, setActiveCategory] = useState<ShopCategory>("PODS");
   const [filters, setFilters] = useState<FilterState>(INITIAL_FILTER_STATE);
   const [sortBy, setSortBy] = useState<SortOption>("FEATURED");
@@ -82,7 +86,7 @@ export function useShopFilters() {
 
   /** ── Derived: filtered + sorted product list ─────────────────────── */
   const filteredProducts = useMemo<ShopProduct[]>(() => {
-    let list = SHOP_PRODUCTS.filter((p) => p.category === activeCategory);
+    let list = catalogue.filter((p) => p.category === activeCategory);
 
     if (filters.nicotineMg.length) {
       list = list.filter((p) => filters.nicotineMg.includes(p.nicotineMg));
@@ -121,7 +125,7 @@ export function useShopFilters() {
         list = [...list].sort((a, b) => a.featuredOrder - b.featuredOrder);
     }
     return list;
-  }, [activeCategory, filters, sortBy]);
+  }, [catalogue, activeCategory, filters, sortBy]);
 
   /** ── Derived: active filter chips for the strip above filter groups ─ */
   const activeChips = useMemo<ActiveFilterChip[]>(() => {
@@ -153,6 +157,7 @@ export function useShopFilters() {
   }, [filters, toggleNicotine, toggleFlavor, toggleVolume, toggleBrand, setCaffeinatedOnly]);
 
   return {
+    catalogue,
     activeCategory,
     setActiveCategory,
     filters,

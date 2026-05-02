@@ -1,22 +1,42 @@
 "use client";
 
+import { useMemo } from "react";
 import Checkbox from "@/components/ui/Checkbox";
-import { BRAND_OPTIONS, brandCounts, SHOP_PRODUCTS } from "@/constants/shop";
-import type { Brand } from "@/types/shop";
+import { BRAND_OPTIONS, brandCounts } from "@/constants/shop";
+import type { Brand, ShopProduct } from "@/types/shop";
 
 interface BrandFilterProps {
   value: Brand[];
   onToggle: (b: Brand) => void;
+  /** When supplied, the (count) badges reflect this catalogue. Falls back
+   *  to all-zero counts if omitted. Wire this to the products passed into
+   *  ShopPage so badges stay accurate when the catalogue changes (Sanity). */
+  catalogue?: ShopProduct[];
 }
 
-const COUNTS = brandCounts(SHOP_PRODUCTS);
+export default function BrandFilter({
+  value,
+  onToggle,
+  catalogue,
+}: BrandFilterProps) {
+  const counts = useMemo(
+    () =>
+      catalogue
+        ? brandCounts(catalogue)
+        : ({
+            "LEGEND VAPE STORE Original": 0,
+            "LEGEND VAPE STORE MAX": 0,
+            "LEGEND VAPE STORE PRO": 0,
+            "LEGEND VAPE STORE LITE": 0,
+          } as Record<Brand, number>),
+    [catalogue],
+  );
 
-export default function BrandFilter({ value, onToggle }: BrandFilterProps) {
   return (
     <div className="flex flex-col gap-3">
       {BRAND_OPTIONS.map((brand) => {
         const checked = value.includes(brand);
-        const count = COUNTS[brand];
+        const count = counts[brand];
         return (
           <label
             key={brand}

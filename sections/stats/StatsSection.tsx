@@ -57,8 +57,12 @@ export default function StatsSection() {
       style={{
         background:
           "radial-gradient(120% 80% at 50% 100%, #F5F1EA 0%, #E8E1D2 60%, #DCD3BF 100%)",
-        paddingTop: "clamp(100px, 12vh, 160px)",
-        paddingBottom: "clamp(100px, 12vh, 160px)",
+        paddingTop: "clamp(40px, 8vh, 100px)",
+        paddingBottom: "clamp(40px, 8vh, 100px)",
+        height: "100vh",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
       }}
       data-section="stats"
     >

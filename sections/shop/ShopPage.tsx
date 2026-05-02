@@ -3,7 +3,7 @@
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { gsap } from "@/lib/gsap";
 import { useShopFilters } from "@/hooks/useShopFilters";
-import { SHOP_PRODUCTS } from "@/constants/shop";
+import type { ShopProduct } from "@/types/shop";
 
 import ShopHero from "./ShopHero";
 import CategoryNav, { type CategoryNavHandle } from "./CategoryNav";
@@ -15,6 +15,12 @@ import ShopFooterCTA from "./ShopFooterCTA";
 
 const PAGE_SIZE = 12;
 
+interface ShopPageProps {
+  /** Catalogue to render. Comes from `fetchProducts()` in the server
+   *  component at `app/shop/page.tsx` (Sanity → mock fallback). */
+  products: ShopProduct[];
+}
+
 /**
  * Top-level shop page client component.
  *
@@ -25,8 +31,8 @@ const PAGE_SIZE = 12;
  *   3. Sidebar slides in from the left
  *   4. Product cards stagger up + scale to 1
  */
-export default function ShopPage() {
-  const controller = useShopFilters();
+export default function ShopPage({ products }: ShopPageProps) {
+  const controller = useShopFilters(products);
   const {
     activeCategory,
     setActiveCategory,
@@ -53,8 +59,8 @@ export default function ShopPage() {
 
   // Total count for the active category (independent of filters).
   const totalForCategory = useMemo(
-    () => SHOP_PRODUCTS.filter((p) => p.category === activeCategory).length,
-    [activeCategory],
+    () => products.filter((p) => p.category === activeCategory).length,
+    [products, activeCategory],
   );
 
   const visibleProducts = useMemo(

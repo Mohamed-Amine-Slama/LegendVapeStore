@@ -28,6 +28,7 @@ const FilterSidebar = forwardRef<HTMLElement, FilterSidebarProps>(function Filte
   ref,
 ) {
   const {
+    catalogue,
     activeCategory,
     filters,
     activeChips,
@@ -122,7 +123,11 @@ const FilterSidebar = forwardRef<HTMLElement, FilterSidebarProps>(function Filte
       </FilterGroup>
 
       <FilterGroup title="Brand" visible={vis.brand}>
-        <BrandFilter value={filters.brands} onToggle={toggleBrand} />
+        <BrandFilter
+          value={filters.brands}
+          onToggle={toggleBrand}
+          catalogue={catalogue}
+        />
       </FilterGroup>
 
       {/* Mobile-only Apply CTA at the bottom of the drawer */}
@@ -171,7 +176,7 @@ const FilterSidebar = forwardRef<HTMLElement, FilterSidebarProps>(function Filte
 
       {/* ── Mobile / below-lg: slide-in drawer + backdrop ────────────────── */}
       <div
-        aria-hidden={!mobileOpen ? "true" : "false"}
+        aria-hidden={!mobileOpen}
         className={cn(
           "fixed inset-0 z-[7000] lg:hidden",
           "transition-opacity duration-300",
