@@ -65,6 +65,7 @@ export function mapMongoToShopProduct(p: MongoProduct): ShopProduct {
     flavorColor: p.flavorColor,
     imageSrc: p.imageUrl || FALLBACK_IMAGE,
     propSrc: p.propImageUrl,
+    flavors: p.flavors,
     badge: p.badge,
     releaseOrder: p.releaseOrder ?? 0,
     featuredOrder: p.featuredOrder ?? 100,

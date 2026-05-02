@@ -8,6 +8,7 @@ import EmptyState from "./EmptyState";
 interface ProductGridProps {
   products: ShopProduct[];
   viewMode: ViewMode;
+  onSelect?: (p: ShopProduct) => void;
 }
 
 export interface ProductGridHandle {
@@ -15,7 +16,7 @@ export interface ProductGridHandle {
 }
 
 const ProductGrid = forwardRef<ProductGridHandle, ProductGridProps>(function ProductGrid(
-  { products, viewMode },
+  { products, viewMode, onSelect },
   ref,
 ) {
   const cardRefs = useRef<HTMLDivElement[]>([]);
@@ -37,13 +38,14 @@ const ProductGrid = forwardRef<ProductGridHandle, ProductGridProps>(function Pro
       className={
         isList
           ? "flex flex-col gap-4"
-          : "grid grid-cols-1 gap-6 [@media(min-width:641px)]:grid-cols-2 [@media(min-width:1101px)]:grid-cols-3"
+          : "grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3"
       }
     >
       {products.map((p, i) => (
         <ProductCard
           key={p.id}
           product={p}
+          onSelect={onSelect}
           ref={(el) => {
             if (el) cardRefs.current[i] = el;
           }}

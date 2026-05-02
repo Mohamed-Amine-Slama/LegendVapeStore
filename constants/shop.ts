@@ -11,7 +11,7 @@ import type {
 
 /** ─── Configuration ─────────────────────────────────────────────────── */
 
-export const CATEGORIES: ShopCategory[] = ["PODS", "PUFFS", "CAPSULES", "LIQUID"];
+export const CATEGORIES: ShopCategory[] = ["PODS", "PUFFS", "CAPSULES", "LIQUID", "COILS"];
 
 export const NICOTINE_OPTIONS: { mg: NicotineMg; label: string; sub: string }[] = [
   { mg: 0,  label: "0mg",  sub: "Nicotine Free" },
@@ -36,10 +36,12 @@ export const BRAND_OPTIONS: Brand[] = [
   "LEGEND VAPE STORE MAX",
   "LEGEND VAPE STORE PRO",
   "LEGEND VAPE STORE LITE",
+  "Vozol",
+  "Wotofo",
 ];
 
 export const PRICE_RANGE_LIMITS: [number, number] = [0, 150]; // TND
-export const PUFF_RANGE_LIMITS: [number, number] = [200, 5000];
+export const PUFF_RANGE_LIMITS: [number, number] = [1000, 50000];
 
 export const SORT_OPTIONS: { value: SortOption; label: string }[] = [
   { value: "FEATURED",        label: "Featured" },
@@ -61,10 +63,11 @@ export const FILTER_VISIBILITY: Record<
     brand: boolean;
   }
 > = {
-  PODS:     { nicotine: true, flavor: true, volume: true,  puffCount: false, caffeine: true, price: true, brand: true },
-  PUFFS:    { nicotine: true, flavor: true, volume: false, puffCount: true,  caffeine: true, price: true, brand: true },
-  CAPSULES: { nicotine: true, flavor: true, volume: true,  puffCount: false, caffeine: true, price: true, brand: true },
-  LIQUID:   { nicotine: true, flavor: true, volume: true,  puffCount: false, caffeine: true, price: true, brand: true },
+  PODS:     { nicotine: true,  flavor: true,  volume: true,  puffCount: false, caffeine: true,  price: true, brand: true },
+  PUFFS:    { nicotine: true,  flavor: true,  volume: false, puffCount: true,  caffeine: true,  price: true, brand: true },
+  CAPSULES: { nicotine: true,  flavor: true,  volume: true,  puffCount: false, caffeine: true,  price: true, brand: true },
+  LIQUID:   { nicotine: true,  flavor: true,  volume: true,  puffCount: false, caffeine: true,  price: true, brand: true },
+  COILS:    { nicotine: false, flavor: false, volume: false, puffCount: false, caffeine: false, price: true, brand: true },
 };
 
 export const INITIAL_FILTER_STATE: FilterState = {

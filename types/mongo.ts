@@ -32,6 +32,8 @@ export interface MongoProduct {
   flavorColor: string; // hex
   imageUrl?: string;     // remote URL or "/products/foo.png" local path
   propImageUrl?: string;
+  /** Available flavors (only used for PUFFS / PODS / CAPSULES detail view). */
+  flavors?: string[];
   badge?: ProductBadge;
   releaseOrder: number;  // higher = newer
   featuredOrder: number; // lower = featured first

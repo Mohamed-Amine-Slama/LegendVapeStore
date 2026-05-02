@@ -1,6 +1,6 @@
 "use client";
 
-import { forwardRef } from "react";
+import { forwardRef, type KeyboardEvent } from "react";
 import Image from "next/image";
 import { cn } from "@/lib/cn";
 import type { ShopProduct } from "@/types/shop";
@@ -8,6 +8,7 @@ import type { ShopProduct } from "@/types/shop";
 interface ProductCardProps {
   product: ShopProduct;
   onAdd?: (p: ShopProduct) => void;
+  onSelect?: (p: ShopProduct) => void;
 }
 
 const BADGE_STYLE: Record<NonNullable<ShopProduct["badge"]>, { bg: string; fg: string }> = {
@@ -26,16 +27,31 @@ function hexTint(hex: string, alpha = 0.06): string {
 }
 
 const ProductCard = forwardRef<HTMLDivElement, ProductCardProps>(function ProductCard(
-  { product, onAdd },
+  { product, onAdd, onSelect },
   ref,
 ) {
   const propRotation = ((product.id.charCodeAt(2) || 0) % 40) - 20;
   const isHigh = product.nicotineMg >= 50;
 
+  const interactiveProps = onSelect
+    ? {
+        role: "button" as const,
+        tabIndex: 0,
+        onClick: () => onSelect(product),
+        onKeyDown: (e: KeyboardEvent<HTMLDivElement>) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            onSelect(product);
+          }
+        },
+      }
+    : {};
+
   return (
     <div
       ref={ref}
       data-product-card={product.id}
+      {...interactiveProps}
       className={cn(
         "group relative cursor-pointer overflow-hidden bg-white",
         "transition-[transform,box-shadow] duration-240 ease-out",

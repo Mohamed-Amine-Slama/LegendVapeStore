@@ -6,7 +6,7 @@
  * derived against the product list to produce the visible grid.
  */
 
-export type ShopCategory = "PODS" | "PUFFS" | "CAPSULES" | "LIQUID";
+export type ShopCategory = "PODS" | "PUFFS" | "CAPSULES" | "LIQUID" | "COILS";
 
 export type FlavorFamily =
   | "Fruity"
@@ -20,7 +20,9 @@ export type Brand =
   | "LEGEND VAPE STORE Original"
   | "LEGEND VAPE STORE MAX"
   | "LEGEND VAPE STORE PRO"
-  | "LEGEND VAPE STORE LITE";
+  | "LEGEND VAPE STORE LITE"
+  | "Vozol"
+  | "Wotofo";
 
 export type NicotineMg = 0 | 10 | 20 | 50;
 
@@ -51,6 +53,8 @@ export interface ShopProduct {
   flavorColor: string;            // hex — drives card image bg tint + bottom strip
   imageSrc: string;               // /products/*.png
   propSrc?: string;               // optional decorative prop on the card image
+  /** Available flavor variants — listed as text under the product when card is opened. */
+  flavors?: string[];
   badge?: ProductBadge;
   /** Sort key for "NEWEST" — higher = newer. */
   releaseOrder: number;

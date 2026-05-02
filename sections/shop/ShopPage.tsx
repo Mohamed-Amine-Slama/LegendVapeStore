@@ -11,7 +11,12 @@ import FilterSidebar from "./FilterSidebar";
 import ResultsHeader from "./ResultsHeader";
 import ProductGrid, { type ProductGridHandle } from "./ProductGrid";
 import LoadMore from "./LoadMore";
+import ProductDetailModal from "./ProductDetailModal";
+import SearchInput from "./SearchInput";
 import ShopFooterCTA from "./ShopFooterCTA";
+
+/** Categories whose cards open the detail modal (Shop.md flavor list spec). */
+const DETAIL_CATEGORIES = new Set<ShopProduct["category"]>(["PUFFS", "PODS", "CAPSULES"]);
 
 const PAGE_SIZE = 12;
 
@@ -42,6 +47,8 @@ export default function ShopPage({ products }: ShopPageProps) {
     setViewMode,
     visibleCount,
     setVisibleCount,
+    searchQuery,
+    setSearchQuery,
     filteredProducts,
   } = controller;
 
@@ -53,6 +60,13 @@ export default function ShopPage({ products }: ShopPageProps) {
   /** Mobile-only filter drawer toggle (FilterSidebar renders as a drawer on
    *  viewports below `lg`). Defaults closed. */
   const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
+
+  /** Currently expanded product (PUFFS/PODS/CAPSULES only). */
+  const [selectedProduct, setSelectedProduct] = useState<ShopProduct | null>(null);
+
+  const handleSelect = (p: ShopProduct) => {
+    if (DETAIL_CATEGORIES.has(p.category)) setSelectedProduct(p);
+  };
 
   /** Count of active filter chips — used to badge the mobile Filters button. */
   const activeFilterCount = controller.activeChips.length;
@@ -68,10 +82,10 @@ export default function ShopPage({ products }: ShopPageProps) {
     [filteredProducts, visibleCount],
   );
 
-  // Reset pagination when filters/category change.
+  // Reset pagination when filters/category/search change.
   useEffect(() => {
     setVisibleCount(PAGE_SIZE);
-  }, [activeCategory, controller.filters, sortBy, setVisibleCount]);
+  }, [activeCategory, controller.filters, sortBy, searchQuery, setVisibleCount]);
 
   // Page entrance animation — runs once on mount.
   useLayoutEffect(() => {
@@ -208,6 +222,18 @@ export default function ShopPage({ products }: ShopPageProps) {
             )}
           </button>
 
+          <div className="mb-5">
+            <SearchInput
+              value={searchQuery}
+              onChange={setSearchQuery}
+              catalogue={controller.catalogue}
+              onPick={(p) => {
+                setSearchQuery(p.name);
+                setActiveCategory(p.category);
+              }}
+            />
+          </div>
+
           <ResultsHeader
             showing={visibleProducts.length}
             total={filteredProducts.length}
@@ -215,7 +241,12 @@ export default function ShopPage({ products }: ShopPageProps) {
             onViewModeChange={setViewMode}
           />
 
-          <ProductGrid ref={gridRef} products={visibleProducts} viewMode={viewMode} />
+          <ProductGrid
+            ref={gridRef}
+            products={visibleProducts}
+            viewMode={viewMode}
+            onSelect={handleSelect}
+          />
 
           <LoadMore
             shown={visibleProducts.length}
@@ -226,6 +257,13 @@ export default function ShopPage({ products }: ShopPageProps) {
       </div>
 
       <ShopFooterCTA />
+
+      {selectedProduct && (
+        <ProductDetailModal
+          product={selectedProduct}
+          onClose={() => setSelectedProduct(null)}
+        />
+      )}
     </div>
   );
 }

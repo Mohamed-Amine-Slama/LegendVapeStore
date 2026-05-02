@@ -34,6 +34,14 @@ const ICON_BY_CATEGORY: Record<ShopCategory, React.ReactNode> = {
       <path d="M7 1.5 C 4 5, 3 7, 3 9 a4 4 0 0 0 8 0 c 0 -2 -1 -4 -4 -7.5 z" />
     </svg>
   ),
+  COILS: (
+    <svg viewBox="0 0 14 14" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.5">
+      <circle cx="7" cy="7" r="5" />
+      <circle cx="7" cy="7" r="2.5" />
+      <line x1="7" y1="2" x2="7" y2="4.5" />
+      <line x1="7" y1="9.5" x2="7" y2="12" />
+    </svg>
+  ),
 };
 
 const CategoryPill = forwardRef<HTMLButtonElement, CategoryPillProps>(function CategoryPill(

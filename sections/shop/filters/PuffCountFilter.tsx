@@ -15,7 +15,7 @@ export default function PuffCountFilter({ value, onChange }: PuffCountFilterProp
         value={value}
         min={PUFF_RANGE_LIMITS[0]}
         max={PUFF_RANGE_LIMITS[1]}
-        step={100}
+        step={1000}
         onChange={onChange}
         ariaLabel="Maximum puff count"
       />

@@ -30,6 +30,7 @@ export function useShopFilters(catalogue: ShopProduct[]) {
   const [sortBy, setSortBy] = useState<SortOption>("FEATURED");
   const [viewMode, setViewMode] = useState<ViewMode>("GRID");
   const [visibleCount, setVisibleCount] = useState<number>(12);
+  const [searchQuery, setSearchQuery] = useState<string>("");
 
   /** ── Mutators ────────────────────────────────────────────────────── */
   const toggleNicotine = useCallback((mg: NicotineMg) => {
@@ -86,7 +87,13 @@ export function useShopFilters(catalogue: ShopProduct[]) {
 
   /** ── Derived: filtered + sorted product list ─────────────────────── */
   const filteredProducts = useMemo<ShopProduct[]>(() => {
-    let list = catalogue.filter((p) => p.category === activeCategory);
+    const query = searchQuery.trim().toLowerCase();
+
+    // When searching, results span all categories. Otherwise constrain to the
+    // active category pill.
+    let list = query
+      ? catalogue.filter((p) => p.name.toLowerCase().includes(query))
+      : catalogue.filter((p) => p.category === activeCategory);
 
     if (filters.nicotineMg.length) {
       list = list.filter((p) => filters.nicotineMg.includes(p.nicotineMg));
@@ -125,7 +132,7 @@ export function useShopFilters(catalogue: ShopProduct[]) {
         list = [...list].sort((a, b) => a.featuredOrder - b.featuredOrder);
     }
     return list;
-  }, [catalogue, activeCategory, filters, sortBy]);
+  }, [catalogue, activeCategory, filters, sortBy, searchQuery]);
 
   /** ── Derived: active filter chips for the strip above filter groups ─ */
   const activeChips = useMemo<ActiveFilterChip[]>(() => {
@@ -167,6 +174,8 @@ export function useShopFilters(catalogue: ShopProduct[]) {
     setViewMode,
     visibleCount,
     setVisibleCount,
+    searchQuery,
+    setSearchQuery,
     filteredProducts,
     activeChips,
     toggleNicotine,
