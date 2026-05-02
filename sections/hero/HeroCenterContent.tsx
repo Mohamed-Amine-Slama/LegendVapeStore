@@ -7,7 +7,8 @@ import PillButton from "@/components/ui/PillButton";
 interface HeroCenterContentProps {
   bannerRef: React.RefObject<HTMLDivElement | null>;
   taglineRef: React.RefObject<HTMLParagraphElement | null>;
-  btnRef: React.RefObject<HTMLButtonElement | null>;
+  /** PillButton renders as <a> when href is set, so the ref is HTMLElement (not specifically HTMLButtonElement). */
+  btnRef: React.RefObject<HTMLElement | null>;
   ghostRef: React.RefObject<HTMLDivElement | null>;
   eyebrowRef: React.RefObject<HTMLDivElement | null>;
 }
@@ -79,7 +80,7 @@ const HeroCenterContent = forwardRef<HTMLDivElement, HeroCenterContentProps>(
 
         {/* CTA */}
         <div className="relative z-[2] mt-7" style={{ pointerEvents: "auto" }}>
-          <PillButton ref={btnRef} variant="gold" size="lg" trailingIcon>
+          <PillButton ref={btnRef} href="/shop" variant="gold" size="lg" trailingIcon>
             Find your flavor
           </PillButton>
         </div>

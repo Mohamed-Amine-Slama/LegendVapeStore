@@ -1,21 +1,26 @@
 import type { NavItem, FooterColumn } from "@/types/navigation";
 
+/**
+ * Top-level menu (rendered inside MenuOverlay). The product-related entries
+ * (SHOP, FLAVORS, FIND A STORE) all route to /shop. Editorial pages
+ * (OUR STORY, SUSTAINABILITY) keep their hash anchors for now.
+ */
 export const MENU_LINKS: NavItem[] = [
-  { label: "SHOP",           href: "#shop" },
-  { label: "FLAVORS",        href: "#flavors" },
+  { label: "SHOP",           href: "/shop" },
+  { label: "FLAVORS",        href: "/shop" },
   { label: "OUR STORY",      href: "#story" },
   { label: "SUSTAINABILITY", href: "#sustainability" },
-  { label: "FIND A STORE",   href: "#store" },
+  { label: "FIND A STORE",   href: "/shop" },
 ];
 
 export const FOOTER_COLUMNS: FooterColumn[] = [
   {
     header: "LEGEND VAPE STORE FLAVORS",
     links: [
-      { label: "Shop Devices",  href: "#" },
-      { label: "Starter Kits",  href: "#" },
-      { label: "Pod Packs",     href: "#" },
-      { label: "New Arrivals",  href: "#" },
+      { label: "Shop Devices",  href: "/shop" },
+      { label: "Starter Kits",  href: "/shop" },
+      { label: "Pod Packs",     href: "/shop" },
+      { label: "New Arrivals",  href: "/shop" },
     ],
   },
   {

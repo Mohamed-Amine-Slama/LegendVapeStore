@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { useNavbarTheme } from "@/hooks/useNavbarTheme";
 import HamburgerIcon from "./HamburgerIcon";
 import MenuOverlay from "./MenuOverlay";
@@ -64,9 +65,9 @@ export default function Navbar() {
           />
         </div>
 
-        {/* CTA */}
-        <button
-          type="button"
+        {/* CTA — links to the shop */}
+        <Link
+          href="/shop"
           className={cn(
             "group relative inline-flex items-center gap-2 rounded-full border px-5 py-2.5 font-ui font-medium uppercase",
             "transition-all duration-500 ease-out",
@@ -85,8 +86,8 @@ export default function Navbar() {
               "group-hover:bg-bg-dark",
             )}
           />
-          Find a Store
-        </button>
+          Shop now
+        </Link>
       </header>
 
       <MenuOverlay isOpen={menuOpen} onClose={() => setMenuOpen(false)} />

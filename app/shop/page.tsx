@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-// import ShopPage from "@/sections/shop/ShopPage";
+import ShopPage from "@/sections/shop/ShopPage";
 
 export const metadata: Metadata = {
   title: "Shop · LEGEND VAPE STORE",
@@ -7,5 +7,5 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <div>Shop Page (Under Construction)</div>;
+  return <ShopPage />;
 }

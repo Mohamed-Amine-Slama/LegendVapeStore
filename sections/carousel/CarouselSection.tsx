@@ -220,14 +220,14 @@ export default function CarouselSection() {
           <CarouselNavDots total={CARDS.length} activeCards={activeCards} />
 
           <div ref={btnRef}>
-            <PillButton variant="gold" size="md" trailingIcon>
+            <PillButton href="/shop" variant="gold" size="md" trailingIcon>
               Get it now
             </PillButton>
           </div>
 
           <div ref={otherRef}>
             <a
-              href="#flavors"
+              href="/shop"
               className="inline-flex items-center rounded-full border px-6 py-2 font-ui font-medium uppercase transition-all duration-250"
               style={{
                 fontSize: 11,

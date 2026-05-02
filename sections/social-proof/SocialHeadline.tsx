@@ -51,7 +51,7 @@ const SocialHeadline = forwardRef<HTMLDivElement>(function SocialHeadline(_, ref
       </p>
 
       <div className="mt-7 flex flex-wrap items-center gap-4" data-headline-cta>
-        <PillButton variant="gold" size="md" trailingIcon>
+        <PillButton href="/shop" variant="gold" size="md" trailingIcon>
           Shop All
         </PillButton>
         <PillButton variant="outline" size="md">

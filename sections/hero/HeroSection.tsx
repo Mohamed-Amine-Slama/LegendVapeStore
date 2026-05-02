@@ -46,7 +46,7 @@ export default function HeroSection() {
   const eyebrowRef = useRef<HTMLDivElement>(null);
   const bannerRef = useRef<HTMLDivElement>(null);
   const taglineRef = useRef<HTMLParagraphElement>(null);
-  const btnRef = useRef<HTMLButtonElement>(null);
+  const btnRef = useRef<HTMLElement>(null);
   const ghostRef = useRef<HTMLDivElement>(null);
 
   const { isDone } = usePreloaderContext();
