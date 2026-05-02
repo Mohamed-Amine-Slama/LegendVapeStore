@@ -28,6 +28,15 @@ export default function ProductDetailModal({ product, onClose }: ProductDetailMo
     };
   }, [onClose]);
 
+  const soldOut = product.inStock === false;
+  const onPromo =
+    product.onPromo === true &&
+    typeof product.promoPriceTND === "number" &&
+    product.promoPriceTND < product.priceTND;
+  const promoPercent = onPromo
+    ? Math.round((1 - (product.promoPriceTND as number) / product.priceTND) * 100)
+    : 0;
+
   return (
     <div
       role="dialog"
@@ -78,6 +87,53 @@ export default function ProductDetailModal({ product, onClose }: ProductDetailMo
             className="absolute bottom-0 left-0 h-[3px] w-full"
             style={{ background: product.flavorColor }}
           />
+
+          {/* Top-left badge stack */}
+          <div
+            className="absolute z-[2] flex flex-col items-start gap-1.5"
+            style={{ top: 14, left: 14 }}
+          >
+            {onPromo && (
+              <span
+                className="font-ui font-bold uppercase"
+                style={{
+                  fontSize: 10,
+                  letterSpacing: "0.12em",
+                  padding: "4px 10px",
+                  borderRadius: 9999,
+                  background: "#C8273A",
+                  color: "#FFFFFF",
+                  boxShadow: "0 2px 8px rgba(200,39,58,0.35)",
+                }}
+              >
+                −{promoPercent}% PROMO
+              </span>
+            )}
+          </div>
+
+          {soldOut && (
+            <div
+              aria-hidden
+              className="pointer-events-none absolute inset-0 z-[3] flex items-center justify-center"
+              style={{ background: "rgba(240, 237, 232, 0.72)" }}
+            >
+              <span
+                className="font-ui font-bold uppercase"
+                style={{
+                  fontSize: 13,
+                  letterSpacing: "0.22em",
+                  padding: "7px 18px",
+                  borderRadius: 9999,
+                  background: "#1A1A1A",
+                  color: "#F0EDE8",
+                  transform: "rotate(-6deg)",
+                  boxShadow: "0 6px 18px rgba(0,0,0,0.18)",
+                }}
+              >
+                Sold out
+              </span>
+            </div>
+          )}
         </div>
 
         <div className="flex min-h-0 flex-1 flex-col overflow-y-auto px-6 py-7 sm:px-8">
@@ -112,18 +168,58 @@ export default function ProductDetailModal({ product, onClose }: ProductDetailMo
           </p>
 
           <div className="flex items-baseline gap-3" style={{ marginBottom: 18 }}>
-            <span
-              className="font-oswald font-bold"
-              style={{ fontSize: 28, color: "#1A1A1A" }}
-            >
-              {product.priceTND}
-            </span>
-            <span
-              className="font-ui font-medium"
-              style={{ fontSize: 12, color: "rgba(26,26,26,0.45)" }}
-            >
-              TND
-            </span>
+            {onPromo ? (
+              <>
+                <span
+                  className="font-oswald font-bold"
+                  style={{ fontSize: 28, color: "#C8273A" }}
+                >
+                  {product.promoPriceTND}
+                </span>
+                <span
+                  className="font-ui font-medium line-through"
+                  style={{ fontSize: 14, color: "rgba(26,26,26,0.45)" }}
+                >
+                  {product.priceTND}
+                </span>
+                <span
+                  className="font-ui font-medium"
+                  style={{ fontSize: 12, color: "rgba(26,26,26,0.45)" }}
+                >
+                  TND
+                </span>
+              </>
+            ) : (
+              <>
+                <span
+                  className="font-oswald font-bold"
+                  style={{ fontSize: 28, color: "#1A1A1A" }}
+                >
+                  {product.priceTND}
+                </span>
+                <span
+                  className="font-ui font-medium"
+                  style={{ fontSize: 12, color: "rgba(26,26,26,0.45)" }}
+                >
+                  TND
+                </span>
+              </>
+            )}
+            {soldOut && (
+              <span
+                className="font-ui font-bold uppercase"
+                style={{
+                  fontSize: 10,
+                  letterSpacing: "0.18em",
+                  padding: "5px 11px",
+                  borderRadius: 9999,
+                  background: "#1A1A1A",
+                  color: "#F0EDE8",
+                }}
+              >
+                Sold out
+              </span>
+            )}
             {product.puffCount && (
               <span
                 className="ml-auto font-ui font-semibold uppercase"

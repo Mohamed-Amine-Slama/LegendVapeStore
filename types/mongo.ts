@@ -38,6 +38,10 @@ export interface MongoProduct {
   releaseOrder: number;  // higher = newer
   featuredOrder: number; // lower = featured first
   inStock: boolean;
+  /** Admin-toggled promotion flag (set in the dashboard). */
+  onPromo?: boolean;
+  /** Promotional price in TND when `onPromo` is true. Must be < priceTND. */
+  promoPriceTND?: number;
   /** ISO timestamps, set by the dashboard on insert / update */
   createdAt?: string;
   updatedAt?: string;

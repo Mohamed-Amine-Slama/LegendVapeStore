@@ -60,6 +60,12 @@ export interface ShopProduct {
   releaseOrder: number;
   /** Sort key for "FEATURED" — lower = more prominent. */
   featuredOrder: number;
+  /** Whether the product is purchasable — when false, card shows SOLD OUT and the add button is disabled. */
+  inStock: boolean;
+  /** Admin-toggled promotion flag. */
+  onPromo?: boolean;
+  /** Discounted price in TND. Only honored when `onPromo` is true and value is < priceTND. */
+  promoPriceTND?: number;
 }
 
 export interface FilterState {

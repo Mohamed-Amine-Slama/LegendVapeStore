@@ -50,6 +50,13 @@ export async function fetchProducts(): Promise<ShopProduct[]> {
 const FALLBACK_IMAGE = "/products/device-refill.png";
 
 export function mapMongoToShopProduct(p: MongoProduct): ShopProduct {
+  // Only honor promo when both flag and price are set AND price is a real discount.
+  const promoActive =
+    p.onPromo === true &&
+    typeof p.promoPriceTND === "number" &&
+    p.promoPriceTND >= 0 &&
+    p.promoPriceTND < p.priceTND;
+
   return {
     id: typeof p._id === "string" ? p._id : String(p._id),
     name: p.name,
@@ -69,5 +76,8 @@ export function mapMongoToShopProduct(p: MongoProduct): ShopProduct {
     badge: p.badge,
     releaseOrder: p.releaseOrder ?? 0,
     featuredOrder: p.featuredOrder ?? 100,
+    inStock: p.inStock !== false,
+    onPromo: promoActive,
+    promoPriceTND: promoActive ? p.promoPriceTND : undefined,
   };
 }
