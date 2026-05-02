@@ -23,7 +23,8 @@ export default function Navbar() {
           "transition-all duration-500 ease-[cubic-bezier(0.77,0,0.18,1)]",
         )}
       >
-        {/* Logo block — wordmark only on mobile, eyebrow appears at sm+ */}
+        {/* Logo block — short "LEGEND" on mobile so it clears the centered
+            hamburger; full wordmark from sm+, eyebrow at lg+. */}
         <Link
           href="/"
           className="group relative flex items-center gap-3"
@@ -33,12 +34,13 @@ export default function Navbar() {
             className={cn(
               "font-script leading-none transition-colors duration-500",
               "group-hover:scale-[1.05] motion-safe:transition-transform",
-              "text-[24px] sm:text-[28px] md:text-[32px]",
+              "text-[22px] sm:text-[26px] md:text-[30px] lg:text-[32px]",
               onDark ? "text-accent" : "text-bg-dark",
             )}
             style={{ fontWeight: 700, letterSpacing: "-0.01em" }}
           >
-            LEGEND VAPE STORE
+            <span className="sm:hidden">LEGEND</span>
+            <span className="hidden sm:inline">LEGEND VAPE STORE</span>
           </span>
           <span
             aria-hidden
