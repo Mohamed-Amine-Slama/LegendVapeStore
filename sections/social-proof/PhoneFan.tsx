@@ -1,6 +1,6 @@
 "use client";
 
-import { useLayoutEffect, useRef } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { gsap } from "@/lib/gsap";
 import PhoneMockup from "./PhoneMockup";
 
@@ -11,26 +11,85 @@ const PHONES = [
   { src: "/social/phone-4.svg", alt: "Customer 4 holding device" },
 ];
 
-const ROTATIONS = [-22, -10, 4, 16];
-const X_OFFSETS = ["0%", "16%", "32%", "48%"];
-const Y_OFFSETS = [0, -16, -8, -22];
+interface FanLayout {
+  count: 3 | 4;
+  width: number;        // phone width in px
+  rotations: number[];
+  xOffsets: string[];
+  yOffsets: number[];
+  containerHeight: number;
+}
+
+/** Picks a phone-fan layout sized for the current viewport. */
+function pickLayout(vw: number): FanLayout {
+  if (vw >= 1024) {
+    return {
+      count: 4,
+      width: 200,
+      rotations: [-22, -10, 4, 16],
+      xOffsets: ["0%", "16%", "32%", "48%"],
+      yOffsets: [0, -16, -8, -22],
+      containerHeight: 560,
+    };
+  }
+  if (vw >= 768) {
+    return {
+      count: 4,
+      width: 160,
+      rotations: [-20, -8, 6, 18],
+      xOffsets: ["0%", "20%", "40%", "60%"],
+      yOffsets: [0, -12, -8, -18],
+      containerHeight: 460,
+    };
+  }
+  if (vw >= 480) {
+    return {
+      count: 3,
+      width: 140,
+      rotations: [-16, -2, 14],
+      xOffsets: ["0%", "30%", "60%"],
+      yOffsets: [0, -10, -16],
+      containerHeight: 380,
+    };
+  }
+  return {
+    count: 3,
+    width: 110,
+    rotations: [-14, 0, 14],
+    xOffsets: ["0%", "32%", "62%"],
+    yOffsets: [0, -8, -14],
+    containerHeight: 310,
+  };
+}
 
 export default function PhoneFan() {
   const wrapRef = useRef<HTMLDivElement>(null);
   const phoneRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const [layout, setLayout] = useState<FanLayout>(() => pickLayout(1280));
+
+  // Track viewport changes so the fan re-lays itself out on resize.
+  useEffect(() => {
+    const compute = () => setLayout(pickLayout(window.innerWidth));
+    compute();
+    window.addEventListener("resize", compute, { passive: true });
+    return () => window.removeEventListener("resize", compute);
+  }, []);
+
+  const visiblePhones = PHONES.slice(0, layout.count);
 
   useLayoutEffect(() => {
     if (!wrapRef.current) return;
     const phones = phoneRefs.current.filter(Boolean) as HTMLDivElement[];
+    if (!phones.length) return;
 
     const ctx = gsap.context(() => {
       gsap.set(phones, { opacity: 0, scale: 0.7, x: 0, y: 0, rotate: 0 });
       gsap.to(phones, {
         opacity: 1,
         scale: 1,
-        x: (i: number) => X_OFFSETS[i],
-        y: (i: number) => Y_OFFSETS[i],
-        rotate: (i: number) => ROTATIONS[i],
+        x: (i: number) => layout.xOffsets[i],
+        y: (i: number) => layout.yOffsets[i],
+        rotate: (i: number) => layout.rotations[i],
         duration: 0.85,
         ease: "back.out(1.6)",
         stagger: 0.13,
@@ -56,19 +115,24 @@ export default function PhoneFan() {
     }, wrapRef);
 
     return () => ctx.revert();
-  }, []);
+  }, [layout]);
 
   return (
-    <div ref={wrapRef} className="relative h-[560px] w-full">
-      {PHONES.map((phone, i) => (
+    <div
+      ref={wrapRef}
+      className="relative w-full"
+      style={{ height: layout.containerHeight }}
+    >
+      {visiblePhones.map((phone, i) => (
         <PhoneMockup
-          key={phone.src}
+          key={`${phone.src}-${layout.count}`}
           ref={(el) => {
             phoneRefs.current[i] = el;
           }}
           src={phone.src}
           alt={phone.alt}
           zIndex={i + 1}
+          width={layout.width}
         />
       ))}
     </div>

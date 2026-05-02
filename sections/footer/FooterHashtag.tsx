@@ -30,28 +30,34 @@ export default function FooterHashtag() {
   }, []);
 
   return (
-    <div className="relative flex flex-col items-center text-center">
+    <div className="relative flex flex-col items-center px-4 text-center">
       <span
         className="font-ui font-medium uppercase"
         style={{
           fontSize: 11,
           letterSpacing: "0.34em",
           color: "rgba(240,237,232,0.5)",
-          paddingTop: "clamp(60px, 8vh, 100px)",
+          paddingTop: "clamp(48px, 7vh, 100px)",
         }}
       >
         Join the Legend Vape Store community
       </span>
       <h2
         ref={ref}
-        className="mt-5 display-tight text-bg-light"
+        className="mt-5 flex flex-wrap justify-center display-tight text-bg-light"
         style={{
-          fontSize: "clamp(56px, 11vw, 160px)",
-          lineHeight: 0.85,
+          fontSize: "clamp(34px, 9vw, 160px)",
+          lineHeight: 0.92,
+          maxWidth: "100%",
         }}
       >
         {TEXT.split("").map((c, i) => (
-          <span key={i} data-char className="inline-block will-change-transform">
+          <span
+            key={i}
+            data-char
+            className="inline-block will-change-transform"
+            style={c === " " ? { width: "0.32em" } : undefined}
+          >
             {c === " " ? " " : c}
           </span>
         ))}

@@ -27,12 +27,18 @@ export default function CarouselSection() {
   const computeOffsets = () => {
     if (!containerRef.current) return { pair0: 0, pair1: 0 };
     const vw = window.innerWidth;
-    const twoCardW = CARD_W * 2 + GAP;
+    // Read the actual rendered card width at runtime — cards shrink with
+    // viewport (`min(420px, calc(100vw - 56px))`), so CARD_W is the desktop
+    // ceiling, not what's currently in the DOM.
+    const firstCard = cardRefs.current.find(Boolean);
+    const cardW = firstCard?.offsetWidth ?? CARD_W;
+    const bleed = vw < 640 ? 12 : BLEED;
+    const twoCardW = cardW * 2 + GAP;
     const containerRect = containerRef.current.getBoundingClientRect();
     const containerNaturalLeft = containerRect.left + window.scrollX;
-    const desiredLeft = (vw - twoCardW) / 2 - BLEED;
+    const desiredLeft = (vw - twoCardW) / 2 - bleed;
     const pair0 = desiredLeft - containerNaturalLeft;
-    const pair1 = pair0 - (CARD_W + GAP);
+    const pair1 = pair0 - (cardW + GAP);
     pairOffsets.current = { pair0, pair1 };
     return { pair0, pair1 };
   };

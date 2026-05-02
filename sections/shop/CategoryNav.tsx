@@ -34,8 +34,7 @@ const CategoryNav = forwardRef<CategoryNavHandle, CategoryNavProps>(function Cat
 
   return (
     <nav
-      className="sticky z-[50] w-full border-b border-bg-dark/8 bg-bg-light"
-      style={{ top: 68, height: 58 }}
+      className="sticky top-[64px] z-[50] h-[58px] w-full border-b border-bg-dark/8 bg-bg-light sm:top-[68px]"
     >
       {/* Subtle noise overlay */}
       <div
@@ -47,8 +46,9 @@ const CategoryNav = forwardRef<CategoryNavHandle, CategoryNavProps>(function Cat
         }}
       />
 
-      <div className="relative z-[2] flex h-full items-center justify-between px-12">
-        <div className="flex items-center gap-2">
+      {/* Pills row scrolls horizontally on mobile — 4 pills + sort don't fit */}
+      <div className="relative z-[2] flex h-full items-center gap-3 overflow-x-auto px-4 sm:gap-4 sm:px-8 md:px-12 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+        <div className="flex flex-shrink-0 items-center gap-2">
           {CATEGORIES.map((c, i) => (
             <CategoryPill
               key={c}
@@ -62,7 +62,9 @@ const CategoryNav = forwardRef<CategoryNavHandle, CategoryNavProps>(function Cat
           ))}
         </div>
 
-        <SortDropdown value={sortBy} onChange={onSortChange} />
+        <div className="ml-auto flex-shrink-0">
+          <SortDropdown value={sortBy} onChange={onSortChange} />
+        </div>
       </div>
     </nav>
   );

@@ -26,12 +26,12 @@ export default function Footer() {
         }}
       />
 
-      <div className="relative z-[2] mx-auto max-w-[1500px] px-6 pb-12 md:px-12">
+      <div className="relative z-[2] mx-auto max-w-[1500px] px-4 pb-10 sm:px-6 sm:pb-12 md:px-12">
         <FooterHashtag />
         <FooterProductHero />
         <FooterSocialBadges />
 
-        <div className="mt-24 grid grid-cols-1 gap-12 md:grid-cols-[1fr_360px]">
+        <div className="mt-14 grid grid-cols-1 gap-10 sm:mt-20 md:mt-24 md:grid-cols-[1fr_360px] md:gap-12">
           <FooterNavColumns />
           <FooterEmailCapture />
         </div>

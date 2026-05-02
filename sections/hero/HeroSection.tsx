@@ -1,6 +1,6 @@
 "use client";
 
-import { useLayoutEffect, useRef } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { gsap, ScrollTrigger } from "@/lib/gsap";
 import { usePreloaderContext } from "@/context/PreloaderContext";
 import { HERO_CENTER_PRODUCT, HERO_BURST_PRODUCTS } from "@/constants/products";
@@ -9,6 +9,19 @@ import NoiseOverlay from "@/components/ui/NoiseOverlay";
 import HeroProduct from "./HeroProduct";
 import HeroCenterContent from "./HeroCenterContent";
 import HeroScrollIndicator from "./HeroScrollIndicator";
+
+/**
+ * Maps viewport width to a uniform scale factor that's applied to all
+ * burst x/y offsets AND product widths. Keeps the burst layout in-bounds
+ * on small viewports.
+ */
+function viewportScale(vw: number): number {
+  if (vw >= 1280) return 1;
+  if (vw >= 1024) return 0.9;
+  if (vw >= 768)  return 0.78;
+  if (vw >= 480)  return 0.58;
+  return 0.48;
+}
 
 /**
  * Hero — "The Burst Reveal".
@@ -52,7 +65,17 @@ export default function HeroSection() {
   const { isDone } = usePreloaderContext();
   const isMobile = useIsMobile();
 
-  // On mobile, drop the last 2 burst products to reduce clutter.
+  // Viewport-scaled multiplier for burst offsets + product widths.
+  // Recomputed on resize so the layout adapts when rotating phone, etc.
+  const [scale, setScale] = useState<number>(1);
+  useEffect(() => {
+    const compute = () => setScale(viewportScale(window.innerWidth));
+    compute();
+    window.addEventListener("resize", compute, { passive: true });
+    return () => window.removeEventListener("resize", compute);
+  }, []);
+
+  // On mobile, drop the last burst products to reduce clutter.
   const visibleBurstProducts = isMobile
     ? HERO_BURST_PRODUCTS.slice(0, 3)
     : HERO_BURST_PRODUCTS;
@@ -126,8 +149,8 @@ export default function HeroSection() {
       gsap.to(burstInners, {
         opacity: 1,
         scale: 1,
-        x: (i: number) => visibleBurstProducts[i]?.burstX ?? 0,
-        y: (i: number) => visibleBurstProducts[i]?.burstY ?? 0,
+        x: (i: number) => (visibleBurstProducts[i]?.burstX ?? 0) * scale,
+        y: (i: number) => (visibleBurstProducts[i]?.burstY ?? 0) * scale,
         rotate: (i: number) => visibleBurstProducts[i]?.rotate ?? 0,
         duration: 0.9,
         ease: "power3.out",
@@ -138,8 +161,8 @@ export default function HeroSection() {
       // ─── PHASE 3 — HERO SHRINKS TO RESTING POSE (delay 1.15s, dur 0.85s) ──
       gsap.to(heroInner, {
         scale: 1,
-        x: HERO_CENTER_PRODUCT.finalX,
-        y: HERO_CENTER_PRODUCT.finalY,
+        x: HERO_CENTER_PRODUCT.finalX * scale,
+        y: HERO_CENTER_PRODUCT.finalY * scale,
         rotate: HERO_CENTER_PRODUCT.rotate, // -6deg
         duration: 0.85,
         ease: "power2.inOut",
@@ -260,7 +283,7 @@ export default function HeroSection() {
     }, heroRef);
 
     return () => ctx.revert();
-  }, [isDone, isMobile, visibleBurstProducts]);
+  }, [isDone, isMobile, visibleBurstProducts, scale]);
 
   return (
     <section
@@ -294,7 +317,7 @@ export default function HeroSection() {
         innerRef={heroProductRef}
         src={HERO_CENTER_PRODUCT.src}
         alt={HERO_CENTER_PRODUCT.alt}
-        width={HERO_CENTER_PRODUCT.width}
+        width={Math.round(HERO_CENTER_PRODUCT.width * scale)}
         zIndex={20}
         priority
       />
@@ -311,7 +334,7 @@ export default function HeroSection() {
           }}
           src={product.src}
           alt={product.alt}
-          width={product.width}
+          width={Math.round(product.width * scale)}
           zIndex={4}
           index={i}
           priority={i < 2}

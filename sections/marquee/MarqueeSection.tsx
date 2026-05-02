@@ -24,27 +24,30 @@ export default function MarqueeSection() {
       <div className="h-px w-full bg-bg-dark/35" />
 
       <div
-        className="relative w-full overflow-hidden"
+        className="relative h-[56px] w-full overflow-hidden sm:h-[68px] md:h-[76px]"
         style={{
-          height: 76,
           background:
             "linear-gradient(180deg, #D6BB7E 0%, #C8A96E 50%, #B89D5E 100%)",
         }}
       >
         <div className="legend-vape-store-marquee absolute inset-y-0 flex items-center whitespace-nowrap will-change-transform">
           {[0, 1].map((dup) => (
-            <div key={dup} className="flex items-center gap-12 pr-12">
+            <div key={dup} className="flex items-center gap-6 pr-6 sm:gap-9 sm:pr-9 md:gap-12 md:pr-12">
               {ITEMS.map((label, i) => (
-                <span key={`${dup}-${i}`} className="flex items-center gap-12">
+                <span key={`${dup}-${i}`} className="flex items-center gap-6 sm:gap-9 md:gap-12">
                   <span
                     className="display-tight text-bg-dark"
-                    style={{ fontSize: 36, letterSpacing: "0.05em" }}
+                    style={{ fontSize: "clamp(20px, 4.5vw, 36px)", letterSpacing: "0.05em" }}
                   >
                     {label}
                   </span>
                   <span
                     aria-hidden
-                    style={{ color: "#8B1A1A", fontSize: 26, lineHeight: 1 }}
+                    style={{
+                      color: "#8B1A1A",
+                      fontSize: "clamp(16px, 3vw, 26px)",
+                      lineHeight: 1,
+                    }}
                   >
                     ✦
                   </span>
@@ -54,15 +57,15 @@ export default function MarqueeSection() {
           ))}
         </div>
 
-        {/* Edge fades */}
+        {/* Edge fades — narrower on mobile so more text is visible */}
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-y-0 left-0 w-24"
+          className="pointer-events-none absolute inset-y-0 left-0 w-10 sm:w-16 md:w-24"
           style={{ background: "linear-gradient(to right, rgba(200,169,110,0.95), transparent)" }}
         />
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-y-0 right-0 w-24"
+          className="pointer-events-none absolute inset-y-0 right-0 w-10 sm:w-16 md:w-24"
           style={{ background: "linear-gradient(to left, rgba(200,169,110,0.95), transparent)" }}
         />
       </div>

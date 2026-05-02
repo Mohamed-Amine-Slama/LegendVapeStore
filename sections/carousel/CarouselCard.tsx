@@ -32,8 +32,11 @@ const CarouselCard = forwardRef<HTMLDivElement, CarouselCardProps>(function Caro
         "card-edge gloss-overlay",
       )}
       style={{
-        width: 420,
-        height: 540,
+        // Scales with viewport: capped at 420px on desktop, shrinks to fit
+        // ~84vw on mobile (28px gutter from edge of viewport per side).
+        width: "min(420px, calc(100vw - 56px))",
+        aspectRatio: "420 / 540",
+        height: "auto",
         borderRadius: 20,
         background: card.background,
         transform: `rotate(${card.rotation}deg)`,

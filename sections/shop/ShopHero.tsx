@@ -21,8 +21,7 @@ const ShopHero = forwardRef<HTMLElement, ShopHeroProps>(function ShopHero(
     <section
       ref={ref}
       data-section="shop-hero"
-      className="relative w-full overflow-hidden bg-bg-dark"
-      style={{ height: 180 }}
+      className="relative h-[140px] w-full overflow-hidden bg-bg-dark sm:h-[160px] md:h-[180px]"
     >
       {/* Noise overlay */}
       <div
@@ -34,12 +33,12 @@ const ShopHero = forwardRef<HTMLElement, ShopHeroProps>(function ShopHero(
         }}
       />
 
-      {/* Ghost decorative "SHOP" word — far left */}
+      {/* Ghost decorative "SHOP" word — far left, smaller on mobile */}
       <span
         aria-hidden
         className="pointer-events-none absolute left-0 top-1/2 -translate-y-1/2 select-none font-display uppercase leading-none"
         style={{
-          fontSize: 200,
+          fontSize: "clamp(120px, 24vw, 200px)",
           color: "rgba(200,169,110,0.12)",
           letterSpacing: "-0.02em",
           paddingLeft: "2vw",
@@ -49,8 +48,8 @@ const ShopHero = forwardRef<HTMLElement, ShopHeroProps>(function ShopHero(
       </span>
 
       {/* Left content block — breadcrumb + page title */}
-      <div className="relative z-[2] flex h-full items-center px-12">
-        <div className="flex flex-col gap-2.5">
+      <div className="relative z-[2] flex h-full items-center px-4 sm:px-8 md:px-12">
+        <div className="flex flex-col gap-1.5 sm:gap-2.5">
           <p
             className="font-ui font-medium uppercase"
             style={{
@@ -69,7 +68,7 @@ const ShopHero = forwardRef<HTMLElement, ShopHeroProps>(function ShopHero(
             data-shop-title
             className="font-display uppercase leading-none text-white"
             style={{
-              fontSize: "clamp(36px, 5vw, 52px)",
+              fontSize: "clamp(28px, 6.5vw, 52px)",
               letterSpacing: "0.005em",
             }}
           >
@@ -78,11 +77,11 @@ const ShopHero = forwardRef<HTMLElement, ShopHeroProps>(function ShopHero(
         </div>
       </div>
 
-      {/* Right product count */}
+      {/* Right product count — moves below the title on small screens */}
       <div
-        className="absolute right-12 top-1/2 z-[2] -translate-y-1/2 font-oswald font-semibold uppercase"
+        className="absolute right-4 top-3 z-[2] font-oswald font-semibold uppercase sm:right-8 sm:top-1/2 sm:-translate-y-1/2 md:right-12"
         style={{
-          fontSize: 14,
+          fontSize: 12,
           letterSpacing: "0.08em",
           color: "rgba(255,255,255,0.45)",
         }}

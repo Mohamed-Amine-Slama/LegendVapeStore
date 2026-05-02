@@ -3,11 +3,10 @@
 export default function ShopFooterCTA() {
   return (
     <section
-      className="relative flex w-full items-center justify-between overflow-hidden bg-bg-dark"
+      className="relative flex w-full flex-col items-start justify-center gap-5 overflow-hidden bg-bg-dark px-6 py-8 sm:flex-row sm:items-center sm:justify-between sm:gap-0 sm:px-10 sm:py-0 md:px-20"
       style={{
-        height: 160,
-        marginTop: 80,
-        padding: "0 80px",
+        minHeight: 160,
+        marginTop: 60,
       }}
       data-section="shop-footer-cta"
     >
@@ -24,13 +23,17 @@ export default function ShopFooterCTA() {
       <div className="relative z-[2] flex flex-col gap-1.5">
         <h3
           className="font-display uppercase text-white"
-          style={{ fontSize: 42, lineHeight: 1, letterSpacing: "0.005em" }}
+          style={{
+            fontSize: "clamp(28px, 6.5vw, 42px)",
+            lineHeight: 1,
+            letterSpacing: "0.005em",
+          }}
         >
           Can&apos;t decide?
         </h3>
         <p
           className="font-serif italic"
-          style={{ fontSize: 16, color: "rgba(255,255,255,0.5)" }}
+          style={{ fontSize: 14, color: "rgba(255,255,255,0.5)" }}
         >
           Take the flavor quiz
         </p>

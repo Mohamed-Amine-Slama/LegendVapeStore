@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useLayoutEffect, useMemo, useRef } from "react";
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { gsap } from "@/lib/gsap";
 import { useShopFilters } from "@/hooks/useShopFilters";
 import { SHOP_PRODUCTS } from "@/constants/shop";
@@ -43,6 +43,13 @@ export default function ShopPage() {
   const navRef = useRef<CategoryNavHandle>(null);
   const sidebarRef = useRef<HTMLElement>(null);
   const gridRef = useRef<ProductGridHandle>(null);
+
+  /** Mobile-only filter drawer toggle (FilterSidebar renders as a drawer on
+   *  viewports below `lg`). Defaults closed. */
+  const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
+
+  /** Count of active filter chips — used to badge the mobile Filters button. */
+  const activeFilterCount = controller.activeChips.length;
 
   // Total count for the active category (independent of filters).
   const totalForCategory = useMemo(
@@ -142,7 +149,8 @@ export default function ShopPage() {
   return (
     <div
       data-shop-page
-      style={{ background: "#F0EDE8", minHeight: "100vh", paddingTop: 68 }}
+      className="pt-[64px] sm:pt-[68px]"
+      style={{ background: "#F0EDE8", minHeight: "100vh" }}
     >
       <ShopHero
         ref={heroRef}
@@ -158,15 +166,42 @@ export default function ShopPage() {
         onSortChange={setSortBy}
       />
 
-      <div
-        className="grid"
-        style={{
-          gridTemplateColumns: "260px 1fr",
-        }}
-      >
-        <FilterSidebar ref={sidebarRef} controller={controller} />
+      <div className="grid grid-cols-1 lg:grid-cols-[260px_1fr]">
+        <FilterSidebar
+          ref={sidebarRef}
+          controller={controller}
+          mobileOpen={mobileFilterOpen}
+          onMobileClose={() => setMobileFilterOpen(false)}
+        />
 
-        <main className="px-10 pb-12 pt-8">
+        <main className="px-4 pb-12 pt-6 sm:px-6 md:px-8 lg:px-10 lg:pt-8">
+          {/* Mobile-only Filters trigger — opens the slide-in drawer */}
+          <button
+            type="button"
+            onClick={() => setMobileFilterOpen(true)}
+            className="mb-5 inline-flex items-center gap-2.5 rounded-full border border-bg-dark/15 px-4 py-2.5 font-ui font-semibold uppercase text-bg-dark transition-colors hover:border-bg-dark/35 lg:hidden"
+            style={{ fontSize: 11, letterSpacing: "0.12em" }}
+            aria-label="Open filters"
+          >
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden>
+              <line x1="1.5" y1="3.5" x2="12.5" y2="3.5" />
+              <circle cx="5" cy="3.5" r="1.4" fill="#F0EDE8" />
+              <line x1="1.5" y1="7" x2="12.5" y2="7" />
+              <circle cx="9" cy="7" r="1.4" fill="#F0EDE8" />
+              <line x1="1.5" y1="10.5" x2="12.5" y2="10.5" />
+              <circle cx="6" cy="10.5" r="1.4" fill="#F0EDE8" />
+            </svg>
+            Filters
+            {activeFilterCount > 0 && (
+              <span
+                className="inline-flex h-5 min-w-[20px] items-center justify-center rounded-full bg-accent px-1.5 text-[10px] font-bold text-bg-dark"
+                aria-label={`${activeFilterCount} active`}
+              >
+                {activeFilterCount}
+              </span>
+            )}
+          </button>
+
           <ResultsHeader
             showing={visibleProducts.length}
             total={filteredProducts.length}
