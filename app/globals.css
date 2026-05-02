@@ -1,26 +1,201 @@
 @import "tailwindcss";
 
+/* ==========================================================
+   LEGEND VAPE STORE — Design tokens (Tailwind v4 @theme)
+   ========================================================== */
+@theme {
+  --color-bg-light:    #F0EDE8;
+  --color-bg-warm:     #E8E2D8;
+  --color-bg-dark:     #1A1A1A;
+  --color-bg-night:    #0E0E0E;
+  --color-accent:      #C8A96E;
+  --color-accent-deep: #A88848;
+  --color-accent-red:  #8B1A1A;
+  --color-accent-navy: #2B4A6B;
+  --color-tag-yellow:  #E8C84A;
+  --color-tag-salmon:  #C87D65;
+  --color-footer-bg:   #1A2332;
+  --color-card-red:    #C8273A;
+
+  --font-display: var(--font-bebas), sans-serif;
+  --font-script:  var(--font-dancing), cursive;
+  --font-oswald:  var(--font-oswald-google), sans-serif;
+  --font-serif:   var(--font-dm-serif), serif;
+  --font-ui:      var(--font-syne), sans-serif;
+}
+
+/* ==========================================================
+   Base + global resets
+   ========================================================== */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  color-scheme: light;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: auto;
+  background: #F0EDE8;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background:
+    radial-gradient(120% 80% at 50% 0%, #F4F1EC 0%, #EAE5DC 60%, #DDD5C7 100%);
+  color: #1A1A1A;
+  font-family: var(--font-ui);
+  overflow-x: hidden;
 }
+
+@media (pointer: fine) {
+  body { cursor: none; }
+}
+
+* { box-sizing: border-box; }
+img { max-width: 100%; height: auto; }
+
+::selection {
+  background: #C8A96E;
+  color: #1A1A1A;
+}
+
+/* ==========================================================
+   Utilities
+   ========================================================== */
+@utility will-change-transform { will-change: transform; }
+@utility will-change-opacity { will-change: opacity; }
+@utility mix-blend-diff { mix-blend-mode: difference; }
+@utility text-shadow-sticker {
+  text-shadow:
+    1px 1px 0 rgba(0,0,0,0.10),
+    3px 3px 0 rgba(0,0,0,0.06);
+}
+
+/* Display headlines — kerning, tracking, depth */
+.display-tight {
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  letter-spacing: -0.005em;
+  line-height: 0.88;
+  font-feature-settings: "ss01" on, "ss02" on;
+}
+
+/* Sticker shadow utility — physical depth */
+.sticker-shadow-sm {
+  box-shadow: 3px 3px 0 rgba(0,0,0,0.22);
+}
+.sticker-shadow-md {
+  box-shadow: 4px 4px 0 rgba(0,0,0,0.26);
+}
+.sticker-shadow-lg {
+  box-shadow: 6px 6px 0 rgba(0,0,0,0.32);
+}
+.sticker-shadow-xl {
+  box-shadow: 8px 8px 0 rgba(0,0,0,0.36),
+              0 24px 48px rgba(0,0,0,0.18);
+}
+
+/* Glossy card sheen — gold/light overlay */
+.gloss-overlay {
+  position: relative;
+}
+.gloss-overlay::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: linear-gradient(135deg,
+    rgba(255,255,255,0.18) 0%,
+    rgba(255,255,255,0.04) 35%,
+    rgba(0,0,0,0.0) 65%,
+    rgba(0,0,0,0.18) 100%);
+}
+
+/* Subtle inset border for cards */
+.card-edge {
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,0.08),
+    20px 30px 60px rgba(0,0,0,0.28),
+    0 80px 80px -40px rgba(0,0,0,0.20);
+}
+
+/* Frosted gold halo — used on hover-glow CTAs */
+.gold-halo:hover {
+  box-shadow:
+    0 0 0 1px rgba(200,169,110,0.4),
+    0 18px 36px rgba(200,169,110,0.35),
+    0 4px 12px rgba(0,0,0,0.18);
+}
+
+/* ==========================================================
+   Keyframes
+   ========================================================== */
+@keyframes legend-vape-store-marquee {
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(-50%, 0, 0); }
+}
+
+@keyframes legend-vape-store-pulse-opacity {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.25; }
+}
+
+@keyframes legend-vape-store-grain {
+  0%   { transform: translate(0, 0); }
+  10%  { transform: translate(-2%, -3%); }
+  20%  { transform: translate(-4%, 2%); }
+  30%  { transform: translate(2%, -4%); }
+  40%  { transform: translate(-2%, 5%); }
+  50%  { transform: translate(-4%, 2%); }
+  60%  { transform: translate(3%, 0); }
+  70%  { transform: translate(0, 3%); }
+  80%  { transform: translate(-3%, 0); }
+  90%  { transform: translate(2%, 2%); }
+  100% { transform: translate(0, 0); }
+}
+
+@keyframes legend-vape-store-float-soft {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-6px); }
+}
+
+@keyframes legend-vape-store-shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.legend-vape-store-marquee {
+  animation: legend-vape-store-marquee 32s linear infinite;
+}
+.legend-vape-store-marquee:hover { animation-play-state: paused; }
+
+.legend-vape-store-pulse {
+  animation: legend-vape-store-pulse-opacity 1.6s ease-in-out infinite;
+}
+
+.legend-vape-store-grain {
+  animation: legend-vape-store-grain 8s steps(10) infinite;
+}
+
+.legend-vape-store-shimmer {
+  background: linear-gradient(
+    100deg,
+    rgba(200,169,110,0) 0%,
+    rgba(200,169,110,0.45) 50%,
+    rgba(200,169,110,0) 100%
+  );
+  background-size: 200% 100%;
+  animation: legend-vape-store-shimmer 3.4s linear infinite;
+}
+
+/* Hide outline for mouse focus, keep for keyboard */
+:focus:not(:focus-visible) { outline: none; }
+:focus-visible {
+  outline: 2px solid #C8A96E;
+  outline-offset: 3px;
+}
+
+/* Lenis: prevent overscroll glow on Chromium */
+html.lenis-smooth { scroll-behavior: auto !important; }
+html.lenis-stopped { overflow: hidden; }

@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 720" width="360" height="720">
+  <defs>
+    <linearGradient id="ph4-bg" x1="0" x2="0.5" y1="0" y2="1">
+      <stop offset="0" stop-color="#FF7A92"/>
+      <stop offset="0.45" stop-color="#8B1A1A"/>
+      <stop offset="1" stop-color="#280406"/>
+    </linearGradient>
+    <radialGradient id="ph4-glow" cx="0.5" cy="0.4" r="0.55">
+      <stop offset="0" stop-color="rgba(255,180,200,0.45)"/>
+      <stop offset="1" stop-color="rgba(0,0,0,0)"/>
+    </radialGradient>
+  </defs>
+  <rect width="360" height="720" fill="url(#ph4-bg)"/>
+  <rect width="360" height="720" fill="url(#ph4-glow)"/>
+
+  <text x="20" y="36" font-family="Arial Black, sans-serif" font-size="13" font-weight="900" fill="#F0EDE8">11:48</text>
+  <rect x="304" y="22" width="36" height="14" rx="3" fill="rgba(240,237,232,0.85)"/>
+  <rect x="306" y="24" width="26" height="10" rx="1" fill="rgba(0,0,0,0.5)"/>
+
+  <!-- Subject -->
+  <ellipse cx="180" cy="270" rx="96" ry="118" fill="rgba(80,20,30,0.5)"/>
+  <ellipse cx="180" cy="158" rx="44" ry="54" fill="#F4C9A6"/>
+  <path d="M138 130 q42 -52 84 0 q6 40 -42 52 q-46 -10 -42 -52 z" fill="#1A0808"/>
+
+  <!-- Pink device -->
+  <rect x="200" y="288" width="38" height="124" rx="14" fill="#FF6B85" stroke="#5A0E18" stroke-width="1.6" transform="rotate(20 219 350)"/>
+  <rect x="208" y="304" width="22" height="40" rx="3" fill="rgba(255,255,255,0.4)" transform="rotate(20 219 324)"/>
+
+  <!-- Vapor -->
+  <path d="M260 250 q42 -28 54 -6 q-22 30 -54 6 z" fill="rgba(255,210,220,0.55)"/>
+  <path d="M278 210 q32 -20 40 -4 q-18 22 -40 4 z" fill="rgba(255,210,220,0.4)"/>
+
+  <!-- Sticker tag -->
+  <g transform="translate(220 470) rotate(8)">
+    <rect x="0" y="0" width="110" height="28" rx="3" fill="#E8C84A"/>
+    <text x="55" y="20" font-family="Arial Black, sans-serif" font-size="13" font-weight="900" fill="#1A1A1A" text-anchor="middle" letter-spacing="2">FRESH</text>
+  </g>
+
+  <text x="20" y="612" font-family="Arial Black, sans-serif" font-size="18" font-weight="900" fill="#F0EDE8" letter-spacing="1">@taliana</text>
+  <text x="20" y="638" font-family="Arial, sans-serif" font-size="13" fill="#F0EDE8" opacity="0.92">strawberry mint &gt;&gt; everything else</text>
+  <text x="20" y="660" font-family="Arial, sans-serif" font-size="12" fill="#F0EDE8" opacity="0.7" font-style="italic">#strawberrymint #legendvapestore</text>
+
+  <text x="340" y="704" font-family="Arial Black, sans-serif" font-size="11" font-weight="900" fill="rgba(240,237,232,0.4)" text-anchor="end" letter-spacing="2">LEGEND VAPE STORE</text>
+</svg>

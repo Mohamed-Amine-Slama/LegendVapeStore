@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 720" width="360" height="720">
+  <defs>
+    <linearGradient id="ph3-bg" x1="0" x2="0.5" y1="0" y2="1">
+      <stop offset="0" stop-color="#E0C896"/>
+      <stop offset="0.5" stop-color="#A88848"/>
+      <stop offset="1" stop-color="#3A2A14"/>
+    </linearGradient>
+    <radialGradient id="ph3-glow" cx="0.5" cy="0.45" r="0.55">
+      <stop offset="0" stop-color="rgba(255,230,180,0.55)"/>
+      <stop offset="1" stop-color="rgba(0,0,0,0)"/>
+    </radialGradient>
+  </defs>
+  <rect width="360" height="720" fill="url(#ph3-bg)"/>
+  <rect width="360" height="720" fill="url(#ph3-glow)"/>
+
+  <text x="20" y="36" font-family="Arial Black, sans-serif" font-size="13" font-weight="900" fill="#1A1A1A">8:17</text>
+  <rect x="304" y="22" width="36" height="14" rx="3" fill="rgba(26,26,26,0.85)"/>
+  <rect x="306" y="24" width="30" height="10" rx="1" fill="rgba(255,255,255,0.6)"/>
+
+  <!-- Subject -->
+  <ellipse cx="180" cy="280" rx="96" ry="118" fill="rgba(120,90,40,0.45)"/>
+  <ellipse cx="180" cy="172" rx="42" ry="50" fill="#F2D5B5"/>
+  <path d="M140 144 q40 -40 80 -6 q6 30 -38 38 q-46 -8 -42 -32 z" fill="#5A3A20"/>
+
+  <!-- Gold device -->
+  <rect x="160" y="284" width="38" height="122" rx="14" fill="#C8A96E" stroke="#5A4622" stroke-width="1.6" transform="rotate(10 179 345)"/>
+  <rect x="166" y="298" width="22" height="40" rx="3" fill="#1A1A1A" transform="rotate(10 177 318)"/>
+
+  <!-- Vapor -->
+  <path d="M254 240 q42 -28 54 -6 q-22 30 -54 6 z" fill="rgba(255,245,220,0.5)"/>
+  <path d="M270 198 q32 -20 40 -4 q-18 22 -40 4 z" fill="rgba(255,245,220,0.4)"/>
+
+  <!-- Premium tag -->
+  <g transform="translate(40 480) rotate(-4)">
+    <rect x="0" y="0" width="120" height="32" rx="4" fill="#1A1A1A"/>
+    <text x="60" y="22" font-family="Arial Black, sans-serif" font-size="14" font-weight="900" fill="#C8A96E" text-anchor="middle" letter-spacing="2">PREMIUM</text>
+  </g>
+
+  <text x="20" y="612" font-family="Arial Black, sans-serif" font-size="18" font-weight="900" fill="#1A1A1A" letter-spacing="1">@legendvapestore</text>
+  <text x="20" y="638" font-family="Arial, sans-serif" font-size="13" fill="#1A1A1A" opacity="0.92">the gold colorway hits different 😍</text>
+  <text x="20" y="660" font-family="Arial, sans-serif" font-size="12" fill="#1A1A1A" opacity="0.7" font-style="italic">#goldstandard #legendvapestorepremium</text>
+
+  <text x="340" y="704" font-family="Arial Black, sans-serif" font-size="11" font-weight="900" fill="rgba(26,26,26,0.5)" text-anchor="end" letter-spacing="2">LEGEND VAPE STORE</text>
+</svg>
