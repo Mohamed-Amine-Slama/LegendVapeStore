@@ -8,9 +8,8 @@ import type { Brand, ShopProduct } from "@/types/shop";
 interface BrandFilterProps {
   value: Brand[];
   onToggle: (b: Brand) => void;
-  /** When supplied, the (count) badges reflect this catalogue. Falls back
-   *  to all-zero counts if omitted. Wire this to the products passed into
-   *  ShopPage so badges stay accurate when the catalogue changes (Sanity). */
+  /** Live catalogue — drives the (count) badges. Defaults to all-zero
+   *  counts if omitted. Wired through `useShopFilters().catalogue`. */
   catalogue?: ShopProduct[];
 }
 

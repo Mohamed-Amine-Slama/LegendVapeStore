@@ -1,114 +1,72 @@
 import "server-only";
 
-import { getSanityClient, SANITY_ENABLED, urlFor } from "@/lib/sanity";
-import { ALL_PRODUCTS_QUERY } from "@/lib/queries";
-import type {
-  SanityBrand,
-  SanityFlavorFamily,
-  SanityProduct,
-  SanityVolume,
-} from "@/lib/sanity-types";
-import type {
-  Brand,
-  FlavorFamily,
-  NicotineMg,
-  ShopProduct,
-  Volume,
-} from "@/types/shop";
-import { SHOP_PRODUCTS } from "@/constants/shop";
+import { COLLECTIONS, MONGO_ENABLED, getDb } from "@/lib/db";
+import type { ShopProduct } from "@/types/shop";
+import type { MongoProduct } from "@/types/mongo";
 
 /**
- * The single product fetcher used by the shop page. Strategy:
- *  1. If Sanity is configured AND the dataset has products → return the
- *     mapped Sanity products.
- *  2. Otherwise (no env vars, network error, empty dataset) → fall back to
- *     the in-repo mock catalogue so the site keeps working.
+ * Server-only product fetcher. Returns the live MongoDB catalogue —
+ * sourced from the dashboard project. There is NO mock fallback: an
+ * empty array is returned if MongoDB isn't configured or the query
+ * fails, so the storefront's empty-state UI handles missing data.
  *
- * This file is server-only — `next-sanity` makes a real HTTP request and
- * we don't want to bundle the client into the browser.
+ * Edit products at the dashboard (`legend-vape-store-dashboard`,
+ * port 3001) — they appear here on next page render.
  */
 export async function fetchProducts(): Promise<ShopProduct[]> {
-  const client = getSanityClient();
-  if (!SANITY_ENABLED || !client) return SHOP_PRODUCTS;
-
-  try {
-    const sanityProducts = await client.fetch<SanityProduct[]>(ALL_PRODUCTS_QUERY);
-    if (!sanityProducts?.length) return SHOP_PRODUCTS;
-    return sanityProducts.map(mapSanityToShopProduct);
-  } catch (err) {
-    // Don't block rendering on a Sanity outage — fall back silently.
+  if (!MONGO_ENABLED) {
     if (process.env.NODE_ENV !== "production") {
       // eslint-disable-next-line no-console
-      console.warn("[products] Sanity fetch failed, falling back to mock:", err);
+      console.warn(
+        "[products] MONGODB_URI is not set — /shop will render empty. " +
+          "See vape-store-vitrine/.env.local.example.",
+      );
     }
-    return SHOP_PRODUCTS;
+    return [];
+  }
+
+  try {
+    const db = await getDb();
+    if (!db) return [];
+
+    const docs = await db
+      .collection<MongoProduct>(COLLECTIONS.products)
+      .find({})
+      .sort({ featuredOrder: 1, releaseOrder: -1 })
+      .toArray();
+
+    return docs.map(mapMongoToShopProduct);
+  } catch (err) {
+    if (process.env.NODE_ENV !== "production") {
+      // eslint-disable-next-line no-console
+      console.warn("[products] Mongo fetch failed:", err);
+    }
+    return [];
   }
 }
 
-/* ─── Mapper: SanityProduct → ShopProduct ──────────────────────────────── */
+/* ─── Mapper: MongoProduct → ShopProduct ───────────────────────────────── */
 
-const BRAND_MAP: Record<SanityBrand, Brand> = {
-  original: "LEGEND VAPE STORE Original",
-  max: "LEGEND VAPE STORE MAX",
-  pro: "LEGEND VAPE STORE PRO",
-  lite: "LEGEND VAPE STORE LITE",
-};
+const FALLBACK_IMAGE = "/products/device-refill.png";
 
-const FLAVOR_FAMILY_MAP: Record<SanityFlavorFamily, FlavorFamily> = {
-  fruity: "Fruity",
-  minty: "Minty",
-  creamy: "Creamy",
-  tobacco: "Tobacco",
-  sweet: "Sweet",
-  icy: "Icy",
-};
-
-/** "2ml" → 2, "30ml" → 30. Returns undefined when input is missing. */
-function parseVolume(v: SanityVolume | undefined): Volume | undefined {
-  if (!v) return undefined;
-  const n = Number(v.replace("ml", ""));
-  return ([1, 2, 4, 10, 30] as const).find((x) => x === n) as Volume | undefined;
-}
-
-/** Convert a Sanity image into a 600×900 URL via the image pipeline.
- *  Returns the same product placeholder used by the mock catalogue when
- *  the image isn't available. */
-function imageSrc(image: SanityProduct["mainImage"], fallback: string): string {
-  const builder = urlFor(image);
-  if (!builder) return fallback;
-  return builder.width(600).url();
-}
-
-function propImageSrc(image: SanityProduct["flavor"]["propImage"]): string | undefined {
-  if (!image) return undefined;
-  const builder = urlFor(image);
-  return builder?.width(160).url() ?? undefined;
-}
-
-export function mapSanityToShopProduct(p: SanityProduct): ShopProduct {
-  const releaseOrder = p.publishedAt
-    ? Math.floor(new Date(p.publishedAt).getTime() / 1000)
-    : 0;
-  const featuredOrder = p.featured ? 0 : 100;
-
+export function mapMongoToShopProduct(p: MongoProduct): ShopProduct {
   return {
-    id: p._id,
+    id: typeof p._id === "string" ? p._id : String(p._id),
     name: p.name,
-    category: p.category.title,
-    description: p.shortDescription ?? "",
-    priceTND: p.price,
-    nicotineMg: p.nicotineStrength as NicotineMg,
-    mlSize: parseVolume(p.volume),
+    category: p.category,
+    description: p.description,
+    priceTND: p.priceTND,
+    nicotineMg: p.nicotineMg,
+    mlSize: p.mlSize,
     puffCount: p.puffCount,
-    caffeinated: p.caffeinated ?? false,
-    brand: BRAND_MAP[p.brand],
-    flavorFamily: FLAVOR_FAMILY_MAP[p.flavor.family],
-    flavorColor: p.flavor.color,
-    imageSrc: imageSrc(p.mainImage, "/products/device-refill.png"),
-    propSrc: propImageSrc(p.flavor.propImage),
-    // The schema includes "" as a valid (no-badge) value; treat it as undefined.
-    badge: p.badge ? (p.badge as ShopProduct["badge"]) : undefined,
-    releaseOrder,
-    featuredOrder,
+    caffeinated: p.caffeinated,
+    brand: p.brand,
+    flavorFamily: p.flavorFamily,
+    flavorColor: p.flavorColor,
+    imageSrc: p.imageUrl || FALLBACK_IMAGE,
+    propSrc: p.propImageUrl,
+    badge: p.badge,
+    releaseOrder: p.releaseOrder ?? 0,
+    featuredOrder: p.featuredOrder ?? 100,
   };
 }

@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useMemo, useState } from "react";
-import { INITIAL_FILTER_STATE, SHOP_PRODUCTS } from "@/constants/shop";
+import { INITIAL_FILTER_STATE } from "@/constants/shop";
 import type {
   Brand,
   FilterState,
@@ -20,11 +20,11 @@ import type {
  * Returned setters are stable (useCallback) so child components can be
  * memoized without re-renders.
  *
- * Accepts the catalogue as an argument so the data source is decoupled —
- * server fetches via `fetchProducts()` (Sanity → mock fallback), passes
- * the result down through ShopPage.
+ * The catalogue is passed in as a required argument — server fetches via
+ * `fetchProducts()` against MongoDB, then ShopPage threads the result
+ * down. Empty array = "no products" state (e.g. when DB is unreachable).
  */
-export function useShopFilters(catalogue: ShopProduct[] = SHOP_PRODUCTS) {
+export function useShopFilters(catalogue: ShopProduct[]) {
   const [activeCategory, setActiveCategory] = useState<ShopCategory>("PODS");
   const [filters, setFilters] = useState<FilterState>(INITIAL_FILTER_STATE);
   const [sortBy, setSortBy] = useState<SortOption>("FEATURED");
