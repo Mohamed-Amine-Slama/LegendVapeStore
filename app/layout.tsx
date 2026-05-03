@@ -17,6 +17,24 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "LEGEND VAPE STORE — Premium Vapor",
   description: "Engineered for those who demand precision.",
+  icons: {
+    icon: "/Logo (2).png",
+    apple: "/Logo (2).png",
+  },
+  openGraph: {
+    type: "website",
+    siteName: "LEGEND VAPE STORE",
+    title: "LEGEND VAPE STORE — Premium Vapor",
+    description: "Engineered for those who demand precision.",
+    images: [
+      {
+        url: "/Logo (2).png",
+        width: 1200,
+        height: 630,
+        alt: "LEGEND VAPE STORE Logo",
+      },
+    ],
+  },
 };
 
 export default function RootLayout({

@@ -7,6 +7,7 @@ import StatsSection from "@/sections/stats/StatsSection";
 import FeatureSlamSection from "@/sections/feature-slam/FeatureSlamSection";
 import SocialProofSection from "@/sections/social-proof/SocialProofSection";
 import InstagramFeed from "@/sections/instagram/InstagramFeed";
+import LocationsSection from "@/sections/locations/LocationsSection";
 import Footer from "@/components/layout/Footer";
 
 import PresentationSnap from "@/sections/PresentationSnap";
@@ -25,6 +26,7 @@ export default function HomePage() {
       </PresentationSnap>
       <SocialProofSection />
       <InstagramFeed />
+      <LocationsSection />
       <Footer />
     </main>
   );

@@ -69,37 +69,27 @@ export default function InstagramFeed() {
       </div>
 
       <div ref={gridRef} className="grid grid-cols-3 md:grid-cols-6">
-        {POSTS.map((post) => (
-          <div
+        {POSTS.map((post, i) => (
+          <a
             key={post.id}
-            className="ig-tile relative aspect-square overflow-hidden group bg-black"
+            href={post.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={`Open Instagram ${post.type === "reel" ? "reel" : "post"} ${post.shortcode}`}
+            className="ig-tile relative aspect-square overflow-hidden group block bg-black"
           >
-            <iframe
-              src={`https://www.instagram.com/${post.type}/${post.shortcode}/embed/`}
-              title={`Instagram ${post.type === "reel" ? "reel" : "post"} ${post.shortcode}`}
-              className="absolute left-0 w-full pointer-events-none transition-transform duration-700 group-hover:scale-110"
-              style={{
-                top: "-54px",
-                height: "calc(100% + 114px)",
-                border: 0,
-                background: "#000",
-              }}
-              scrolling="no"
+            <img
+              src={`/instagram/post${i + 1}.jpg`}
+              alt={`Instagram ${post.type === "reel" ? "reel" : "post"} ${post.shortcode}`}
+              className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
               loading="lazy"
-              allow="encrypted-media"
             />
-            <a
-              href={post.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={`Open Instagram ${post.type === "reel" ? "reel" : "post"} ${post.shortcode}`}
-              className="absolute inset-0 z-10 bg-black opacity-0 group-hover:opacity-60 transition-opacity duration-300 flex items-center justify-center"
-            >
+            <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-60 transition-opacity duration-300 flex items-center justify-center">
               <span className="font-ui text-bg-light text-[11px] uppercase tracking-[0.2em] opacity-0 group-hover:opacity-100 transition-all translate-y-2 group-hover:translate-y-0 duration-300">
                 ♥ {post.likes}
               </span>
-            </a>
-          </div>
+            </div>
+          </a>
         ))}
       </div>
     </section>
