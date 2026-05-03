@@ -47,10 +47,10 @@ const SpotlightCard = forwardRef<HTMLDivElement>(function SpotlightCard(_, ref) 
           <Image src="/props/chocolate-1.png" alt="" fill sizes="60px" className="object-contain" />
         </div>
         <div className="absolute" style={{ bottom: "12%", right: "10%", width: 54, height: 54, transform: "rotate(22deg)" }}>
-          <Image src="/props/chocolate-2.svg" alt="" fill sizes="54px" className="object-contain" />
+          <Image src="/props/chocolate-1.png" alt="" fill sizes="54px" className="object-contain" />
         </div>
         <div className="absolute" style={{ bottom: "26%", left: "8%", width: 50, height: 50, transform: "rotate(-30deg)" }}>
-          <Image src="/props/chocolate-3.svg" alt="" fill sizes="50px" className="object-contain" />
+          <Image src="/props/chocolate-1.png" alt="" fill sizes="50px" className="object-contain" />
         </div>
 
         {/* Device, counter-tilted within the card */}
