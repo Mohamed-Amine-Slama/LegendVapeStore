@@ -6,6 +6,7 @@ import type {
   Brand,
   FilterState,
   FlavorFamily,
+  LiquidType,
   NicotineMg,
   ShopCategory,
   ShopProduct,
@@ -60,6 +61,15 @@ export function useShopFilters(catalogue: ShopProduct[]) {
     }));
   }, []);
 
+  const toggleLiquidType = useCallback((t: LiquidType) => {
+    setFilters((s) => ({
+      ...s,
+      liquidTypes: s.liquidTypes.includes(t)
+        ? s.liquidTypes.filter((x) => x !== t)
+        : [...s.liquidTypes, t],
+    }));
+  }, []);
+
   const toggleBrand = useCallback((b: Brand) => {
     setFilters((s) => ({
       ...s,
@@ -103,6 +113,11 @@ export function useShopFilters(catalogue: ShopProduct[]) {
     }
     if (filters.volumes.length) {
       list = list.filter((p) => p.mlSize !== undefined && filters.volumes.includes(p.mlSize));
+    }
+    if (filters.liquidTypes.length) {
+      list = list.filter(
+        (p) => p.liquidType !== undefined && filters.liquidTypes.includes(p.liquidType),
+      );
     }
     if (activeCategory === "PUFFS") {
       list = list.filter((p) => (p.puffCount ?? 0) <= filters.maxPuffCount);
@@ -150,6 +165,9 @@ export function useShopFilters(catalogue: ShopProduct[]) {
     filters.volumes.forEach((v) =>
       chips.push({ key: `vol-${v}`, label: `${v}ml`, remove: () => toggleVolume(v) }),
     );
+    filters.liquidTypes.forEach((t) =>
+      chips.push({ key: `lqt-${t}`, label: t, remove: () => toggleLiquidType(t) }),
+    );
     filters.brands.forEach((b) =>
       chips.push({ key: `brand-${b}`, label: b, remove: () => toggleBrand(b) }),
     );
@@ -161,7 +179,7 @@ export function useShopFilters(catalogue: ShopProduct[]) {
       });
     }
     return chips;
-  }, [filters, toggleNicotine, toggleFlavor, toggleVolume, toggleBrand, setCaffeinatedOnly]);
+  }, [filters, toggleNicotine, toggleFlavor, toggleVolume, toggleLiquidType, toggleBrand, setCaffeinatedOnly]);
 
   return {
     catalogue,
@@ -181,6 +199,7 @@ export function useShopFilters(catalogue: ShopProduct[]) {
     toggleNicotine,
     toggleFlavor,
     toggleVolume,
+    toggleLiquidType,
     toggleBrand,
     setMaxPuffCount,
     setCaffeinatedOnly,

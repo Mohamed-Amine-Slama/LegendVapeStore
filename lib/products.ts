@@ -66,6 +66,7 @@ export function mapMongoToShopProduct(p: MongoProduct): ShopProduct {
     nicotineMg: p.nicotineMg,
     mlSize: p.mlSize,
     puffCount: p.puffCount,
+    liquidType: p.liquidType,
     caffeinated: p.caffeinated,
     brand: p.brand,
     flavorFamily: p.flavorFamily,

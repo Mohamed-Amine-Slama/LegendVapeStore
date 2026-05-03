@@ -28,6 +28,10 @@ export type NicotineMg = 0 | 10 | 20 | 50;
 
 export type Volume = 1 | 2 | 4 | 10 | 30;
 
+/** LIQUID-only sub-classification. Fruities lean fresh/fruit-forward,
+ *  Gourmands lean dessert/creamy/indulgent. Undefined for non-LIQUID rows. */
+export type LiquidType = "Fruity" | "Gourmand";
+
 export type ProductBadge = "NEW" | "HOT" | "MAX";
 
 export type SortOption =
@@ -47,6 +51,8 @@ export interface ShopProduct {
   nicotineMg: NicotineMg;
   mlSize?: Volume;                // undefined for PUFFS
   puffCount?: number;             // 200..5000, only for PUFFS
+  /** Only meaningful for LIQUID — Fruity vs. Gourmand sub-bucket. */
+  liquidType?: LiquidType;
   caffeinated: boolean;
   brand: Brand;
   flavorFamily: FlavorFamily;
@@ -75,6 +81,8 @@ export interface FilterState {
   flavorFamilies: FlavorFamily[];
   /** Selected volumes. Empty = no filter. */
   volumes: Volume[];
+  /** LIQUID only — Fruity / Gourmand sub-buckets. Empty = no filter. */
+  liquidTypes: LiquidType[];
   /** PUFFS only — max puff count cap (slider). */
   maxPuffCount: number;
   /** Caffeinated-only toggle. */

@@ -2,6 +2,7 @@ import type {
   Brand,
   FilterState,
   FlavorFamily,
+  LiquidType,
   NicotineMg,
   ShopCategory,
   ShopProduct,
@@ -31,6 +32,12 @@ export const FLAVOR_FAMILIES: { name: FlavorFamily; color: string }[] = [
 
 export const VOLUME_OPTIONS: Volume[] = [1, 2, 4, 10, 30];
 
+/** LIQUID sub-categories. `accent` is the chip background tint. */
+export const LIQUID_TYPE_OPTIONS: { value: LiquidType; label: string; accent: string }[] = [
+  { value: "Fruity",   label: "Fruity",   accent: "#E8463A" },
+  { value: "Gourmand", label: "Gourmand", accent: "#A5793C" },
+];
+
 export const BRAND_OPTIONS: Brand[] = [
   "LEGEND VAPE STORE Original",
   "LEGEND VAPE STORE MAX",
@@ -57,23 +64,25 @@ export const FILTER_VISIBILITY: Record<
     nicotine: boolean;
     flavor: boolean;
     volume: boolean;
+    liquidType: boolean;
     puffCount: boolean;
     caffeine: boolean;
     price: boolean;
     brand: boolean;
   }
 > = {
-  PODS:     { nicotine: true,  flavor: true,  volume: true,  puffCount: false, caffeine: true,  price: true, brand: true },
-  PUFFS:    { nicotine: true,  flavor: true,  volume: false, puffCount: true,  caffeine: true,  price: true, brand: true },
-  CAPSULES: { nicotine: true,  flavor: true,  volume: true,  puffCount: false, caffeine: true,  price: true, brand: true },
-  LIQUID:   { nicotine: true,  flavor: true,  volume: true,  puffCount: false, caffeine: true,  price: true, brand: true },
-  COILS:    { nicotine: false, flavor: false, volume: false, puffCount: false, caffeine: false, price: true, brand: true },
+  PODS:     { nicotine: true,  flavor: true,  volume: true,  liquidType: false, puffCount: false, caffeine: true,  price: true, brand: true },
+  PUFFS:    { nicotine: true,  flavor: true,  volume: false, liquidType: false, puffCount: true,  caffeine: true,  price: true, brand: true },
+  CAPSULES: { nicotine: true,  flavor: true,  volume: true,  liquidType: false, puffCount: false, caffeine: true,  price: true, brand: true },
+  LIQUID:   { nicotine: true,  flavor: true,  volume: true,  liquidType: true,  puffCount: false, caffeine: true,  price: true, brand: true },
+  COILS:    { nicotine: false, flavor: false, volume: false, liquidType: false, puffCount: false, caffeine: false, price: true, brand: true },
 };
 
 export const INITIAL_FILTER_STATE: FilterState = {
   nicotineMg: [],
   flavorFamilies: [],
   volumes: [],
+  liquidTypes: [],
   maxPuffCount: PUFF_RANGE_LIMITS[1],
   caffeinatedOnly: false,
   priceRange: PRICE_RANGE_LIMITS,

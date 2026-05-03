@@ -20,16 +20,14 @@ export default function CarouselSection() {
   const btnRef = useRef<HTMLDivElement>(null);
   const otherRef = useRef<HTMLDivElement>(null);
 
-  const pairOffsets = useRef<{ pair0: number; pair1: number }>({ pair0: 0, pair1: 0 });
+  const pairOffsets = useRef<number[]>([]);
 
   const [activeCards, setActiveCards] = useState<number[]>([0, 1]);
 
   const computeOffsets = () => {
-    if (!containerRef.current) return { pair0: 0, pair1: 0 };
+    if (!containerRef.current) return [];
     const vw = window.innerWidth;
-    // Read the actual rendered card width at runtime — cards shrink with
-    // viewport (`min(420px, calc(100vw - 56px))`), so CARD_W is the desktop
-    // ceiling, not what's currently in the DOM.
+    // Read the actual rendered card width at runtime
     const firstCard = cardRefs.current.find(Boolean);
     const cardW = firstCard?.offsetWidth ?? CARD_W;
     const bleed = vw < 640 ? 12 : BLEED;
@@ -37,10 +35,19 @@ export default function CarouselSection() {
     const containerRect = containerRef.current.getBoundingClientRect();
     const containerNaturalLeft = containerRect.left + window.scrollX;
     const desiredLeft = (vw - twoCardW) / 2 - bleed;
-    const pair0 = desiredLeft - containerNaturalLeft;
-    const pair1 = pair0 - (cardW + GAP);
-    pairOffsets.current = { pair0, pair1 };
-    return { pair0, pair1 };
+    
+    const offsets = [];
+    let currentOffset = desiredLeft - containerNaturalLeft;
+    offsets.push(currentOffset);
+    
+    const totalPairs = Math.max(1, CARDS.length - 1);
+    for (let i = 1; i < totalPairs; i++) {
+       currentOffset -= (cardW + GAP);
+       offsets.push(currentOffset);
+    }
+    
+    pairOffsets.current = offsets;
+    return offsets;
   };
 
   useEffect(() => {
@@ -57,10 +64,12 @@ export default function CarouselSection() {
     const cards = cardRefs.current.filter(Boolean) as HTMLDivElement[];
     if (cards.length !== CARDS.length) return;
 
-    const { pair0, pair1 } = computeOffsets();
+    const offsets = computeOffsets();
+    if (offsets.length === 0) return;
+    const startOffset = offsets[0];
 
     const ctx = gsap.context(() => {
-      gsap.set(containerRef.current, { x: pair0 });
+      gsap.set(containerRef.current, { x: startOffset });
       cards.forEach((el, i) => {
         gsap.set(el, { rotate: CARDS[i].rotation });
       });
@@ -74,9 +83,9 @@ export default function CarouselSection() {
       });
       gsap.fromTo(
         containerRef.current,
-        { x: pair0 + 120, opacity: 0 },
+        { x: startOffset + 120, opacity: 0 },
         {
-          x: pair0,
+          x: startOffset,
           opacity: 1,
           duration: 1.0,
           ease: "power3.out",
@@ -94,77 +103,86 @@ export default function CarouselSection() {
         scrollTrigger: { trigger: sectionRef.current, start: "top 60%" },
       });
 
+      const numTransitions = offsets.length - 1;
+      // Define total scroll amount proportional to number of transitions. 
+      // original was "+=150%" for 1 transition.
+      const endScroll = `+=${(numTransitions) * 150}%`;
+
+      const snapPoints = Array.from({ length: numTransitions + 1 }, (_, i) => i / Math.max(1, numTransitions));
+
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
           start: "top top",
-          end: "+=150%",
+          end: endScroll,
           pin: true,
           pinSpacing: true,
           scrub: 0.8,
           snap: {
-            snapTo: [0, 1],
+            snapTo: snapPoints,
             duration: { min: 0.2, max: 0.5 },
             ease: "power2.inOut",
           },
           onUpdate: (self) => {
             const p = self.progress;
-            if (p < 0.4) {
-              setActiveCards([0, 1]);
-            } else if (p > 0.6) {
-              setActiveCards([1, 2]);
+            // activeCards calculation
+            const progressPerStep = 1 / Math.max(1, numTransitions);
+            const currentStep = Math.floor(p / progressPerStep);
+            const remainder = p % progressPerStep;
+            
+            const nextStep = Math.min(numTransitions, currentStep + 1);
+            
+            if (remainder < progressPerStep * 0.4) {
+              setActiveCards([currentStep, currentStep + 1]);
+            } else if (remainder > progressPerStep * 0.6) {
+              setActiveCards([nextStep, nextStep + 1]);
             } else {
-              setActiveCards([0, 1, 2]);
+               // showing 3 cards during transition
+              setActiveCards([currentStep, currentStep + 1, currentStep + 2]);
             }
           },
         },
       });
 
-      tl.to(containerRef.current, {
-        x: pair1,
-        duration: 1,
-        ease: "none",
-      }, 0);
+      // Build the scrubbing timeline
+      for (let i = 0; i < numTransitions; i++) {
+         const startTime = i;
+         const transitionDuration = 1;
 
-      tl.to(cards[0], {
-        rotate: -10,
-        duration: 0.3,
-        ease: "power2.in",
-      }, 0);
-      tl.to(cards[1], {
-        rotate: 9,
-        duration: 0.3,
-        ease: "power2.in",
-      }, 0);
-      tl.to(cards[2], {
-        rotate: -8,
-        duration: 0.3,
-        ease: "power2.in",
-      }, 0);
+         tl.to(containerRef.current, {
+           x: offsets[i + 1],
+           duration: transitionDuration,
+           ease: "none",
+         }, startTime);
 
-      tl.to(cards[0], {
-        rotate: -6,
-        duration: 0.3,
-        ease: "power2.out",
-      }, 0.7);
-      tl.to(cards[1], {
-        rotate: 5,
-        duration: 0.3,
-        ease: "power2.out",
-      }, 0.7);
-      tl.to(cards[2], {
-        rotate: -4,
-        duration: 0.3,
-        ease: "power2.out",
-      }, 0.7);
+         // Add rotation jiggle
+         cards.forEach((card, cardIdx) => {
+            // Target the visible cards mainly
+            if (cardIdx >= i && cardIdx <= i + 2) {
+               tl.to(card, {
+                 rotate: CARDS[cardIdx].rotation + (Math.random() > 0.5 ? 4 : -4),
+                 duration: 0.3 * transitionDuration,
+                 ease: "power2.in",
+               }, startTime);
+               tl.to(card, {
+                 rotate: CARDS[cardIdx].rotation,
+                 duration: 0.7 * transitionDuration,
+                 ease: "power2.out",
+               }, startTime + 0.3 * transitionDuration);
+            }
+         });
+      }
 
       cards.forEach((cardEl) => {
         const props = cardEl.querySelectorAll<HTMLElement>("[data-carousel-prop]");
         props.forEach((prop, idx) => {
           const dx = idx % 2 === 0 ? -8 : 6;
           const dy = idx % 2 === 0 ? -4 : 8;
-          tl.to(prop, { x: dx, y: dy, duration: 0.5, ease: "power2.out" }, 0.1);
-          tl.to(prop, { x: 0, y: 0, duration: 0.4, ease: "power2.out" }, 0.6);
+          // Float props around relative to timeline steps
+          for (let i = 0; i < numTransitions; i++) {
+            tl.to(prop, { x: dx, y: dy, duration: 0.5, ease: "power2.out" }, i + 0.1);
+            tl.to(prop, { x: 0, y: 0, duration: 0.4, ease: "power2.out" }, i + 0.6);
+          }
         });
       });
     }, sectionRef);

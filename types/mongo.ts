@@ -10,6 +10,7 @@
 import type {
   Brand,
   FlavorFamily,
+  LiquidType,
   NicotineMg,
   ProductBadge,
   ShopCategory,
@@ -26,6 +27,8 @@ export interface MongoProduct {
   nicotineMg: NicotineMg;
   mlSize?: Volume;
   puffCount?: number;
+  /** LIQUID-only sub-bucket. Undefined for non-LIQUID rows. */
+  liquidType?: LiquidType;
   caffeinated: boolean;
   brand: Brand;
   flavorFamily: FlavorFamily;

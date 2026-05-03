@@ -9,6 +9,7 @@ import ActiveFiltersStrip from "./ActiveFiltersStrip";
 import NicotineFilter from "./filters/NicotineFilter";
 import FlavorFamilyFilter from "./filters/FlavorFamilyFilter";
 import VolumeFilter from "./filters/VolumeFilter";
+import LiquidTypeFilter from "./filters/LiquidTypeFilter";
 import PuffCountFilter from "./filters/PuffCountFilter";
 import CaffeineFilter from "./filters/CaffeineFilter";
 import PriceRangeFilter from "./filters/PriceRangeFilter";
@@ -35,6 +36,7 @@ const FilterSidebar = forwardRef<HTMLElement, FilterSidebarProps>(function Filte
     toggleNicotine,
     toggleFlavor,
     toggleVolume,
+    toggleLiquidType,
     toggleBrand,
     setMaxPuffCount,
     setCaffeinatedOnly,
@@ -100,6 +102,10 @@ const FilterSidebar = forwardRef<HTMLElement, FilterSidebarProps>(function Filte
 
       <FilterGroup title="Nicotine Strength" visible={vis.nicotine}>
         <NicotineFilter value={filters.nicotineMg} onToggle={toggleNicotine} />
+      </FilterGroup>
+
+      <FilterGroup title="Type" visible={vis.liquidType}>
+        <LiquidTypeFilter value={filters.liquidTypes} onToggle={toggleLiquidType} />
       </FilterGroup>
 
       <FilterGroup title="Flavor Family" visible={vis.flavor}>
