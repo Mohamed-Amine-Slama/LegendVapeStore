@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 
 export type NavbarTheme = "light" | "dark";
 
-const DARK_SECTIONS = new Set(["manifesto", "feature-slam", "footer"]);
+const DARK_SECTIONS = new Set(["manifesto", "feature-slam", "instagram", "footer"]);
 
 export function useNavbarTheme(): NavbarTheme {
   const [theme, setTheme] = useState<NavbarTheme>("light");
