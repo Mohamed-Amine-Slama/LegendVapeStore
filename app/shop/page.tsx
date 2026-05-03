@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { fetchProducts } from "@/lib/products";
 import ShopPage from "@/sections/shop/ShopPage";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Shop · LEGEND VAPE STORE",
   description: "Pods, puffs, capsules, liquid — engineered for the discerning palate.",

@@ -1,6 +1,7 @@
 "use client";
 
 import { useLayoutEffect, useRef } from "react";
+import Image from "next/image";
 import { gsap, ScrollTrigger } from "@/lib/gsap";
 import PillButton from "@/components/ui/PillButton";
 
@@ -8,19 +9,19 @@ const PROFILE_URL = "https://www.instagram.com/legend_vape_store_sousse_/";
 
 type IgPost = {
   id: number;
-  type: "p" | "reel";
-  shortcode: string;
+  image: string;
+  alt: string;
   likes: number;
   url: string;
 };
 
 const POSTS: IgPost[] = [
-  { id: 0, type: "p",    shortcode: "DX3uUt1CNr0", likes: 124, url: "https://www.instagram.com/legend_vape_store_sousse_/p/DX3uUt1CNr0/" },
-  { id: 1, type: "p",    shortcode: "DXlxFbKCPFw", likes: 382, url: "https://www.instagram.com/legend_vape_store_sousse_/p/DXlxFbKCPFw/" },
-  { id: 2, type: "p",    shortcode: "DUN9X3pCBow", likes: 491, url: "https://www.instagram.com/legend_vape_store_sousse_/p/DUN9X3pCBow/" },
-  { id: 3, type: "p",    shortcode: "DOZHN4JCKVg", likes: 215, url: "https://www.instagram.com/legend_vape_store_sousse_/p/DOZHN4JCKVg/" },
-  { id: 4, type: "p",    shortcode: "DO1AfMvCF77", likes: 342, url: "https://www.instagram.com/legend_vape_store_sousse_/p/DO1AfMvCF77/" },
-  { id: 5, type: "reel", shortcode: "DO0_sH2iGBz", likes: 189, url: "https://www.instagram.com/legend_vape_store_sousse_/reel/DO0_sH2iGBz/" },
+  { id: 0, image: "/instagram/post-1.jpg", alt: "Legend Vape Store post 1", likes: 124, url: PROFILE_URL },
+  { id: 1, image: "/instagram/post-2.jpg", alt: "Legend Vape Store post 2", likes: 382, url: PROFILE_URL },
+  { id: 2, image: "/instagram/post-3.jpg", alt: "Legend Vape Store post 3", likes: 491, url: PROFILE_URL },
+  { id: 3, image: "/instagram/post-4.jpg", alt: "Legend Vape Store post 4", likes: 215, url: PROFILE_URL },
+  { id: 4, image: "/instagram/post-5.jpg", alt: "Legend Vape Store post 5", likes: 342, url: PROFILE_URL },
+  { id: 5, image: "/instagram/post-6.jpg", alt: "Legend Vape Store post 6", likes: 189, url: PROFILE_URL },
 ];
 
 export default function InstagramFeed() {
@@ -69,27 +70,30 @@ export default function InstagramFeed() {
       </div>
 
       <div ref={gridRef} className="grid grid-cols-3 md:grid-cols-6">
-        {POSTS.map((post, i) => (
-          <a
+        {POSTS.map((post) => (
+          <div
             key={post.id}
-            href={post.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label={`Open Instagram ${post.type === "reel" ? "reel" : "post"} ${post.shortcode}`}
-            className="ig-tile relative aspect-square overflow-hidden group block bg-black"
+            className="ig-tile relative aspect-square overflow-hidden group bg-black"
           >
-            <img
-              src={`/instagram/post${i + 1}.jpg`}
-              alt={`Instagram ${post.type === "reel" ? "reel" : "post"} ${post.shortcode}`}
-              className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-              loading="lazy"
+            <Image
+              src={post.image}
+              alt={post.alt}
+              fill
+              sizes="(min-width: 768px) 16vw, 33vw"
+              className="object-cover transition-transform duration-700 group-hover:scale-110"
             />
-            <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-60 transition-opacity duration-300 flex items-center justify-center">
+            <a
+              href={post.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={post.alt}
+              className="absolute inset-0 z-10 bg-black opacity-0 group-hover:opacity-60 transition-opacity duration-300 flex items-center justify-center"
+            >
               <span className="font-ui text-bg-light text-[11px] uppercase tracking-[0.2em] opacity-0 group-hover:opacity-100 transition-all translate-y-2 group-hover:translate-y-0 duration-300">
                 ♥ {post.likes}
               </span>
-            </div>
-          </a>
+            </a>
+          </div>
         ))}
       </div>
     </section>
