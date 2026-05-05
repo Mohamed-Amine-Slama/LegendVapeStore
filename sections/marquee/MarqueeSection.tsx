@@ -1,12 +1,15 @@
 "use client";
 
-const ITEMS = [
-  "LEGEND VAPE STORE VAPOR",
-  "FIND YOUR FLAVOR",
-  "ZERO COMPROMISE",
-  "PREMIUM HARDWARE",
-  "LAB CERTIFIED",
-  "9 SIGNATURE FLAVORS",
+import { useI18n } from "@/context/I18nContext";
+import type { TranslationKey } from "@/lib/translations";
+
+const ITEM_KEYS: ReadonlyArray<TranslationKey> = [
+  "marquee.0",
+  "marquee.1",
+  "marquee.2",
+  "marquee.3",
+  "marquee.4",
+  "marquee.5",
 ];
 
 /**
@@ -15,6 +18,8 @@ const ITEMS = [
  * and below so it reads as a layered ribbon.
  */
 export default function MarqueeSection() {
+  const { t } = useI18n();
+  const items = ITEM_KEYS.map((k) => t(k));
   return (
     <section
       className="relative w-full overflow-hidden"
@@ -33,7 +38,7 @@ export default function MarqueeSection() {
         <div className="legend-vape-store-marquee absolute inset-y-0 flex items-center whitespace-nowrap will-change-transform">
           {[0, 1].map((dup) => (
             <div key={dup} className="flex items-center gap-6 pr-6 sm:gap-9 sm:pr-9 md:gap-12 md:pr-12">
-              {ITEMS.map((label, i) => (
+              {items.map((label, i) => (
                 <span key={`${dup}-${i}`} className="flex items-center gap-6 sm:gap-9 md:gap-12">
                   <span
                     className="display-tight text-bg-dark"

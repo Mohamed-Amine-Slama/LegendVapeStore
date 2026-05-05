@@ -1,5 +1,7 @@
 "use client";
 
+import { useI18n } from "@/context/I18nContext";
+
 interface LoadMoreProps {
   shown: number;
   total: number;
@@ -7,6 +9,7 @@ interface LoadMoreProps {
 }
 
 export default function LoadMore({ shown, total, onLoadMore }: LoadMoreProps) {
+  const { t } = useI18n();
   if (shown >= total) return null;
   const pct = Math.min(100, Math.round((shown / Math.max(total, 1)) * 100));
 
@@ -33,14 +36,14 @@ export default function LoadMore({ shown, total, onLoadMore }: LoadMoreProps) {
           e.currentTarget.style.color = "#1A1A1A";
         }}
       >
-        Load more
+        {t("shop.loadMore")}
       </button>
 
       <p
         className="mt-3 font-ui"
         style={{ fontSize: 11, color: "rgba(26,26,26,0.38)" }}
       >
-        {shown} of {total} products
+        {shown} {t("shop.of")} {total} {t("shop.products")}
       </p>
 
       <div

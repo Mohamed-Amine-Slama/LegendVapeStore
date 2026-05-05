@@ -3,13 +3,17 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useNavbarTheme } from "@/hooks/useNavbarTheme";
+import { useI18n } from "@/context/I18nContext";
 import HamburgerIcon from "./HamburgerIcon";
 import MenuOverlay from "./MenuOverlay";
+import LanguageSwitcher from "@/components/i18n/LanguageSwitcher";
+import CartIconButton from "@/components/cart/CartIconButton";
 import { cn } from "@/lib/cn";
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const sectionTheme = useNavbarTheme();
+  const { t } = useI18n();
 
   const onDark = sectionTheme === "dark" || menuOpen;
 
@@ -23,12 +27,11 @@ export default function Navbar() {
           "transition-all duration-500 ease-[cubic-bezier(0.77,0,0.18,1)]",
         )}
       >
-        {/* Logo block — short "LEGEND" on mobile so it clears the centered
-            hamburger; full wordmark from sm+, eyebrow at lg+. */}
+        {/* Logo block */}
         <Link
           href="/"
           className="group relative flex items-center gap-3"
-          aria-label="Legend Vape Store — home"
+          aria-label={t("nav.logoAria")}
         >
           <span
             className={cn(
@@ -56,7 +59,7 @@ export default function Navbar() {
             )}
             style={{ fontSize: 10, letterSpacing: "0.32em" }}
           >
-            Premium Vapor
+            {t("nav.tagline")}
           </span>
         </Link>
 
@@ -69,46 +72,50 @@ export default function Navbar() {
           />
         </div>
 
-        {/* CTA — icon-only on mobile, full pill at sm+ */}
-        <Link
-          href="/shop"
-          className={cn(
-            "group relative inline-flex items-center justify-center rounded-full border font-ui font-medium uppercase",
-            "transition-all duration-500 ease-out",
-            "hover:scale-[1.04]",
-            // Mobile: compact circle. sm+: full pill with label.
-            "h-9 w-9 sm:h-auto sm:w-auto sm:gap-2 sm:px-5 sm:py-2.5",
-            onDark
-              ? "border-accent/50 text-bg-light hover:bg-accent hover:text-bg-dark hover:border-accent"
-              : "border-bg-dark/35 text-bg-dark hover:bg-accent hover:text-bg-dark hover:border-accent",
-          )}
-          style={{ fontSize: 11, letterSpacing: "0.18em" }}
-          aria-label="Shop now"
-        >
-          {/* On mobile: bag icon. On sm+: gold dot + label. */}
-          <svg
-            className="sm:hidden"
-            width="16"
-            height="16"
-            viewBox="0 0 16 16"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            aria-hidden
-          >
-            <path d="M3 5 h10 l-1 9 h-8 z" />
-            <path d="M5.5 5 V3.5 a2.5 2.5 0 0 1 5 0 V5" />
-          </svg>
-          <span
-            aria-hidden
+        {/* Right rail: language switcher · cart icon · shop CTA */}
+        <div className="flex items-center gap-2 sm:gap-2.5">
+          <LanguageSwitcher onDark={onDark} />
+          <CartIconButton onDark={onDark} />
+
+          <Link
+            href="/shop"
             className={cn(
-              "hidden h-1.5 w-1.5 rounded-full transition-colors duration-500 sm:block",
-              onDark ? "bg-accent" : "bg-bg-dark/70",
-              "group-hover:bg-bg-dark",
+              "group relative inline-flex items-center justify-center rounded-full border font-ui font-medium uppercase",
+              "transition-all duration-500 ease-out",
+              "hover:scale-[1.04]",
+              "h-9 w-9 sm:h-auto sm:w-auto sm:gap-2 sm:px-5 sm:py-2.5",
+              onDark
+                ? "border-accent/50 text-bg-light hover:bg-accent hover:text-bg-light hover:border-accent"
+                : "border-bg-dark/35 text-bg-dark hover:bg-accent hover:text-bg-light hover:border-accent",
             )}
-          />
-          <span className="hidden sm:inline">Shop now</span>
-        </Link>
+            style={{ fontSize: 11, letterSpacing: "0.18em" }}
+            aria-label={t("nav.shopNow")}
+          >
+            <svg
+              className="sm:hidden"
+              width="16"
+              height="16"
+              viewBox="0 0 16 16"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              aria-hidden
+            >
+              <path d="M2 4 H14 L13 8 H3 z" />
+              <path d="M3 8 V13 H13 V8" />
+              <path d="M6.5 4 V2.8 a1.5 1.5 0 0 1 3 0 V4" />
+            </svg>
+            <span
+              aria-hidden
+              className={cn(
+                "hidden h-1.5 w-1.5 rounded-full transition-colors duration-500 sm:block",
+                onDark ? "bg-accent" : "bg-bg-dark/70",
+                "group-hover:bg-bg-light",
+              )}
+            />
+            <span className="hidden sm:inline">{t("nav.shopNow")}</span>
+          </Link>
+        </div>
       </header>
 
       <MenuOverlay isOpen={menuOpen} onClose={() => setMenuOpen(false)} />

@@ -9,33 +9,34 @@ import type {
   SortOption,
   Volume,
 } from "@/types/shop";
+import type { TranslationKey } from "@/lib/translations";
 
 /** ─── Configuration ─────────────────────────────────────────────────── */
 
 export const CATEGORIES: ShopCategory[] = ["PODS", "PUFFS", "CAPSULES", "LIQUID", "COILS"];
 
-export const NICOTINE_OPTIONS: { mg: NicotineMg; label: string; sub: string }[] = [
-  { mg: 0,  label: "0mg",  sub: "Nicotine Free" },
-  { mg: 10, label: "10mg", sub: "Light" },
-  { mg: 20, label: "20mg", sub: "Standard" },
-  { mg: 50, label: "50mg", sub: "Strong" },
+export const NICOTINE_OPTIONS: { mg: NicotineMg; label: string; sub: string; subKey: TranslationKey }[] = [
+  { mg: 0,  label: "0mg",  sub: "Nicotine Free", subKey: "nic.free" },
+  { mg: 10, label: "10mg", sub: "Light",         subKey: "nic.light" },
+  { mg: 20, label: "20mg", sub: "Standard",      subKey: "nic.standard" },
+  { mg: 50, label: "50mg", sub: "Strong",        subKey: "nic.strong" },
 ];
 
-export const FLAVOR_FAMILIES: { name: FlavorFamily; color: string }[] = [
-  { name: "Fruity",  color: "#E8463A" },
-  { name: "Minty",   color: "#4AC9A0" },
-  { name: "Creamy",  color: "#F5D6A0" },
-  { name: "Tobacco", color: "#7B4F2E" },
-  { name: "Sweet",   color: "#E07BBF" },
-  { name: "Icy",     color: "#A8D4E6" },
+export const FLAVOR_FAMILIES: { name: FlavorFamily; color: string; nameKey: TranslationKey }[] = [
+  { name: "Fruity",  color: "#E8463A", nameKey: "flavor.fruity" },
+  { name: "Minty",   color: "#4AC9A0", nameKey: "flavor.minty" },
+  { name: "Creamy",  color: "#F5D6A0", nameKey: "flavor.creamy" },
+  { name: "Tobacco", color: "#7B4F2E", nameKey: "flavor.tobacco" },
+  { name: "Sweet",   color: "#E07BBF", nameKey: "flavor.sweet" },
+  { name: "Icy",     color: "#A8D4E6", nameKey: "flavor.icy" },
 ];
 
 export const VOLUME_OPTIONS: Volume[] = [1, 2, 4, 10, 30];
 
 /** LIQUID sub-categories. `accent` is the chip background tint. */
-export const LIQUID_TYPE_OPTIONS: { value: LiquidType; label: string; accent: string }[] = [
-  { value: "Fruity",   label: "Fruity",   accent: "#E8463A" },
-  { value: "Gourmand", label: "Gourmand", accent: "#A5793C" },
+export const LIQUID_TYPE_OPTIONS: { value: LiquidType; label: string; accent: string; labelKey: TranslationKey }[] = [
+  { value: "Fruity",   label: "Fruity",   accent: "#E8463A", labelKey: "flavor.fruity" },
+  { value: "Gourmand", label: "Gourmand", accent: "#A5793C", labelKey: "flavor.gourmand" },
 ];
 
 export const BRAND_OPTIONS: Brand[] = [
@@ -50,11 +51,11 @@ export const BRAND_OPTIONS: Brand[] = [
 export const PRICE_RANGE_LIMITS: [number, number] = [0, 150]; // TND
 export const PUFF_RANGE_LIMITS: [number, number] = [1000, 50000];
 
-export const SORT_OPTIONS: { value: SortOption; label: string }[] = [
-  { value: "FEATURED",        label: "Featured" },
-  { value: "PRICE_LOW_HIGH",  label: "Price: Low → High" },
-  { value: "PRICE_HIGH_LOW",  label: "Price: High → Low" },
-  { value: "NEWEST",          label: "Newest" },
+export const SORT_OPTIONS: { value: SortOption; label: string; labelKey: TranslationKey }[] = [
+  { value: "FEATURED",        label: "Featured",            labelKey: "sort.featured" },
+  { value: "PRICE_LOW_HIGH",  label: "Price: Low → High",   labelKey: "sort.priceLowHigh" },
+  { value: "PRICE_HIGH_LOW",  label: "Price: High → Low",   labelKey: "sort.priceHighLow" },
+  { value: "NEWEST",          label: "Newest",              labelKey: "sort.newest" },
 ];
 
 /** Per-category visibility map for filter groups (Shop.md §6). */

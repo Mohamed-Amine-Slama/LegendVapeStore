@@ -96,7 +96,12 @@ export interface FilterState {
 export type ActiveFilterChip = {
   /** Stable key so React knows what to remove on click. */
   key: string;
+  /** Display label. May be a literal (e.g. "20mg") or a fallback when
+   *  `labelKey` is unset. */
   label: string;
+  /** Optional translation key. When present, the consumer should resolve via
+   *  `t(labelKey)`. */
+  labelKey?: import("@/lib/translations").TranslationKey;
   /** Mutator that removes this single filter from state. */
   remove: () => void;
 };

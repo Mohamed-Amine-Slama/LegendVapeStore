@@ -2,37 +2,41 @@
 
 import { forwardRef } from "react";
 import PillButton from "@/components/ui/PillButton";
+import { useI18n } from "@/context/I18nContext";
+import type { TranslationKey } from "@/lib/translations";
 
-const LINES: { text: string; color: string; italic?: boolean }[] = [
-  { text: "What's", color: "#1A1A1A" },
-  { text: "Everyone", color: "#C8A96E" },
-  { text: "Talking", color: "#1A1A1A" },
-  { text: "About.", color: "#1A1A1A" },
+const LINE_COLORS = ["#1A1A1A", "#C8A96E", "#1A1A1A", "#1A1A1A"];
+const LINE_KEYS: ReadonlyArray<TranslationKey> = [
+  "socialProof.word0",
+  "socialProof.word1",
+  "socialProof.word2",
+  "socialProof.word3",
 ];
 
 const SocialHeadline = forwardRef<HTMLDivElement>(function SocialHeadline(_, ref) {
+  const { t } = useI18n();
   return (
     <div ref={ref} className="relative">
       <span
         className="font-ui font-medium uppercase"
         style={{ fontSize: 11, letterSpacing: "0.32em", color: "rgba(26,26,26,0.55)" }}
       >
-        Real reviews · 04 / 04
+        {t("socialProof.eyebrow")}
       </span>
 
       <div className="mt-5">
-        {LINES.map((line) => (
+        {LINE_KEYS.map((key, i) => (
           <div
-            key={line.text}
+            key={key}
             data-headline-line
             className="display-tight"
             style={{
               fontSize: "clamp(72px, 11vw, 156px)",
               lineHeight: 0.86,
-              color: line.color,
+              color: LINE_COLORS[i],
             }}
           >
-            {line.text}
+            {t(key)}
           </div>
         ))}
       </div>
@@ -46,16 +50,15 @@ const SocialHeadline = forwardRef<HTMLDivElement>(function SocialHeadline(_, ref
           lineHeight: 1.5,
         }}
       >
-        Over 14,000 5-star reviews and counting. See why LEGEND VAPE STORE is the most
-        talked-about premium vape on the internet.
+        {t("socialProof.copy")}
       </p>
 
       <div className="mt-7 flex flex-wrap items-center gap-4" data-headline-cta>
         <PillButton href="/shop" variant="gold" size="md" trailingIcon>
-          Shop All
+          {t("socialProof.shopAll")}
         </PillButton>
         <PillButton variant="outline" size="md">
-          Read Reviews
+          {t("socialProof.readReviews")}
         </PillButton>
       </div>
     </div>

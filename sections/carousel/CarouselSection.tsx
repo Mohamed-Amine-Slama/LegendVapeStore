@@ -6,6 +6,7 @@ import { CAROUSEL_CARDS } from "@/constants/products";
 import PillButton from "@/components/ui/PillButton";
 import CarouselCard from "./CarouselCard";
 import CarouselNavDots from "./CarouselNavDots";
+import { useI18n } from "@/context/I18nContext";
 
 const CARDS = CAROUSEL_CARDS;
 const CARD_W = 420;
@@ -13,6 +14,7 @@ const GAP = 28;
 const BLEED = 30;
 
 export default function CarouselSection() {
+  const { t } = useI18n();
   const sectionRef = useRef<HTMLElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
@@ -209,13 +211,13 @@ export default function CarouselSection() {
             className="font-ui font-medium uppercase"
             style={{ fontSize: 10, letterSpacing: "0.32em", color: "rgba(26,26,26,0.55)" }}
           >
-            The Flavor Legend Vape Store · 03
+            {t("carousel.eyebrow")}
           </span>
           <span
             className="display-tight text-bg-dark"
             style={{ fontSize: "clamp(26px, 3vw, 36px)", lineHeight: 0.92 }}
           >
-            Pick your draw
+            {t("carousel.headline")}
           </span>
         </div>
 
@@ -245,7 +247,7 @@ export default function CarouselSection() {
 
           <div ref={btnRef}>
             <PillButton href="/shop" variant="gold" size="md" trailingIcon>
-              Get it now
+              {t("carousel.cta")}
             </PillButton>
           </div>
 
@@ -270,7 +272,7 @@ export default function CarouselSection() {
                 e.currentTarget.style.borderColor = "rgba(26,26,26,0.3)";
               }}
             >
-              Other flavors
+              {t("carousel.altLink")}
             </a>
           </div>
         </div>

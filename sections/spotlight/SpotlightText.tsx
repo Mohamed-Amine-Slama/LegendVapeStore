@@ -2,22 +2,25 @@
 
 import { forwardRef } from "react";
 import GoldTag from "@/components/ui/GoldTag";
-
-const LINES: string[][] = [
-  ["WE", "HAVE"],
-  ["SOMETHING"],
-  ["FREAKING"],
-  ["GOOD"],
-];
+import { useI18n } from "@/context/I18nContext";
 
 const SpotlightText = forwardRef<HTMLDivElement>(function SpotlightText(_, ref) {
+  const { t } = useI18n();
+  // Each line is rendered as its own <div> for the per-word reveal animation.
+  // Lines 1+2 share a row (matches the original visual layout).
+  const lines: string[][] = [
+    [t("spotlight.line1"), t("spotlight.line2")],
+    [t("spotlight.line3")],
+    [t("spotlight.line4")],
+    [t("spotlight.line5")],
+  ];
   return (
     <div ref={ref} className="relative z-[2]">
       <span
         className="font-ui font-medium uppercase"
         style={{ fontSize: 11, letterSpacing: "0.32em", color: "rgba(26,26,26,0.55)" }}
       >
-        — Legend Vape Store Drop / 02
+        {t("spotlight.eyebrow")}
       </span>
 
       <h2
@@ -27,7 +30,7 @@ const SpotlightText = forwardRef<HTMLDivElement>(function SpotlightText(_, ref) 
           lineHeight: 0.86,
         }}
       >
-        {LINES.map((words, lineIndex) => (
+        {lines.map((words, lineIndex) => (
           <div key={lineIndex} className="flex flex-wrap gap-x-3">
             {words.map((word, i) => (
               <span
@@ -44,7 +47,7 @@ const SpotlightText = forwardRef<HTMLDivElement>(function SpotlightText(_, ref) 
 
       <div className="mt-7 flex flex-wrap items-center gap-5">
         <GoldTag size="lg" rotate={-2.2} color="#C8A96E" textColor="#1A1A1A">
-          Premium Grade
+          {t("spotlight.sticker")}
         </GoldTag>
         <p
           className="font-serif italic"
@@ -55,8 +58,7 @@ const SpotlightText = forwardRef<HTMLDivElement>(function SpotlightText(_, ref) 
             lineHeight: 1.5,
           }}
         >
-          Hand-tuned coils. Triple-distilled bases. Every batch lab-tested,
-          every flavor a deliberate choice.
+          {t("spotlight.copy")}
         </p>
       </div>
     </div>

@@ -6,11 +6,11 @@ import type { NavItem, FooterColumn } from "@/types/navigation";
  * (OUR STORY, SUSTAINABILITY) keep their hash anchors for now.
  */
 export const MENU_LINKS: NavItem[] = [
-  { label: "SHOP",           href: "/shop" },
-  { label: "FLAVORS",        href: "/shop" },
-  { label: "OUR STORY",      href: "#story" },
-  { label: "SUSTAINABILITY", href: "#sustainability" },
-  { label: "FIND A STORE",   href: "/shop" },
+  { label: "SHOP",           labelKey: "menu.shop",           href: "/shop" },
+  { label: "FLAVORS",        labelKey: "menu.flavors",        href: "/shop" },
+  { label: "OUR STORY",      labelKey: "menu.ourStory",       href: "#story" },
+  { label: "SUSTAINABILITY", labelKey: "menu.sustainability", href: "#sustainability" },
+  { label: "FIND A STORE",   labelKey: "menu.findStore",      href: "/shop" },
 ];
 
 export const FOOTER_COLUMNS: FooterColumn[] = [

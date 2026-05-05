@@ -6,6 +6,8 @@ import ManifestoGhostText from "./ManifestoGhostText";
 import ManifestoHeadline from "./ManifestoHeadline";
 import ManifestoStrip from "./ManifestoStrip";
 import ManifestoCopy from "./ManifestoCopy";
+import { useI18n } from "@/context/I18nContext";
+import type { TranslationKey } from "@/lib/translations";
 
 /**
  * Burgundy manifesto. Pinned for ~200vh. Cinematic backdrop:
@@ -15,14 +17,21 @@ import ManifestoCopy from "./ManifestoCopy";
  *  - 4 feature strips fly from alternating sides; last bounces elastic
  *  - sub-copy lifts in once strips settle
  */
-const STRIPS = [
-  { text: "Zero Diacetyl",     background: "#F5F1EA", textColor: "#1A1A1A", rotate: -2.5,  from: { x: "-110vw", y: 0 } },
-  { text: "Vapor + Clarity",   background: "#C8A96E", textColor: "#1A1A1A", rotate: 1.8,   from: { x: "110vw",  y: 0 } },
-  { text: "Premium Coils",     background: "#1A1A1A", textColor: "#F0EDE8", rotate: -1.2,  from: { x: "-110vw", y: 0 } },
-  { text: "Lab Certified",     background: "#E8C84A", textColor: "#1A1A1A", rotate: 2.6,   from: { x: 0,        y: -220 } },
-] as const;
+const STRIPS: ReadonlyArray<{
+  textKey: TranslationKey;
+  background: string;
+  textColor: string;
+  rotate: number;
+  from: { x: number | string; y: number };
+}> = [
+  { textKey: "manifesto.tag.zeroDiacetyl", background: "#F5F1EA", textColor: "#1A1A1A", rotate: -2.5, from: { x: "-110vw", y: 0 } },
+  { textKey: "manifesto.tag.vaporClarity", background: "#C8A96E", textColor: "#1A1A1A", rotate: 1.8,  from: { x: "110vw",  y: 0 } },
+  { textKey: "manifesto.tag.premiumCoils", background: "#1A1A1A", textColor: "#F0EDE8", rotate: -1.2, from: { x: "-110vw", y: 0 } },
+  { textKey: "manifesto.tag.labCertified", background: "#E8C84A", textColor: "#1A1A1A", rotate: 2.6,  from: { x: 0,        y: -220 } },
+];
 
 export default function ManifestoSection() {
+  const { t } = useI18n();
   const sectionRef = useRef<HTMLElement>(null);
   const ghostRef = useRef<HTMLDivElement>(null);
   const headlineRef = useRef<HTMLDivElement>(null);
@@ -144,11 +153,11 @@ export default function ManifestoSection() {
         <div className="relative z-[3] mt-12 flex flex-wrap items-center justify-center gap-5">
           {STRIPS.map((strip, i) => (
             <ManifestoStrip
-              key={strip.text}
+              key={strip.textKey}
               ref={(el) => {
                 stripRefs.current[i] = el;
               }}
-              text={strip.text}
+              text={t(strip.textKey)}
               background={strip.background}
               textColor={strip.textColor}
               rotate={strip.rotate}

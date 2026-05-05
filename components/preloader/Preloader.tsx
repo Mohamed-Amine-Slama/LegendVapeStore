@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { gsap } from "@/lib/gsap";
 import { usePreloaderContext } from "@/context/PreloaderContext";
+import { useI18n } from "@/context/I18nContext";
 import PreloaderLogo from "./PreloaderLogo";
 import PreloaderBar from "./PreloaderBar";
 import PreloaderCurtain from "./PreloaderCurtain";
@@ -16,6 +17,7 @@ import PreloaderCurtain from "./PreloaderCurtain";
  */
 export default function Preloader() {
   const { markDone } = usePreloaderContext();
+  const { t } = useI18n();
   const counter = useRef({ val: 0 });
   const [progress, setProgress] = useState(0);
   const [isExiting, setIsExiting] = useState(false);
@@ -66,7 +68,7 @@ export default function Preloader() {
           className="font-ui font-medium uppercase tabular-nums"
           style={{ fontSize: 11, letterSpacing: "0.36em", color: "rgba(26,26,26,0.55)" }}
         >
-          Premium Vapor · Est. 2024
+          {t("preloader.eyebrow")}
         </span>
       </div>
 
@@ -99,7 +101,7 @@ export default function Preloader() {
           className="font-serif italic"
           style={{ fontSize: 13, color: "rgba(26,26,26,0.55)" }}
         >
-          Loading the legend-vape-store…
+          {t("preloader.loading")}
         </span>
       </div>
     </div>

@@ -4,6 +4,7 @@ import { useLayoutEffect, useRef } from "react";
 import { gsap } from "@/lib/gsap";
 import NavLink from "./NavLink";
 import { MENU_LINKS } from "@/constants/navigation";
+import { useI18n } from "@/context/I18nContext";
 
 interface MenuOverlayProps {
   isOpen: boolean;
@@ -11,6 +12,7 @@ interface MenuOverlayProps {
 }
 
 export default function MenuOverlay({ isOpen, onClose }: MenuOverlayProps) {
+  const { t } = useI18n();
   const overlayRef = useRef<HTMLDivElement>(null);
   const linksWrapRef = useRef<HTMLDivElement>(null);
   const eyebrowRef = useRef<HTMLDivElement>(null);
@@ -94,7 +96,7 @@ export default function MenuOverlay({ isOpen, onClose }: MenuOverlayProps) {
           className="font-ui font-medium uppercase"
           style={{ fontSize: 11, letterSpacing: "0.32em", color: "rgba(200,169,110,0.78)" }}
         >
-          The Legend Vape Store Menu
+          {t("menu.eyebrow")}
         </span>
       </div>
 
@@ -130,10 +132,10 @@ export default function MenuOverlay({ isOpen, onClose }: MenuOverlayProps) {
             lineHeight: 1.5,
           }}
         >
-          &ldquo;The most refined draw I&apos;ve ever experienced.&rdquo;
+          {t("menu.quote")}
           <br />
           <span className="not-italic font-ui text-[11px] uppercase tracking-[0.2em] text-accent/70">
-            — Esquire, 2026
+            {t("menu.attribution")}
           </span>
         </p>
 
@@ -142,7 +144,7 @@ export default function MenuOverlay({ isOpen, onClose }: MenuOverlayProps) {
             className="font-ui font-medium uppercase"
             style={{ fontSize: 10, letterSpacing: "0.32em", color: "rgba(240,237,232,0.4)" }}
           >
-            Follow us
+            {t("menu.followLabel")}
           </span>
           <div className="flex gap-5">
             {["Instagram", "TikTok", "X", "YouTube"].map((label) => (

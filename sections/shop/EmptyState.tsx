@@ -1,4 +1,9 @@
+"use client";
+
+import { useI18n } from "@/context/I18nContext";
+
 export default function EmptyState() {
+  const { t } = useI18n();
   return (
     <div
       className="flex flex-col items-center justify-center"
@@ -13,13 +18,13 @@ export default function EmptyState() {
           lineHeight: 1,
         }}
       >
-        No products found
+        {t("shop.emptyTitle")}
       </p>
       <p
         className="mt-3 font-serif italic"
         style={{ fontSize: 14, color: "rgba(26,26,26,0.4)" }}
       >
-        Try adjusting your filters
+        {t("shop.emptySubtitle")}
       </p>
     </div>
   );

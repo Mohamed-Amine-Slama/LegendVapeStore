@@ -14,6 +14,7 @@ import PuffCountFilter from "./filters/PuffCountFilter";
 import CaffeineFilter from "./filters/CaffeineFilter";
 import PriceRangeFilter from "./filters/PriceRangeFilter";
 import BrandFilter from "./filters/BrandFilter";
+import { useI18n } from "@/context/I18nContext";
 
 interface FilterSidebarProps {
   controller: ShopFilterController;
@@ -28,6 +29,7 @@ const FilterSidebar = forwardRef<HTMLElement, FilterSidebarProps>(function Filte
   { controller, mobileOpen = false, onMobileClose },
   ref,
 ) {
+  const { t } = useI18n();
   const {
     catalogue,
     activeCategory,
@@ -65,7 +67,7 @@ const FilterSidebar = forwardRef<HTMLElement, FilterSidebarProps>(function Filte
           className="font-display uppercase"
           style={{ fontSize: 22, letterSpacing: "0.06em", color: "#1A1A1A", lineHeight: 1 }}
         >
-          Filters
+          {t("shop.filters")}
         </h2>
         <div className="flex items-center gap-3">
           <button
@@ -74,14 +76,14 @@ const FilterSidebar = forwardRef<HTMLElement, FilterSidebarProps>(function Filte
             className="font-ui font-medium uppercase transition-colors hover:underline"
             style={{ fontSize: 10, letterSpacing: "0.1em", color: "#C8A96E" }}
           >
-            Clear all
+            {t("shop.clearAll")}
           </button>
           {/* Mobile drawer close button */}
           {onMobileClose && (
             <button
               type="button"
               onClick={onMobileClose}
-              aria-label="Close filters"
+              aria-label={t("shop.closeFilters")}
               className="flex h-8 w-8 items-center justify-center rounded-full border border-bg-dark/15 text-bg-dark/55 transition-colors hover:border-bg-dark/40 hover:text-bg-dark lg:hidden"
             >
               <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.6">
@@ -100,35 +102,35 @@ const FilterSidebar = forwardRef<HTMLElement, FilterSidebarProps>(function Filte
 
       <ActiveFiltersStrip chips={activeChips} />
 
-      <FilterGroup title="Nicotine Strength" visible={vis.nicotine}>
+      <FilterGroup title={t("filter.nicotine")} visible={vis.nicotine}>
         <NicotineFilter value={filters.nicotineMg} onToggle={toggleNicotine} />
       </FilterGroup>
 
-      <FilterGroup title="Type" visible={vis.liquidType}>
+      <FilterGroup title={t("filter.liquidType")} visible={vis.liquidType}>
         <LiquidTypeFilter value={filters.liquidTypes} onToggle={toggleLiquidType} />
       </FilterGroup>
 
-      <FilterGroup title="Flavor Family" visible={vis.flavor}>
+      <FilterGroup title={t("filter.flavor")} visible={vis.flavor}>
         <FlavorFamilyFilter value={filters.flavorFamilies} onToggle={toggleFlavor} />
       </FilterGroup>
 
-      <FilterGroup title="Volume / Size" visible={vis.volume}>
+      <FilterGroup title={t("filter.volume")} visible={vis.volume}>
         <VolumeFilter value={filters.volumes} onToggle={toggleVolume} />
       </FilterGroup>
 
-      <FilterGroup title="Puff Count" visible={vis.puffCount}>
+      <FilterGroup title={t("filter.puffCount")} visible={vis.puffCount}>
         <PuffCountFilter value={filters.maxPuffCount} onChange={setMaxPuffCount} />
       </FilterGroup>
 
-      <FilterGroup title="Caffeine" visible={vis.caffeine}>
+      <FilterGroup title={t("filter.caffeine")} visible={vis.caffeine}>
         <CaffeineFilter value={filters.caffeinatedOnly} onChange={setCaffeinatedOnly} />
       </FilterGroup>
 
-      <FilterGroup title="Price Range" visible={vis.price}>
+      <FilterGroup title={t("filter.price")} visible={vis.price}>
         <PriceRangeFilter value={filters.priceRange} onChange={setPriceRange} />
       </FilterGroup>
 
-      <FilterGroup title="Brand" visible={vis.brand}>
+      <FilterGroup title={t("filter.brand")} visible={vis.brand}>
         <BrandFilter
           value={filters.brands}
           onToggle={toggleBrand}
@@ -145,7 +147,7 @@ const FilterSidebar = forwardRef<HTMLElement, FilterSidebarProps>(function Filte
             className="w-full rounded-full bg-bg-dark py-3 font-ui font-semibold uppercase text-bg-light transition-colors hover:bg-accent hover:text-bg-dark"
             style={{ fontSize: 12, letterSpacing: "0.12em" }}
           >
-            Show results
+            {t("shop.showResults")}
           </button>
         </div>
       )}
@@ -193,7 +195,7 @@ const FilterSidebar = forwardRef<HTMLElement, FilterSidebarProps>(function Filte
         <button
           type="button"
           onClick={onMobileClose}
-          aria-label="Close filters"
+          aria-label={t("shop.closeFilters")}
           tabIndex={mobileOpen ? 0 : -1}
           className="absolute inset-0 cursor-pointer bg-bg-dark/55 backdrop-blur-[2px]"
         />

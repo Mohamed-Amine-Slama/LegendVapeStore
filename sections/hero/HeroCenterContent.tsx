@@ -3,6 +3,7 @@
 import { forwardRef } from "react";
 import GoldTag from "@/components/ui/GoldTag";
 import PillButton from "@/components/ui/PillButton";
+import { useI18n } from "@/context/I18nContext";
 
 interface HeroCenterContentProps {
   bannerRef: React.RefObject<HTMLDivElement | null>;
@@ -15,6 +16,7 @@ interface HeroCenterContentProps {
 
 const HeroCenterContent = forwardRef<HTMLDivElement, HeroCenterContentProps>(
   function HeroCenterContent({ bannerRef, taglineRef, btnRef, ghostRef, eyebrowRef }, ref) {
+    const { t } = useI18n();
     return (
       <div
         ref={ref}
@@ -33,7 +35,7 @@ const HeroCenterContent = forwardRef<HTMLDivElement, HeroCenterContentProps>(
           }}
           aria-hidden
         >
-          Perfectly Crafted
+          {t("hero.ghost")}
         </div>
 
         {/* Eyebrow */}
@@ -51,7 +53,7 @@ const HeroCenterContent = forwardRef<HTMLDivElement, HeroCenterContentProps>(
               color: "rgba(26,26,26,0.62)",
             }}
           >
-            LEGEND VAPE STORE · Premium Vapor · Est. 2024
+            {t("hero.eyebrow")}
           </span>
           <span className="h-px w-10 bg-bg-dark/30" />
         </div>
@@ -59,7 +61,7 @@ const HeroCenterContent = forwardRef<HTMLDivElement, HeroCenterContentProps>(
         {/* Gold sticker banner */}
         <div ref={bannerRef} className="relative z-[2]" style={{ pointerEvents: "auto" }}>
           <GoldTag size="xl" rotate={-1.5}>
-            Vapor + Clarity
+            {t("hero.bannerSticker")}
           </GoldTag>
         </div>
 
@@ -74,14 +76,13 @@ const HeroCenterContent = forwardRef<HTMLDivElement, HeroCenterContentProps>(
             pointerEvents: "auto",
           }}
         >
-          Engineered for the discerning palate. No compromise — just clean,
-          deliberate vapor with every draw.
+          {t("hero.tagline")}
         </p>
 
         {/* CTA */}
         <div className="relative z-[2] mt-7" style={{ pointerEvents: "auto" }}>
           <PillButton ref={btnRef} href="/shop" variant="gold" size="lg" trailingIcon>
-            Find your flavor
+            {t("hero.cta")}
           </PillButton>
         </div>
       </div>

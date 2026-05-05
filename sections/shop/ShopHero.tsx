@@ -1,6 +1,7 @@
 "use client";
 
 import { forwardRef } from "react";
+import { useI18n } from "@/context/I18nContext";
 
 interface ShopHeroProps {
   title: string;
@@ -17,6 +18,7 @@ const ShopHero = forwardRef<HTMLElement, ShopHeroProps>(function ShopHero(
   { title, productCount },
   ref,
 ) {
+  const { t } = useI18n();
   return (
     <section
       ref={ref}
@@ -44,7 +46,7 @@ const ShopHero = forwardRef<HTMLElement, ShopHeroProps>(function ShopHero(
           paddingLeft: "2vw",
         }}
       >
-        SHOP
+        {t("shop.heroGhost")}
       </span>
 
       {/* Left content block — breadcrumb + page title */}
@@ -59,10 +61,10 @@ const ShopHero = forwardRef<HTMLElement, ShopHeroProps>(function ShopHero(
             }}
           >
             <a href="/" className="transition-colors hover:text-accent">
-              Home
+              {t("shop.breadcrumbHome")}
             </a>
             <span className="mx-2 opacity-50">/</span>
-            <span>Shop</span>
+            <span>{t("shop.breadcrumbShop")}</span>
           </p>
           <h1
             data-shop-title
@@ -86,7 +88,7 @@ const ShopHero = forwardRef<HTMLElement, ShopHeroProps>(function ShopHero(
           color: "rgba(255,255,255,0.45)",
         }}
       >
-        {productCount} {productCount === 1 ? "product" : "products"}
+        {productCount} {productCount === 1 ? t("shop.product") : t("shop.products")}
       </div>
 
       {/* Gold gradient bottom hairline */}

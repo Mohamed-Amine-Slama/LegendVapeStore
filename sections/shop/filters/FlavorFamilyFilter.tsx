@@ -3,6 +3,7 @@
 import { cn } from "@/lib/cn";
 import { FLAVOR_FAMILIES } from "@/constants/shop";
 import type { FlavorFamily } from "@/types/shop";
+import { useI18n } from "@/context/I18nContext";
 
 interface FlavorFamilyFilterProps {
   value: FlavorFamily[];
@@ -10,6 +11,7 @@ interface FlavorFamilyFilterProps {
 }
 
 export default function FlavorFamilyFilter({ value, onToggle }: FlavorFamilyFilterProps) {
+  const { t } = useI18n();
   return (
     <div className="grid grid-cols-3 gap-x-3 gap-y-4">
       {FLAVOR_FAMILIES.map((flv) => {
@@ -20,7 +22,7 @@ export default function FlavorFamilyFilter({ value, onToggle }: FlavorFamilyFilt
             type="button"
             onClick={() => onToggle(flv.name)}
             aria-pressed={selected}
-            aria-label={flv.name}
+            aria-label={t(flv.nameKey)}
             className="flex flex-col items-center gap-1.5"
           >
             <span
@@ -43,7 +45,7 @@ export default function FlavorFamilyFilter({ value, onToggle }: FlavorFamilyFilt
                 letterSpacing: "0.04em",
               }}
             >
-              {flv.name}
+              {t(flv.nameKey)}
             </span>
           </button>
         );

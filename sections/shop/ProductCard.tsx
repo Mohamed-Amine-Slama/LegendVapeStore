@@ -3,6 +3,7 @@
 import { forwardRef, type KeyboardEvent } from "react";
 import Image from "next/image";
 import { cn } from "@/lib/cn";
+import { useCart } from "@/context/CartContext";
 import type { ShopProduct } from "@/types/shop";
 
 interface ProductCardProps {
@@ -30,6 +31,11 @@ const ProductCard = forwardRef<HTMLDivElement, ProductCardProps>(function Produc
   { product, onAdd, onSelect },
   ref,
 ) {
+  const { addItem } = useCart();
+  const handleAdd = (p: ShopProduct) => {
+    if (onAdd) onAdd(p);
+    else addItem(p);
+  };
   const propRotation = ((product.id.charCodeAt(2) || 0) % 40) - 20;
   const isHigh = product.nicotineMg >= 50;
   const soldOut = product.inStock === false;
@@ -187,7 +193,7 @@ const ProductCard = forwardRef<HTMLDivElement, ProductCardProps>(function Produc
             type="button"
             onClick={(e) => {
               e.stopPropagation();
-              onAdd?.(product);
+              handleAdd(product);
             }}
             aria-label={`Add ${product.name} to cart`}
             className="absolute z-[3] flex items-center justify-center rounded-full opacity-0 transition-all duration-200 group-hover:opacity-100 hover:bg-accent hover:text-bg-dark"

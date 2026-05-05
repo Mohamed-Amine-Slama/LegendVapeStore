@@ -2,6 +2,7 @@
 
 import { useLayoutEffect, useRef } from "react";
 import { gsap } from "@/lib/gsap";
+import { useI18n } from "@/context/I18nContext";
 
 /**
  * "The Legend Vape Store Breach" Cinematic Transition.
@@ -14,6 +15,7 @@ import { gsap } from "@/lib/gsap";
  *    in a dramatic 3D plunging effect.
  */
 export default function HeroCurtainWipe() {
+  const { t } = useI18n();
   const triggerRef = useRef<HTMLDivElement>(null);
   const wrapperRef = useRef<HTMLDivElement>(null);
   
@@ -148,7 +150,7 @@ export default function HeroCurtainWipe() {
               className="display-tight text-accent" 
               style={{ fontSize: "clamp(48px, 9vw, 150px)", lineHeight: 0.85 }}
             >
-              UNCOMPROMISING
+              {t("curtain.line1")}
             </h2>
           </div>
           
@@ -158,7 +160,7 @@ export default function HeroCurtainWipe() {
               className="display-tight text-bg-light" 
               style={{ fontSize: "clamp(48px, 9vw, 150px)", lineHeight: 0.85 }}
             >
-              EXCELLENCE
+              {t("curtain.line2")}
             </h2>
           </div>
           
@@ -168,7 +170,7 @@ export default function HeroCurtainWipe() {
               className="font-ui font-medium uppercase" 
               style={{ fontSize: 13, letterSpacing: "0.4em", color: "rgba(240,237,232,0.6)" }}
             >
-              LEGEND VAPE STORE · EST. 2024
+              {t("curtain.subtext")}
             </p>
           </div>
 

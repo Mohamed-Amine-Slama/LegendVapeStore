@@ -1,8 +1,10 @@
 "use client";
 
 import { forwardRef } from "react";
+import { useI18n } from "@/context/I18nContext";
 
 const ManifestoGhostText = forwardRef<HTMLDivElement>(function ManifestoGhostText(_, ref) {
+  const { t } = useI18n();
   return (
     <div
       ref={ref}
@@ -15,7 +17,7 @@ const ManifestoGhostText = forwardRef<HTMLDivElement>(function ManifestoGhostTex
       }}
       aria-hidden
     >
-      {`Legend Vape Store your senses\nwith every pull`}
+      {t("manifesto.ghost")}
     </div>
   );
 });

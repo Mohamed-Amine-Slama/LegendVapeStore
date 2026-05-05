@@ -4,16 +4,19 @@ import { useLayoutEffect, useRef } from "react";
 import { gsap } from "@/lib/gsap";
 import StatBlock from "./StatBlock";
 import ProductLineup from "./ProductLineup";
+import { useI18n } from "@/context/I18nContext";
+import type { TranslationKey } from "@/lib/translations";
 
-const STATS = [
-  { value: "20mg", label: "Per device" },
-  { value: "600+", label: "Puffs / pod" },
-  { value: "14d",  label: "Coil life avg" },
-  { value: "9",    label: "Flavor variants" },
-  { value: "2ml",  label: "E-liquid" },
+const STATS: ReadonlyArray<{ value: string; labelKey: TranslationKey }> = [
+  { value: "20mg", labelKey: "stats.label.perDevice" },
+  { value: "600+", labelKey: "stats.label.puffsPod" },
+  { value: "14d",  labelKey: "stats.label.coilLife" },
+  { value: "9",    labelKey: "stats.label.flavors" },
+  { value: "2ml",  labelKey: "stats.label.eliquid" },
 ];
 
 export default function StatsSection() {
+  const { t } = useI18n();
   const sectionRef = useRef<HTMLElement>(null);
   const headlineRef = useRef<HTMLHeadingElement>(null);
   const blockRefs = useRef<(HTMLDivElement | null)[]>([]);
@@ -73,14 +76,14 @@ export default function StatsSection() {
             className="font-ui font-medium uppercase"
             style={{ fontSize: 11, letterSpacing: "0.32em", color: "rgba(26,26,26,0.55)" }}
           >
-            By the Numbers · 03 / 04
+            {t("stats.eyebrow")}
           </span>
           <h2
             ref={headlineRef}
             className="mt-4 display-tight text-bg-dark"
             style={{ fontSize: "clamp(44px, 6.5vw, 96px)", lineHeight: 0.9 }}
           >
-            The numbers<br />don&apos;t lie.
+            {t("stats.headline")}
           </h2>
         </div>
 
@@ -91,9 +94,9 @@ export default function StatsSection() {
         >
           {STATS.map((s, i) => (
             <StatBlock
-              key={s.label}
+              key={s.labelKey}
               value={s.value}
-              label={s.label}
+              label={t(s.labelKey)}
               showSeparator={i > 0}
               ref={(el) => {
                 blockRefs.current[i] = el;

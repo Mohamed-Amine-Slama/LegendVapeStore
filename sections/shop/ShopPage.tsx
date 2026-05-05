@@ -14,6 +14,16 @@ import LoadMore from "./LoadMore";
 import ProductDetailModal from "./ProductDetailModal";
 import SearchInput from "./SearchInput";
 import ShopFooterCTA from "./ShopFooterCTA";
+import { useI18n } from "@/context/I18nContext";
+import type { TranslationKey } from "@/lib/translations";
+
+const TITLE_BY_CATEGORY: Record<ShopProduct["category"], TranslationKey> = {
+  PODS:     "shop.titlePods",
+  PUFFS:    "shop.titlePuffs",
+  CAPSULES: "shop.titleCapsules",
+  LIQUID:   "shop.titleLiquid",
+  COILS:    "shop.titleCoils",
+};
 
 /** Categories whose cards open the detail modal (Shop.md flavor list spec). */
 const DETAIL_CATEGORIES = new Set<ShopProduct["category"]>(["PUFFS", "PODS", "CAPSULES"]);
@@ -37,6 +47,7 @@ interface ShopPageProps {
  *   4. Product cards stagger up + scale to 1
  */
 export default function ShopPage({ products }: ShopPageProps) {
+  const { t } = useI18n();
   const controller = useShopFilters(products);
   const {
     activeCategory,
@@ -174,7 +185,7 @@ export default function ShopPage({ products }: ShopPageProps) {
     >
       <ShopHero
         ref={heroRef}
-        title={`All ${activeCategory.toLowerCase()}`}
+        title={t(TITLE_BY_CATEGORY[activeCategory])}
         productCount={totalForCategory}
       />
 
@@ -201,7 +212,7 @@ export default function ShopPage({ products }: ShopPageProps) {
             onClick={() => setMobileFilterOpen(true)}
             className="mb-5 inline-flex items-center gap-2.5 rounded-full border border-bg-dark/15 px-4 py-2.5 font-ui font-semibold uppercase text-bg-dark transition-colors hover:border-bg-dark/35 lg:hidden"
             style={{ fontSize: 11, letterSpacing: "0.12em" }}
-            aria-label="Open filters"
+            aria-label={t("shop.filters")}
           >
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden>
               <line x1="1.5" y1="3.5" x2="12.5" y2="3.5" />
@@ -211,7 +222,7 @@ export default function ShopPage({ products }: ShopPageProps) {
               <line x1="1.5" y1="10.5" x2="12.5" y2="10.5" />
               <circle cx="6" cy="10.5" r="1.4" fill="#F0EDE8" />
             </svg>
-            Filters
+            {t("shop.filters")}
             {activeFilterCount > 0 && (
               <span
                 className="inline-flex h-5 min-w-[20px] items-center justify-center rounded-full bg-accent px-1.5 text-[10px] font-bold text-bg-dark"

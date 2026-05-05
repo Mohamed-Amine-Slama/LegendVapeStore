@@ -1,11 +1,13 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { useI18n } from "@/context/I18nContext";
 
 /**
  * "scroll" label + chevron, opacity-pulses 1↔0.25, fades out past 80px scroll.
  */
 export default function HeroScrollIndicator() {
+  const { t } = useI18n();
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -30,7 +32,7 @@ export default function HeroScrollIndicator() {
         className="font-ui uppercase"
         style={{ fontSize: 10, letterSpacing: "0.22em" }}
       >
-        scroll
+        {t("hero.scrollCue")}
       </span>
       <svg width="16" height="10" viewBox="0 0 16 10" fill="none" stroke="currentColor" strokeWidth="1.4">
         <path d="M1 1 L8 8 L15 1" />

@@ -1,6 +1,9 @@
 "use client";
 
+import { useI18n } from "@/context/I18nContext";
+
 export default function ShopFooterCTA() {
+  const { t } = useI18n();
   return (
     <section
       className="relative flex w-full flex-col items-start justify-center gap-5 overflow-hidden bg-bg-dark px-6 py-8 sm:flex-row sm:items-center sm:justify-between sm:gap-0 sm:px-10 sm:py-0 md:px-20"
@@ -29,13 +32,13 @@ export default function ShopFooterCTA() {
             letterSpacing: "0.005em",
           }}
         >
-          Can&apos;t decide?
+          {t("shop.footerCta.head")}
         </h3>
         <p
           className="font-serif italic"
           style={{ fontSize: 14, color: "rgba(255,255,255,0.5)" }}
         >
-          Take the flavor quiz
+          {t("shop.footerCta.sub")}
         </p>
       </div>
 
@@ -61,7 +64,7 @@ export default function ShopFooterCTA() {
           e.currentTarget.style.boxShadow = "none";
         }}
       >
-        Take the quiz
+        {t("shop.footerCta.btn")}
         <span aria-hidden>→</span>
       </a>
     </section>

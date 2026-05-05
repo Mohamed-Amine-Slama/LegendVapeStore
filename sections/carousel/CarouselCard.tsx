@@ -4,6 +4,7 @@ import { forwardRef } from "react";
 import Image from "next/image";
 import type { CarouselCard as CarouselCardType } from "@/types/carousel";
 import { cn } from "@/lib/cn";
+import { useI18n } from "@/context/I18nContext";
 
 interface CarouselCardProps {
   card: CarouselCardType;
@@ -23,6 +24,12 @@ const CarouselCard = forwardRef<HTMLDivElement, CarouselCardProps>(function Caro
   { card, index },
   ref,
 ) {
+  const { t } = useI18n();
+  // Map known nicotine spec strings to translation keys; passthrough otherwise.
+  const nicotineLabel =
+    card.nicotineLabel === "20MG NIC SALT" ? t("carousel.nic20mgSalt")
+      : card.nicotineLabel === "0MG NIC" ? t("carousel.nic0mg")
+      : card.nicotineLabel;
   return (
     <div
       ref={ref}
@@ -112,7 +119,7 @@ const CarouselCard = forwardRef<HTMLDivElement, CarouselCardProps>(function Caro
             color: "rgba(255,255,255,0.65)",
           }}
         >
-          {card.nicotineLabel}
+          {nicotineLabel}
         </p>
       </div>
 

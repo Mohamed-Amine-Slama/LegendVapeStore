@@ -3,12 +3,15 @@
 import { useRef } from "react";
 import { gsap } from "@/lib/gsap";
 import type { NavItem } from "@/types/navigation";
+import { useI18n } from "@/context/I18nContext";
 
 interface NavLinkProps extends NavItem {
   onClick?: () => void;
 }
 
-export default function NavLink({ label, href, onClick }: NavLinkProps) {
+export default function NavLink({ label, labelKey, href, onClick }: NavLinkProps) {
+  const { t } = useI18n();
+  const display = labelKey ? t(labelKey) : label;
   const underlineRef = useRef<HTMLSpanElement>(null);
   const arrowRef = useRef<HTMLSpanElement>(null);
 
@@ -30,7 +33,7 @@ export default function NavLink({ label, href, onClick }: NavLinkProps) {
       className="group relative inline-flex items-center gap-6 font-display uppercase leading-[0.92] text-bg-light transition-colors duration-300 hover:text-accent"
       style={{ fontSize: "clamp(56px, 9vw, 112px)", letterSpacing: "0.005em" }}
     >
-      {label}
+      {display}
       <span
         ref={arrowRef}
         aria-hidden

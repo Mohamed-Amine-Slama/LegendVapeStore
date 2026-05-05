@@ -3,12 +3,22 @@
 import { forwardRef } from "react";
 import { cn } from "@/lib/cn";
 import type { ShopCategory } from "@/types/shop";
+import { useI18n } from "@/context/I18nContext";
+import type { TranslationKey } from "@/lib/translations";
 
 interface CategoryPillProps {
   category: ShopCategory;
   isActive: boolean;
   onClick: () => void;
 }
+
+const NAME_KEY_BY_CATEGORY: Record<ShopCategory, TranslationKey> = {
+  PODS:     "category.pods",
+  PUFFS:    "category.puffs",
+  CAPSULES: "category.capsules",
+  LIQUID:   "category.liquid",
+  COILS:    "category.coils",
+};
 
 const ICON_BY_CATEGORY: Record<ShopCategory, React.ReactNode> = {
   PODS: (
@@ -48,6 +58,7 @@ const CategoryPill = forwardRef<HTMLButtonElement, CategoryPillProps>(function C
   { category, isActive, onClick },
   ref,
 ) {
+  const { t } = useI18n();
   return (
     <button
       ref={ref}
@@ -76,7 +87,7 @@ const CategoryPill = forwardRef<HTMLButtonElement, CategoryPillProps>(function C
         <span aria-hidden className="opacity-90">
           {ICON_BY_CATEGORY[category]}
         </span>
-        {category}
+        {t(NAME_KEY_BY_CATEGORY[category]).toUpperCase()}
       </span>
     </button>
   );

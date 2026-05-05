@@ -3,12 +3,19 @@
 import { useLayoutEffect, useRef } from "react";
 import { gsap } from "@/lib/gsap";
 import SlamTag from "./SlamTag";
+import { useI18n } from "@/context/I18nContext";
+import type { TranslationKey } from "@/lib/translations";
 
-const TAGS = [
-  { text: "Shelf Stable",     background: "#C87D65", textColor: "#F0EDE8", rotate: -1.5 },
-  { text: "Vapor + Clarity",  background: "#C8A96E", textColor: "#1A1A1A", rotate: 1 },
-  { text: "Premium Hardware", background: "#8B1A1A", textColor: "#F0EDE8", rotate: -0.8 },
-  { text: "Lab Certified",    background: "#E8C84A", textColor: "#1A1A1A", rotate: 2.2 },
+const TAGS: ReadonlyArray<{
+  textKey: TranslationKey;
+  background: string;
+  textColor: string;
+  rotate: number;
+}> = [
+  { textKey: "featureSlam.tag.shelfStable",     background: "#C87D65", textColor: "#F0EDE8", rotate: -1.5 },
+  { textKey: "featureSlam.tag.vaporClarity",    background: "#C8A96E", textColor: "#1A1A1A", rotate: 1 },
+  { textKey: "featureSlam.tag.premiumHardware", background: "#8B1A1A", textColor: "#F0EDE8", rotate: -0.8 },
+  { textKey: "featureSlam.tag.labCertified",    background: "#E8C84A", textColor: "#1A1A1A", rotate: 2.2 },
 ];
 
 /**
@@ -16,6 +23,7 @@ const TAGS = [
  * elastic. Soft red and gold ambient glows in the corners.
  */
 export default function FeatureSlamSection() {
+  const { t } = useI18n();
   const sectionRef = useRef<HTMLElement>(null);
   const eyebrowRef = useRef<HTMLDivElement>(null);
   const tagRefs = useRef<(HTMLDivElement | null)[]>([]);
@@ -97,24 +105,27 @@ export default function FeatureSlamSection() {
           className="font-ui font-medium uppercase"
           style={{ fontSize: 11, letterSpacing: "0.34em", color: "rgba(240,237,232,0.55)" }}
         >
-          Built different.
+          {t("featureSlam.eyebrow")}
         </span>
         <h2
           className="mt-4 display-tight text-bg-light"
           style={{ fontSize: "clamp(40px, 6vw, 84px)", lineHeight: 0.9 }}
         >
-          What&apos;s inside<br />the legend-vape-store.
+          {t("featureSlam.headline")}
         </h2>
       </div>
 
       <div className="relative z-[2] flex flex-col items-center gap-6 md:gap-8">
         {TAGS.map((tag, i) => (
           <SlamTag
-            key={tag.text}
+            key={tag.textKey}
             ref={(el) => {
               tagRefs.current[i] = el;
             }}
-            {...tag}
+            text={t(tag.textKey)}
+            background={tag.background}
+            textColor={tag.textColor}
+            rotate={tag.rotate}
           />
         ))}
       </div>

@@ -3,6 +3,8 @@
 import { useEffect } from "react";
 import Image from "next/image";
 import type { ShopProduct } from "@/types/shop";
+import { useCart } from "@/context/CartContext";
+import { useI18n } from "@/context/I18nContext";
 
 interface ProductDetailModalProps {
   product: ShopProduct;
@@ -18,6 +20,8 @@ function hexTint(hex: string, alpha = 0.06): string {
 }
 
 export default function ProductDetailModal({ product, onClose }: ProductDetailModalProps) {
+  const { addItem } = useCart();
+  const { t } = useI18n();
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
     document.addEventListener("keydown", onKey);
@@ -54,7 +58,7 @@ export default function ProductDetailModal({ product, onClose }: ProductDetailMo
         <button
           type="button"
           onClick={onClose}
-          aria-label="Close"
+          aria-label={t("common.close")}
           className="absolute right-3 top-3 z-[2] flex h-9 w-9 items-center justify-center rounded-full bg-bg-dark text-bg-light transition-colors hover:bg-accent hover:text-bg-dark"
         >
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="2">
@@ -274,6 +278,23 @@ export default function ProductDetailModal({ product, onClose }: ProductDetailMo
               </ul>
             </div>
           )}
+
+          <button
+            type="button"
+            disabled={soldOut}
+            onClick={() => {
+              addItem(product);
+              onClose();
+            }}
+            className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-full bg-accent py-3.5 font-ui font-semibold uppercase text-bg-dark transition-transform hover:scale-[1.02] active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:scale-100"
+            style={{ fontSize: 12, letterSpacing: "0.18em" }}
+          >
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden>
+              <path d="M3 5 h10 l-1 9 h-8 z" />
+              <path d="M5.5 5 V3.5 a2.5 2.5 0 0 1 5 0 V5" />
+            </svg>
+            {soldOut ? t("shop.soldOut") : t("shop.addToCart")}
+          </button>
         </div>
       </div>
     </div>

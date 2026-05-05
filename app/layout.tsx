@@ -12,6 +12,11 @@ import CustomCursor from "@/components/cursor/CustomCursor";
 import Navbar from "@/components/layout/Navbar";
 import Preloader from "@/components/preloader/Preloader";
 import { PreloaderProvider } from "@/context/PreloaderContext";
+import { CartProvider } from "@/context/CartContext";
+import { I18nProvider } from "@/context/I18nContext";
+import CartDrawer from "@/components/cart/CartDrawer";
+import LanguagePicker from "@/components/i18n/LanguagePicker";
+import { detectServerLocale } from "@/lib/detect-locale";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -37,25 +42,35 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+  const initialLocale = await detectServerLocale();
+  const dir = initialLocale === "ar" ? "rtl" : "ltr";
   return (
     <html
-      lang="en"
+      lang={initialLocale}
+      dir={dir}
+      suppressHydrationWarning
       className={`${bebasNeue.variable} ${dancingScript.variable} ${oswald.variable} ${dmSerifDisplay.variable} ${syne.variable}`}
     >
       <body className="bg-bg-light text-bg-dark overflow-x-hidden">
-        <PreloaderProvider>
-          <SmoothScroll>
-            <ScrollTriggerProvider>
-              <Preloader />
-              <CustomCursor />
-              <Navbar />
-              {children}
-            </ScrollTriggerProvider>
-          </SmoothScroll>
-        </PreloaderProvider>
+        <I18nProvider initialLocale={initialLocale}>
+          <CartProvider>
+            <PreloaderProvider>
+              <SmoothScroll>
+                <ScrollTriggerProvider>
+                  <Preloader />
+                  <CustomCursor />
+                  <Navbar />
+                  {children}
+                  <CartDrawer />
+                  <LanguagePicker />
+                </ScrollTriggerProvider>
+              </SmoothScroll>
+            </PreloaderProvider>
+          </CartProvider>
+        </I18nProvider>
       </body>
     </html>
   );

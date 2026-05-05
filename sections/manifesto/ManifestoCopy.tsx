@@ -1,8 +1,10 @@
 "use client";
 
 import { forwardRef } from "react";
+import { useI18n } from "@/context/I18nContext";
 
 const ManifestoCopy = forwardRef<HTMLParagraphElement>(function ManifestoCopy(_, ref) {
+  const { t } = useI18n();
   return (
     <div ref={ref} className="relative z-[3] mt-14 flex flex-col items-center text-center">
       <span
@@ -13,7 +15,7 @@ const ManifestoCopy = forwardRef<HTMLParagraphElement>(function ManifestoCopy(_,
           color: "rgba(240,237,232,0.55)",
         }}
       >
-        Brand Manifesto · 01 / 04
+        {t("manifesto.eyebrow")}
       </span>
       <p
         className="mt-4 max-w-[520px] font-serif italic"
@@ -23,8 +25,7 @@ const ManifestoCopy = forwardRef<HTMLParagraphElement>(function ManifestoCopy(_,
           lineHeight: 1.5,
         }}
       >
-        Engineered for those who demand precision. Every draw, consistent.
-        Every flavor, true. Every device, lab-certified.
+        {t("manifesto.copy")}
       </p>
     </div>
   );

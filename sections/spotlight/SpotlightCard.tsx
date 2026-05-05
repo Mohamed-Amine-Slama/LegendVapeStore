@@ -2,12 +2,14 @@
 
 import { forwardRef } from "react";
 import Image from "next/image";
+import { useI18n } from "@/context/I18nContext";
 
 /**
  * Tilted gold card with the Dark Crystal device floating inside, surrounded
  * by scattered chocolate-chunk props and a subtle gloss highlight.
  */
 const SpotlightCard = forwardRef<HTMLDivElement>(function SpotlightCard(_, ref) {
+  const { t } = useI18n();
   return (
     <div className="relative" style={{ perspective: 1200 }}>
       <div
@@ -67,7 +69,7 @@ const SpotlightCard = forwardRef<HTMLDivElement>(function SpotlightCard(_, ref) 
         >
           <Image
             src="/products/card-chocolate-device.png"
-            alt="Dark Crystal device"
+            alt={t("spotlight.card.alt")}
             fill
             sizes="(max-width: 768px) 60vw, 320px"
             className="object-contain"
@@ -80,10 +82,10 @@ const SpotlightCard = forwardRef<HTMLDivElement>(function SpotlightCard(_, ref) 
             className="display-tight text-bg-light"
             style={{ fontSize: "clamp(20px, 2vw, 28px)" }}
           >
-            Dark Crystal
+            {t("spotlight.card.title")}
           </h3>
           <p className="mt-1.5 font-ui text-[10px] font-medium uppercase tracking-[0.22em] text-bg-light/85">
-            50mg · 4ml · Lab Certified
+            {t("spotlight.card.specs")}
           </p>
         </div>
 
@@ -102,7 +104,7 @@ const SpotlightCard = forwardRef<HTMLDivElement>(function SpotlightCard(_, ref) 
             transform: "rotate(8deg)",
           }}
         >
-          NEW DROP
+          {t("spotlight.card.badge")}
         </div>
       </div>
     </div>

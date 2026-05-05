@@ -1,12 +1,14 @@
 "use client";
 
 import type { ActiveFilterChip } from "@/types/shop";
+import { useI18n } from "@/context/I18nContext";
 
 interface ActiveFiltersStripProps {
   chips: ActiveFilterChip[];
 }
 
 export default function ActiveFiltersStrip({ chips }: ActiveFiltersStripProps) {
+  const { t } = useI18n();
   if (!chips.length) return null;
 
   return (
@@ -25,7 +27,7 @@ export default function ActiveFiltersStrip({ chips }: ActiveFiltersStripProps) {
             color: "#1A1A1A",
           }}
         >
-          {chip.label}
+          {chip.labelKey ? t(chip.labelKey) : chip.label}
           <span
             aria-hidden
             className="text-bg-dark/40 transition-colors group-hover:text-bg-dark"

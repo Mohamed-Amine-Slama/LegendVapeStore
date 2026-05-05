@@ -3,6 +3,7 @@
 import Checkbox from "@/components/ui/Checkbox";
 import { NICOTINE_OPTIONS } from "@/constants/shop";
 import type { NicotineMg } from "@/types/shop";
+import { useI18n } from "@/context/I18nContext";
 
 interface NicotineFilterProps {
   value: NicotineMg[];
@@ -10,6 +11,7 @@ interface NicotineFilterProps {
 }
 
 export default function NicotineFilter({ value, onToggle }: NicotineFilterProps) {
+  const { t } = useI18n();
   return (
     <div className="flex flex-col gap-3">
       {NICOTINE_OPTIONS.map((opt) => {
@@ -44,7 +46,7 @@ export default function NicotineFilter({ value, onToggle }: NicotineFilterProps)
                       borderRadius: 9999,
                     }}
                   >
-                    MAX
+                    {t("filter.maxBadge")}
                   </span>
                 )}
               </span>
@@ -52,7 +54,7 @@ export default function NicotineFilter({ value, onToggle }: NicotineFilterProps)
                 className="font-ui font-normal"
                 style={{ fontSize: 10, color: "rgba(26,26,26,0.4)" }}
               >
-                {opt.sub}
+                {t(opt.subKey)}
               </span>
             </div>
           </label>

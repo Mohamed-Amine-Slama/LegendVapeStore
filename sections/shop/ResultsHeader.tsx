@@ -2,6 +2,7 @@
 
 import { cn } from "@/lib/cn";
 import type { ViewMode } from "@/types/shop";
+import { useI18n } from "@/context/I18nContext";
 
 interface ResultsHeaderProps {
   showing: number;
@@ -16,6 +17,7 @@ export default function ResultsHeader({
   viewMode,
   onViewModeChange,
 }: ResultsHeaderProps) {
+  const { t } = useI18n();
   return (
     <div
       className="mb-6 flex items-center justify-between border-b pb-5"
@@ -25,14 +27,14 @@ export default function ResultsHeader({
         className="font-ui font-medium uppercase"
         style={{ fontSize: 11, letterSpacing: "0.1em", color: "rgba(26,26,26,0.4)" }}
       >
-        Showing {showing} of {total} products
+        {t("shop.showing")} {showing} {t("shop.of")} {total} {t("shop.products")}
       </p>
 
       <div className="flex items-center gap-3">
         <button
           type="button"
           onClick={() => onViewModeChange("GRID")}
-          aria-label="Grid view"
+          aria-label={t("shop.gridView")}
           aria-pressed={viewMode === "GRID"}
           className={cn(
             "transition-colors",
@@ -49,7 +51,7 @@ export default function ResultsHeader({
         <button
           type="button"
           onClick={() => onViewModeChange("LIST")}
-          aria-label="List view"
+          aria-label={t("shop.listView")}
           aria-pressed={viewMode === "LIST"}
           className={cn(
             "transition-colors",

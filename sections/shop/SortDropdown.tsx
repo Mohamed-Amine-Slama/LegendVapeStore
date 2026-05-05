@@ -1,9 +1,11 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { cn } from "@/lib/cn";
 import { SORT_OPTIONS } from "@/constants/shop";
 import type { SortOption } from "@/types/shop";
+import { useI18n } from "@/context/I18nContext";
 
 interface SortDropdownProps {
   value: SortOption;
@@ -11,25 +13,55 @@ interface SortDropdownProps {
 }
 
 /**
- * Custom dropdown — no browser default styling. Click trigger to open,
- * click outside or option to close.
+ * Custom sort dropdown.
+ *
+ * The list panel renders into a portal with viewport-relative `fixed`
+ * position so it isn't clipped by CategoryNav's `overflow-x-auto` scroll
+ * container or its 58px sticky height.
  */
 export default function SortDropdown({ value, onChange }: SortDropdownProps) {
+  const { t } = useI18n();
   const [open, setOpen] = useState(false);
+  const [pos, setPos] = useState<{ top: number; right: number } | null>(null);
   const wrapRef = useRef<HTMLDivElement>(null);
+  const btnRef = useRef<HTMLButtonElement>(null);
+  const panelRef = useRef<HTMLUListElement>(null);
+
+  useLayoutEffect(() => {
+    if (!open || !btnRef.current) return;
+    const place = () => {
+      const r = btnRef.current!.getBoundingClientRect();
+      setPos({ top: r.bottom + 8, right: window.innerWidth - r.right });
+    };
+    place();
+    window.addEventListener("resize", place);
+    window.addEventListener("scroll", place, true);
+    return () => {
+      window.removeEventListener("resize", place);
+      window.removeEventListener("scroll", place, true);
+    };
+  }, [open]);
 
   useEffect(() => {
     if (!open) return;
     const onDoc = (e: MouseEvent) => {
-      if (wrapRef.current && !wrapRef.current.contains(e.target as Node)) {
-        setOpen(false);
-      }
+      const t = e.target as Node;
+      if (wrapRef.current?.contains(t) || panelRef.current?.contains(t)) return;
+      setOpen(false);
+    };
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpen(false);
     };
     document.addEventListener("mousedown", onDoc);
-    return () => document.removeEventListener("mousedown", onDoc);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("mousedown", onDoc);
+      document.removeEventListener("keydown", onKey);
+    };
   }, [open]);
 
-  const current = SORT_OPTIONS.find((o) => o.value === value)?.label ?? "Featured";
+  const currentOpt = SORT_OPTIONS.find((o) => o.value === value);
+  const current = currentOpt ? t(currentOpt.labelKey) : t("sort.featured");
 
   return (
     <div className="relative flex items-center gap-3" ref={wrapRef}>
@@ -37,10 +69,11 @@ export default function SortDropdown({ value, onChange }: SortDropdownProps) {
         className="font-ui font-medium uppercase"
         style={{ fontSize: 10, letterSpacing: "0.1em", color: "rgba(26,26,26,0.4)" }}
       >
-        Sort by
+        {t("shop.sortBy")}
       </span>
 
       <button
+        ref={btnRef}
         type="button"
         onClick={() => setOpen((v) => !v)}
         className={cn(
@@ -67,34 +100,38 @@ export default function SortDropdown({ value, onChange }: SortDropdownProps) {
         </svg>
       </button>
 
-      {open && (
-        <ul
-          role="listbox"
-          className="absolute right-0 top-full z-[60] mt-2 min-w-[190px] overflow-hidden rounded-lg border border-bg-dark/10 bg-bg-light shadow-[0_8px_24px_rgba(26,26,26,0.12)]"
-        >
-          {SORT_OPTIONS.map((opt) => (
-            <li key={opt.value}>
-              <button
-                type="button"
-                onClick={() => {
-                  onChange(opt.value);
-                  setOpen(false);
-                }}
-                className={cn(
-                  "block w-full px-4 py-2.5 text-left font-ui transition-colors",
-                  "hover:bg-bg-dark/[0.04]",
-                  opt.value === value
-                    ? "bg-accent/10 font-semibold text-bg-dark"
-                    : "text-bg-dark/70",
-                )}
-                style={{ fontSize: 12, letterSpacing: "0.04em" }}
-              >
-                {opt.label}
-              </button>
-            </li>
-          ))}
-        </ul>
-      )}
+      {open && pos && typeof document !== "undefined" &&
+        createPortal(
+          <ul
+            ref={panelRef}
+            role="listbox"
+            className="fixed z-[9500] min-w-[200px] overflow-hidden rounded-lg border border-bg-dark/10 bg-bg-light shadow-[0_12px_32px_rgba(26,26,26,0.18)]"
+            style={{ top: pos.top, right: pos.right }}
+          >
+            {SORT_OPTIONS.map((opt) => (
+              <li key={opt.value}>
+                <button
+                  type="button"
+                  onClick={() => {
+                    onChange(opt.value);
+                    setOpen(false);
+                  }}
+                  className={cn(
+                    "block w-full px-4 py-2.5 text-left font-ui transition-colors",
+                    "hover:bg-bg-dark/[0.04]",
+                    opt.value === value
+                      ? "bg-accent/10 font-semibold text-bg-dark"
+                      : "text-bg-dark/70",
+                  )}
+                  style={{ fontSize: 12, letterSpacing: "0.04em" }}
+                >
+                  {t(opt.labelKey)}
+                </button>
+              </li>
+            ))}
+          </ul>,
+          document.body,
+        )}
     </div>
   );
 }

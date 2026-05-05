@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { ShopProduct } from "@/types/shop";
+import { useI18n } from "@/context/I18nContext";
 
 interface SearchInputProps {
   value: string;
@@ -21,6 +22,7 @@ const MAX_SUGGESTIONS = 6;
  * grid to that match across all categories.
  */
 export default function SearchInput({ value, onChange, catalogue, onPick }: SearchInputProps) {
+  const { t } = useI18n();
   const [open, setOpen] = useState(false);
   const [activeIdx, setActiveIdx] = useState(0);
   const wrapperRef = useRef<HTMLDivElement>(null);
@@ -105,8 +107,8 @@ export default function SearchInput({ value, onChange, catalogue, onPick }: Sear
               setOpen(false);
             }
           }}
-          placeholder="Search by product name…"
-          aria-label="Search products by name"
+          placeholder={t("shop.searchPlaceholder")}
+          aria-label={t("shop.searchAria")}
           aria-autocomplete="list"
           aria-expanded={showDropdown}
           className="font-ui w-full rounded-full bg-white py-3 pl-11 pr-12 outline-none transition-shadow"
@@ -126,7 +128,7 @@ export default function SearchInput({ value, onChange, catalogue, onPick }: Sear
               onChange("");
               setOpen(false);
             }}
-            aria-label="Clear search"
+            aria-label={t("shop.clearSearch")}
             className="absolute right-3 top-1/2 -translate-y-1/2 flex h-7 w-7 items-center justify-center rounded-full text-bg-dark/55 transition-colors hover:bg-bg-dark hover:text-bg-light"
           >
             <svg width="11" height="11" viewBox="0 0 11 11" fill="none" stroke="currentColor" strokeWidth="1.8">

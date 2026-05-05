@@ -160,7 +160,12 @@ export function useShopFilters(catalogue: ShopProduct[]) {
       }),
     );
     filters.flavorFamilies.forEach((f) =>
-      chips.push({ key: `flv-${f}`, label: f, remove: () => toggleFlavor(f) }),
+      chips.push({
+        key: `flv-${f}`,
+        label: f,
+        labelKey: `flavor.${f.toLowerCase()}` as import("@/lib/translations").TranslationKey,
+        remove: () => toggleFlavor(f),
+      }),
     );
     filters.volumes.forEach((v) =>
       chips.push({ key: `vol-${v}`, label: `${v}ml`, remove: () => toggleVolume(v) }),
@@ -175,6 +180,7 @@ export function useShopFilters(catalogue: ShopProduct[]) {
       chips.push({
         key: "caff",
         label: "Caffeinated",
+        labelKey: "filter.caffeineLabel",
         remove: () => setCaffeinatedOnly(false),
       });
     }

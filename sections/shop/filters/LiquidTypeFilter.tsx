@@ -3,6 +3,7 @@
 import { cn } from "@/lib/cn";
 import { LIQUID_TYPE_OPTIONS } from "@/constants/shop";
 import type { LiquidType } from "@/types/shop";
+import { useI18n } from "@/context/I18nContext";
 
 interface LiquidTypeFilterProps {
   value: LiquidType[];
@@ -10,6 +11,7 @@ interface LiquidTypeFilterProps {
 }
 
 export default function LiquidTypeFilter({ value, onToggle }: LiquidTypeFilterProps) {
+  const { t } = useI18n();
   return (
     <div className="grid grid-cols-2 gap-2">
       {LIQUID_TYPE_OPTIONS.map((opt) => {
@@ -41,7 +43,7 @@ export default function LiquidTypeFilter({ value, onToggle }: LiquidTypeFilterPr
               className="font-ui font-semibold uppercase"
               style={{ fontSize: 10, letterSpacing: "0.1em" }}
             >
-              {opt.label}
+              {t(opt.labelKey)}
             </span>
           </button>
         );
