@@ -58,8 +58,8 @@ export const HERO_PRODUCTS: HeroProduct[] = [
     parallaxY: 35,
   },
   {
-    src: "/products/device-refill.png",
-    alt: "Refill pod, translucent",
+    src: "/products/card-cookies-device.png",
+    alt: "Orion X pod device",
     top: "38%",
     left: "44%",
     rotate: -6,
@@ -248,7 +248,7 @@ export const CAROUSEL_CARDS: CarouselCard[] = [
     mlLabel: "50ml",
     background: "#A52A40",
     rotation: 7,
-    productSrc: "/products/device-refill.png",
+    productSrc: "/products/card-strawberry-device.png",
     productRotation: 10,
     heroStat: { value: "50ML", unit: "SHORTFILL" },
     props: [

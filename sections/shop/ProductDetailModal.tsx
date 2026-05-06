@@ -242,6 +242,35 @@ export default function ProductDetailModal({ product, onClose }: ProductDetailMo
             )}
           </div>
 
+          <div
+            className="border-t border-bg-dark/10 pt-5"
+            style={{ marginBottom: 16 }}
+          >
+            <p
+              className="font-ui font-semibold uppercase"
+              style={{
+                fontSize: 10,
+                letterSpacing: "0.14em",
+                color: "rgba(26,26,26,0.55)",
+                marginBottom: 6,
+              }}
+            >
+              Nicotine
+            </p>
+            <p
+              className="font-ui font-medium"
+              style={{
+                fontSize: 14,
+                color: "#1A1A1A",
+                lineHeight: 1.4,
+              }}
+            >
+              {product.nicotineMg === 0
+                ? "Nicotine free"
+                : `${product.nicotineMg} mg/mL`}
+            </p>
+          </div>
+
           {product.flavors && product.flavors.length > 0 && (
             <div className="border-t border-bg-dark/10 pt-5">
               <p

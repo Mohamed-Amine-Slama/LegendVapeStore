@@ -65,6 +65,13 @@ export default function HeroSection() {
   const { isDone } = usePreloaderContext();
   const isMobile = useIsMobile();
 
+  // Snapshots isDone on first useLayoutEffect run for this Hero instance.
+  // On a fresh page load, isDone flips false → true and the entrance plays
+  // once. On client-side navigation back to / after visiting /shop, isDone
+  // is already true on the new Hero mount — we skip the 3-second entrance
+  // and place everything directly in its resting state.
+  const initialIsDoneRef = useRef<boolean | null>(null);
+
   // Viewport-scaled multiplier for burst offsets + product widths.
   // Recomputed on resize so the layout adapts when rotating phone, etc.
   const [scale, setScale] = useState<number>(1);
@@ -89,94 +96,167 @@ export default function HeroSection() {
     const burstOuters = burstParallaxRefs.current.filter(Boolean);
     if (!heroInner || !heroOuter || !burstInners.length) return;
 
-    const ctx = gsap.context(() => {
-      // ─── INITIAL STATE ─────────────────────────────────────────────────
-      // Inner (burst/float target): tiny + invisible at dead center, no rotation yet.
-      gsap.set(heroOuter, {
-        xPercent: -50,
-        yPercent: -50,
-        zIndex: 20,
-      });
-      gsap.set(heroInner, {
-        opacity: 0,
-        scale: 0.08,
-        x: 0,
-        y: 0,
-        rotate: 0,
-        transformOrigin: "center center",
-      });
+    // Snapshot whether isDone was already true on the FIRST useLayoutEffect
+    // run for this Hero instance. If yes, this is a revisit (e.g. came back
+    // from /shop) — skip the 3s burst entrance and place products in their
+    // resting positions directly.
+    if (initialIsDoneRef.current === null) {
+      initialIsDoneRef.current = isDone;
+    }
+    const skipEntrance = initialIsDoneRef.current === true;
 
-      // Burst products: hidden at dead center, slightly scaled down so they
-      // don't visually crowd the hero before the burst.
-      burstOuters.forEach((outer) => {
-        gsap.set(outer, {
-          xPercent: -50,
-          yPercent: -50,
-          zIndex: 4,
+    const ctx = gsap.context(() => {
+      // ─── REVISIT MODE — skip the entrance, jump to resting state ───────
+      if (skipEntrance) {
+        gsap.set(heroOuter, { xPercent: -50, yPercent: -50, zIndex: 20 });
+        gsap.set(heroInner, {
+          opacity: 1,
+          scale: 1,
+          x: HERO_CENTER_PRODUCT.finalX * scale,
+          y: HERO_CENTER_PRODUCT.finalY * scale,
+          rotate: HERO_CENTER_PRODUCT.rotate,
+          transformOrigin: "center center",
         });
-      });
-      burstInners.forEach((inner) => {
-        gsap.set(inner, {
+        burstOuters.forEach((outer) => {
+          gsap.set(outer, { xPercent: -50, yPercent: -50, zIndex: 4 });
+        });
+        burstInners.forEach((inner, i) => {
+          const cfg = visibleBurstProducts[i];
+          if (!cfg) return;
+          gsap.set(inner, {
+            opacity: 1,
+            scale: 1,
+            x: cfg.burstX * scale,
+            y: cfg.burstY * scale,
+            rotate: cfg.rotate,
+            transformOrigin: "center center",
+          });
+        });
+        gsap.set(eyebrowRef.current, { opacity: 1, y: 0 });
+        gsap.set(bannerRef.current, { opacity: 1, x: 0, scale: 1 });
+        gsap.set(taglineRef.current, { opacity: 1, y: 0 });
+        gsap.set(btnRef.current, { opacity: 1, scale: 1 });
+        gsap.set(ghostRef.current, { opacity: 1, scale: 1 });
+      } else {
+        // ─── INITIAL STATE — start hidden, wait for preloader ────────────
+        gsap.set(heroOuter, { xPercent: -50, yPercent: -50, zIndex: 20 });
+        gsap.set(heroInner, {
           opacity: 0,
-          scale: 0.3,
+          scale: 0.08,
           x: 0,
           y: 0,
           rotate: 0,
           transformOrigin: "center center",
         });
-      });
-
-      // Center content + ghost: hidden until products have landed.
-      gsap.set(eyebrowRef.current, { opacity: 0, y: -10 });
-      gsap.set(bannerRef.current, { opacity: 0, x: 110, scale: 0.92 });
-      gsap.set(taglineRef.current, { opacity: 0, y: 14 });
-      gsap.set(btnRef.current, { opacity: 0, scale: 0.82 });
-      gsap.set(ghostRef.current, { opacity: 0, scale: 1.06 });
+        burstOuters.forEach((outer) => {
+          gsap.set(outer, { xPercent: -50, yPercent: -50, zIndex: 4 });
+        });
+        burstInners.forEach((inner) => {
+          gsap.set(inner, {
+            opacity: 0,
+            scale: 0.3,
+            x: 0,
+            y: 0,
+            rotate: 0,
+            transformOrigin: "center center",
+          });
+        });
+        gsap.set(eyebrowRef.current, { opacity: 0, y: -10 });
+        gsap.set(bannerRef.current, { opacity: 0, x: 110, scale: 0.92 });
+        gsap.set(taglineRef.current, { opacity: 0, y: 14 });
+        gsap.set(btnRef.current, { opacity: 0, scale: 0.82 });
+        gsap.set(ghostRef.current, { opacity: 0, scale: 1.06 });
+      }
 
       // Wait for the preloader to clear before kicking off the burst.
       if (!isDone) return;
 
-      // ─── PHASE 1 — HERO ZOOM-IN (0.1s → 1.1s) ──────────────────────────
-      gsap.to(heroInner, {
-        opacity: 1,
-        scale: HERO_CENTER_PRODUCT.zoomScale, // 2.8
-        duration: 1.0,
-        ease: "power3.inOut",
-        delay: 0.1,
-      });
+      // Float-loop start delay — staggered after the entrance on the very
+      // first visit, immediate on revisits.
+      const floatDelay = skipEntrance ? 0 : 2.1;
 
-      // ─── PHASE 2 — BURST OUTWARD (delay 1.15s, dur 0.9s) ───────────────
-      gsap.to(burstInners, {
-        opacity: 1,
-        scale: 1,
-        x: (i: number) => (visibleBurstProducts[i]?.burstX ?? 0) * scale,
-        y: (i: number) => (visibleBurstProducts[i]?.burstY ?? 0) * scale,
-        rotate: (i: number) => visibleBurstProducts[i]?.rotate ?? 0,
-        duration: 0.9,
-        ease: "power3.out",
-        stagger: 0.08,
-        delay: 1.15,
-      });
+      // ─── PHASES 1–3 + 5 — entrance choreography (first visit only) ─────
+      if (!skipEntrance) {
+        // PHASE 1 — Hero zoom-in (0.1s → 1.1s)
+        gsap.to(heroInner, {
+          opacity: 1,
+          scale: HERO_CENTER_PRODUCT.zoomScale, // 2.8
+          duration: 1.0,
+          ease: "power3.inOut",
+          delay: 0.1,
+        });
 
-      // ─── PHASE 3 — HERO SHRINKS TO RESTING POSE (delay 1.15s, dur 0.85s) ──
-      gsap.to(heroInner, {
-        scale: 1,
-        x: HERO_CENTER_PRODUCT.finalX * scale,
-        y: HERO_CENTER_PRODUCT.finalY * scale,
-        rotate: HERO_CENTER_PRODUCT.rotate, // -6deg
-        duration: 0.85,
-        ease: "power2.inOut",
-        delay: 1.15,
-      });
+        // PHASE 2 — Burst outward (delay 1.15s, dur 0.9s)
+        gsap.to(burstInners, {
+          opacity: 1,
+          scale: 1,
+          x: (i: number) => (visibleBurstProducts[i]?.burstX ?? 0) * scale,
+          y: (i: number) => (visibleBurstProducts[i]?.burstY ?? 0) * scale,
+          rotate: (i: number) => visibleBurstProducts[i]?.rotate ?? 0,
+          duration: 0.9,
+          ease: "power3.out",
+          stagger: 0.08,
+          delay: 1.15,
+        });
 
-      // ─── PHASE 4 — FLOATING LOOPS (start ~2.1s) ────────────────────────
+        // PHASE 3 — Hero shrinks to resting pose (delay 1.15s, dur 0.85s)
+        gsap.to(heroInner, {
+          scale: 1,
+          x: HERO_CENTER_PRODUCT.finalX * scale,
+          y: HERO_CENTER_PRODUCT.finalY * scale,
+          rotate: HERO_CENTER_PRODUCT.rotate, // -6deg
+          duration: 0.85,
+          ease: "power2.inOut",
+          delay: 1.15,
+        });
+
+        // PHASE 5 — Center content stagger
+        gsap.to(ghostRef.current, {
+          opacity: 1,
+          scale: 1,
+          duration: 1.0,
+          ease: "power2.out",
+          delay: 1.8,
+        });
+        gsap.to(eyebrowRef.current, {
+          opacity: 1,
+          y: 0,
+          duration: 0.6,
+          ease: "power2.out",
+          delay: 1.85,
+        });
+        gsap.to(bannerRef.current, {
+          opacity: 1,
+          x: 0,
+          scale: 1,
+          duration: 0.9,
+          ease: "power2.out",
+          delay: 1.9,
+        });
+        gsap.to(taglineRef.current, {
+          opacity: 1,
+          y: 0,
+          duration: 0.7,
+          ease: "power2.out",
+          delay: 2.1,
+        });
+        gsap.to(btnRef.current, {
+          opacity: 1,
+          scale: 1,
+          duration: 0.6,
+          ease: "back.out(1.6)",
+          delay: 2.35,
+        });
+      }
+
+      // ─── PHASE 4 — FLOATING LOOPS (always run; immediate on revisit) ──
       gsap.to(heroInner, {
-        y: `+=${HERO_CENTER_PRODUCT.finalY === 0 ? 10 : 10}`,
+        y: `+=10`,
         duration: HERO_CENTER_PRODUCT.floatDuration,
         ease: "sine.inOut",
         yoyo: true,
         repeat: -1,
-        delay: 2.1,
+        delay: floatDelay,
       });
 
       burstInners.forEach((el, i) => {
@@ -189,46 +269,8 @@ export default function HeroSection() {
           ease: "sine.inOut",
           yoyo: true,
           repeat: -1,
-          delay: 2.1 + i * 0.3,
+          delay: floatDelay + i * 0.3,
         });
-      });
-
-      // ─── PHASE 5 — CENTER CONTENT STAGGER ──────────────────────────────
-      gsap.to(ghostRef.current, {
-        opacity: 1,
-        scale: 1,
-        duration: 1.0,
-        ease: "power2.out",
-        delay: 1.8,
-      });
-      gsap.to(eyebrowRef.current, {
-        opacity: 1,
-        y: 0,
-        duration: 0.6,
-        ease: "power2.out",
-        delay: 1.85,
-      });
-      gsap.to(bannerRef.current, {
-        opacity: 1,
-        x: 0,
-        scale: 1,
-        duration: 0.9,
-        ease: "power2.out",
-        delay: 1.9,
-      });
-      gsap.to(taglineRef.current, {
-        opacity: 1,
-        y: 0,
-        duration: 0.7,
-        ease: "power2.out",
-        delay: 2.1,
-      });
-      gsap.to(btnRef.current, {
-        opacity: 1,
-        scale: 1,
-        duration: 0.6,
-        ease: "back.out(1.6)",
-        delay: 2.35,
       });
 
       // ─── PARALLAX ON SCROLL (applied to OUTER wrappers) ────────────────

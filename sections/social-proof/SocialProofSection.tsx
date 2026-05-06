@@ -62,14 +62,35 @@ export default function SocialProofSection() {
       ref={sectionRef}
       className="relative w-full overflow-hidden"
       style={{
-        background:
-          "radial-gradient(120% 80% at 70% 20%, #F4F0E9 0%, #E8E1D2 60%, #DAD0BC 100%)",
+        background: "transparent",
         paddingTop: "clamp(100px, 12vh, 160px)",
         paddingBottom: "clamp(100px, 12vh, 160px)",
         minHeight: "100vh",
       }}
       data-section="social-proof"
     >
+      {/* Fixed cinematic backdrop — vape + vapor, locked behind the content */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 z-0"
+        style={{
+          backgroundImage: "url('/footer/product-hero-3d.png')",
+          backgroundRepeat: "no-repeat",
+          backgroundPosition: "center right",
+          backgroundSize: "cover",
+          backgroundAttachment: "fixed",
+        }}
+      />
+      {/* Light wash so the dark headline stays readable */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 z-[1]"
+        style={{
+          background:
+            "linear-gradient(90deg, rgba(244,240,233,0.92) 0%, rgba(244,240,233,0.78) 45%, rgba(232,225,210,0.55) 100%)",
+        }}
+      />
+
       <NoiseOverlay opacity={0.04} />
 
       <div className="relative z-[2] mx-auto grid max-w-[1500px] grid-cols-1 items-center gap-16 px-6 md:grid-cols-2 md:px-12">

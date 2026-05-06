@@ -18,7 +18,8 @@ export default function PresentationSnap({ children }: { children: React.ReactNo
     if (panels.length < 2) return;
 
     const ctx = gsap.context(() => {
-      // 1. Initial Setup: all panels stacked, only first visible
+      // 1. Initial Setup: panels stacked like cards. Panel 0 sits at rest;
+      // later panels are parked off-screen below, ready to slide up on top.
       gsap.set(panels, {
         position: 'absolute',
         top: 0,
@@ -30,12 +31,14 @@ export default function PresentationSnap({ children }: { children: React.ReactNo
       panels.forEach((panel, i) => {
         gsap.set(panel, {
           yPercent: i === 0 ? 0 : 100,
-          opacity: i === 0 ? 1 : 0,
-          zIndex: panels.length - i,
+          opacity: 1,
+          zIndex: i + 1,
         });
       });
 
-      // 2. Panel Transition Logic
+      // 2. Panel Transition Logic — layered slide:
+      // forward → incoming slides up over the outgoing panel (outgoing stays put)
+      // backward → the top panel slides back down off-screen, revealing the one beneath
       const goToPanel = (targetIndex: number) => {
         if (isAnimatingRef.current || targetIndex === currentPanelRef.current) return;
         isAnimatingRef.current = true;
@@ -44,34 +47,34 @@ export default function PresentationSnap({ children }: { children: React.ReactNo
         const outgoing = panels[currentPanelRef.current];
         const incoming = panels[targetIndex];
 
-        // Position incoming panel off-screen in direction of travel
-        gsap.set(incoming, {
-          yPercent: direction * 100,
-          opacity: 0,
-        });
-
         const tl = gsap.timeline({
           onComplete: () => {
             currentPanelRef.current = targetIndex;
             isAnimatingRef.current = false;
-          }
+          },
         });
 
-        // Outgoing exits
-        tl.to(outgoing, {
-          yPercent: direction * -100,
-          opacity: 0,
-          duration: 0.65,
-          ease: 'power3.inOut',
-        }, 0);
+        if (direction === 1) {
+          // Incoming starts off the bottom and slides up on top of the outgoing panel.
+          gsap.set(incoming, { yPercent: 100, zIndex: panels.length + 1 });
+          gsap.set(outgoing, { zIndex: panels.length });
 
-        // Incoming enters
-        tl.to(incoming, {
-          yPercent: 0,
-          opacity: 1,
-          duration: 0.65,
-          ease: 'power3.inOut',
-        }, 0);
+          tl.to(incoming, {
+            yPercent: 0,
+            duration: 0.7,
+            ease: 'power3.inOut',
+          }, 0);
+        } else {
+          // Outgoing is the top layer; slide it back down to reveal the panel underneath.
+          gsap.set(outgoing, { zIndex: panels.length + 1 });
+          gsap.set(incoming, { yPercent: 0, zIndex: panels.length });
+
+          tl.to(outgoing, {
+            yPercent: 100,
+            duration: 0.7,
+            ease: 'power3.inOut',
+          }, 0);
+        }
       };
 
       // 3. ScrollTrigger to drive transitions based on scroll progress

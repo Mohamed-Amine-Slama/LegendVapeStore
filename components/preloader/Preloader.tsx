@@ -50,8 +50,26 @@ export default function Preloader() {
       onUpdate: () => setProgress(Math.round(counter.current.val)),
       onComplete: () => setIsExiting(true),
     });
+
+    // Hard safety net — if anything in the animation pipeline ever stalls
+    // (curtain timeline killed mid-flight, ticker paused, gsap context
+    // teardown race, etc.), this guarantees the preloader unmounts after
+    // the expected total duration plus a generous buffer. Also persists the
+    // played flag so the next reload skips even if the curtain never fires
+    // its onComplete.
+    const safetyTimer = window.setTimeout(() => {
+      try {
+        window.sessionStorage.setItem(PLAYED_KEY, "1");
+      } catch {
+        // ignore
+      }
+      markDone();
+      setUnmounted(true);
+    }, 5000);
+
     return () => {
       tween.kill();
+      window.clearTimeout(safetyTimer);
     };
   }, [markDone]);
 
