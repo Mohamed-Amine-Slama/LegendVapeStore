@@ -66,6 +66,11 @@ export interface Order {
   createdAt: string;
   /** ISO timestamp set on every update. */
   updatedAt: string;
+  /** Date when MongoDB's TTL monitor will auto-delete this order
+   *  (createdAt + ORDER_TTL_DAYS). Stored as a real BSON Date so the TTL
+   *  index works. Optional in the type because pre-TTL legacy orders
+   *  don't have it (they get backfilled on first read). */
+  expiresAt?: Date;
 }
 
 /** Payload sent from the checkout form to POST /api/orders. */
@@ -82,6 +87,9 @@ export interface CreateOrderResponse {
   ok: true;
   reference: string;
   orderId: string;
+  /** Whether the Telegram notification reached the owner.
+   *  `false` doesn't fail the order — the row is still saved. */
+  telegramSent: boolean;
 }
 
 export interface CreateOrderError {

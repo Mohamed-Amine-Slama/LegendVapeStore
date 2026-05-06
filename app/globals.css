@@ -48,7 +48,7 @@ body {
 }
 
 @media (pointer: fine) {
-  body { cursor: none; }
+  body, a, button, [role="button"], [data-cursor-expand] { cursor: none; }
 }
 
 * { box-sizing: border-box; }

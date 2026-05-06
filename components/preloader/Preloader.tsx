@@ -1,12 +1,16 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { gsap } from "@/lib/gsap";
 import { usePreloaderContext } from "@/context/PreloaderContext";
 import { useI18n } from "@/context/I18nContext";
 import PreloaderLogo from "./PreloaderLogo";
 import PreloaderBar from "./PreloaderBar";
 import PreloaderCurtain from "./PreloaderCurtain";
+
+/** sessionStorage key — prevents the preloader from replaying when a route
+ *  triggers a full reload within the same browser session. */
+const PLAYED_KEY = "lvs.preloader.played.v1";
 
 /**
  * Lifecycle:
@@ -24,6 +28,21 @@ export default function Preloader() {
   const [unmounted, setUnmounted] = useState(false);
 
   useEffect(() => {
+    // If the preloader has already played in this session, skip the intro
+    // entirely. Covers cases where a stray full reload lands back on the
+    // root layout (which mounts a fresh Preloader each time).
+    let alreadyPlayed = false;
+    try {
+      alreadyPlayed = window.sessionStorage.getItem(PLAYED_KEY) === "1";
+    } catch {
+      // sessionStorage may be unavailable in privacy modes — fall through.
+    }
+    if (alreadyPlayed) {
+      markDone();
+      setUnmounted(true);
+      return;
+    }
+
     const tween = gsap.to(counter.current, {
       val: 100,
       duration: 2.4,
@@ -34,12 +53,20 @@ export default function Preloader() {
     return () => {
       tween.kill();
     };
-  }, []);
+  }, [markDone]);
 
-  const handleCurtainComplete = () => {
+  // Stable reference — without useCallback, every Preloader re-render (~100×
+  // during the counter tween) would feed PreloaderCurtain a new onComplete,
+  // killing and recreating its gsap timeline and stalling the exit.
+  const handleCurtainComplete = useCallback(() => {
+    try {
+      window.sessionStorage.setItem(PLAYED_KEY, "1");
+    } catch {
+      // ignore
+    }
     markDone();
     setUnmounted(true);
-  };
+  }, [markDone]);
 
   if (unmounted) return null;
 

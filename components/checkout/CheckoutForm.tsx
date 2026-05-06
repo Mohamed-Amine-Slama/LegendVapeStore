@@ -1,12 +1,11 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useCart } from "@/context/CartContext";
 import { useI18n } from "@/context/I18nContext";
 import { TUNISIA_GOVERNORATES } from "@/constants/checkout";
-import { buildWhatsAppUrl, getOwnerWhatsAppNumber } from "@/lib/whatsapp";
 import type { CreateOrderInput, CreateOrderResponse, CreateOrderError } from "@/types/order";
 import { cn } from "@/lib/cn";
 
@@ -14,7 +13,7 @@ type Status =
   | { kind: "idle" }
   | { kind: "submitting" }
   | { kind: "error"; message: string }
-  | { kind: "success"; reference: string; whatsappUrl: string | null };
+  | { kind: "success"; reference: string };
 
 interface FormState {
   fullName: string;
@@ -65,8 +64,6 @@ export default function CheckoutForm() {
   const shipping = 0;
   const total = subtotal + shipping;
 
-  const ownerNumber = useMemo(() => getOwnerWhatsAppNumber(), []);
-
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (status.kind === "submitting") return;
@@ -113,29 +110,11 @@ export default function CheckoutForm() {
         return;
       }
 
-      const whatsappUrl = buildWhatsAppUrl({
-        reference: json.reference,
-        customer: payload.customer,
-        delivery: payload.delivery,
-        items: items.map((i) => ({
-          name: i.name,
-          qty: i.qty,
-          unitPriceTND: i.unitPriceTND,
-        })),
-        totalTND: total,
-        locale,
-      });
-
-      // Capture items already; once we clear the cart the success view
-      // can still render the order summary above.
+      // Backend already pushed the order into the owner's Telegram via
+      // /api/orders → notifyOwner(). Customer-side, we just confirm
+      // the order was saved.
       clearCart();
-      setStatus({ kind: "success", reference: json.reference, whatsappUrl });
-
-      // Best-effort auto-open of WhatsApp. May be blocked by popup
-      // settings; the success view also exposes a manual button.
-      if (whatsappUrl && typeof window !== "undefined") {
-        window.open(whatsappUrl, "_blank", "noopener,noreferrer");
-      }
+      setStatus({ kind: "success", reference: json.reference });
     } catch (err) {
       const message = err instanceof Error ? err.message : t("checkout.errorRetry");
       setStatus({ kind: "error", message });
@@ -190,29 +169,11 @@ export default function CheckoutForm() {
             {status.reference}
           </span>
         </p>
-        <div className="mt-7 flex flex-col items-center gap-3">
-          {status.whatsappUrl ? (
-            <a
-              href={status.whatsappUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2.5 rounded-full bg-[#25D366] px-7 py-3.5 font-ui font-semibold uppercase text-white transition-transform hover:scale-[1.03]"
-              style={{ fontSize: 12, letterSpacing: "0.16em" }}
-            >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M20.52 3.48A11.94 11.94 0 0 0 12.04 0C5.5 0 .19 5.31.18 11.85c0 2.09.55 4.13 1.59 5.93L0 24l6.36-1.67a11.86 11.86 0 0 0 5.66 1.45h.01c6.54 0 11.86-5.31 11.86-11.85 0-3.17-1.23-6.14-3.47-8.45ZM12.04 21.79h-.01a9.86 9.86 0 0 1-5.03-1.38l-.36-.21-3.78.99 1.01-3.69-.24-.38a9.83 9.83 0 0 1-1.51-5.27c0-5.43 4.42-9.85 9.85-9.85 2.63 0 5.1 1.03 6.96 2.89a9.78 9.78 0 0 1 2.88 6.96c0 5.43-4.42 9.94-9.86 9.94Zm5.4-7.4c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.27-.47-2.42-1.5-.9-.8-1.5-1.79-1.67-2.09-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.61-.92-2.21-.24-.58-.49-.5-.67-.51l-.57-.01c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48 0 1.46 1.06 2.87 1.21 3.07.15.2 2.09 3.19 5.06 4.47.71.31 1.26.49 1.69.63.71.23 1.35.2 1.86.12.57-.08 1.76-.72 2-1.41.25-.7.25-1.29.17-1.41-.07-.13-.27-.2-.57-.35Z" />
-              </svg>
-              {t("checkout.sendWhatsApp")}
-            </a>
-          ) : (
-            <p className="rounded-2xl border border-bg-dark/10 bg-bg-warm/40 px-5 py-3 font-ui text-bg-dark/70" style={{ fontSize: 12, letterSpacing: "0.04em" }}>
-              {t("checkout.whatsappMissing")}
-            </p>
-          )}
+        <div className="mt-7 flex justify-center">
           <Link
             href="/shop"
-            className="inline-flex items-center gap-2 font-ui font-semibold uppercase text-bg-dark/65 underline-offset-4 transition-colors hover:text-accent hover:underline"
-            style={{ fontSize: 11, letterSpacing: "0.18em" }}
+            className="inline-flex items-center gap-2 rounded-full bg-accent px-7 py-3 font-ui font-semibold uppercase text-bg-dark transition-transform hover:scale-[1.03]"
+            style={{ fontSize: 12, letterSpacing: "0.18em" }}
           >
             {t("checkout.continue")} →
           </Link>
@@ -454,12 +415,6 @@ export default function CheckoutForm() {
           >
             {isSubmitting ? t("checkout.placing") : t("checkout.placeOrder")}
           </button>
-
-          {!ownerNumber && (
-            <p className="mt-3 rounded-xl border border-bg-dark/10 bg-bg-warm/40 px-3 py-2 font-ui text-bg-dark/60" style={{ fontSize: 11 }}>
-              {t("checkout.whatsappMissing")}
-            </p>
-          )}
         </div>
       </aside>
     </form>

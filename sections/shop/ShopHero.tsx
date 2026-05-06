@@ -1,6 +1,7 @@
 "use client";
 
 import { forwardRef } from "react";
+import Link from "next/link";
 import { useI18n } from "@/context/I18nContext";
 
 interface ShopHeroProps {
@@ -60,9 +61,9 @@ const ShopHero = forwardRef<HTMLElement, ShopHeroProps>(function ShopHero(
               color: "rgba(255,255,255,0.4)",
             }}
           >
-            <a href="/" className="transition-colors hover:text-accent">
+            <Link href="/" className="transition-colors hover:text-accent">
               {t("shop.breadcrumbHome")}
-            </a>
+            </Link>
             <span className="mx-2 opacity-50">/</span>
             <span>{t("shop.breadcrumbShop")}</span>
           </p>

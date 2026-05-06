@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 
 import { createOrder } from "@/lib/orders";
+import { notifyOwner } from "@/lib/telegram-server";
 import type {
   CreateOrderError,
   CreateOrderInput,
@@ -113,7 +114,37 @@ export async function POST(req: Request) {
 
   try {
     const { reference, orderId } = await createOrder(input);
-    const payload: CreateOrderResponse = { ok: true, reference, orderId };
+
+    // Push the order into the owner's Telegram chat. Awaited so the
+    // dashboard can use `telegramSent` later, but failures never
+    // bubble up — the order is already persisted and the customer
+    // should still see success.
+    const notify = await notifyOwner({
+      reference,
+      customer: input.customer,
+      delivery: input.delivery,
+      items: input.items.map((i) => ({
+        name: i.name,
+        qty: i.qty,
+        unitPriceTND: i.unitPriceTND,
+      })),
+      totalTND: input.items.reduce((sum, i) => sum + i.unitPriceTND * i.qty, 0),
+      locale: input.locale,
+    });
+
+    if (!notify.ok && process.env.NODE_ENV !== "production") {
+      console.warn(
+        `[orders] Telegram notification did not send for ${reference}:`,
+        notify.detail ?? (notify.notConfigured ? "not configured" : "unknown"),
+      );
+    }
+
+    const payload: CreateOrderResponse = {
+      ok: true,
+      reference,
+      orderId,
+      telegramSent: notify.ok,
+    };
     return NextResponse.json(payload, { status: 201 });
   } catch (err) {
     if (process.env.NODE_ENV !== "production") {

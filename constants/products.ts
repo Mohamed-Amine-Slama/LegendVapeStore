@@ -197,6 +197,7 @@ export const CAROUSEL_CARDS: CarouselCard[] = [
     rotation: -6,
     productSrc: "/products/Nexbar2.png",
     productRotation: -12,
+    heroStat: { value: "20K", unit: "PUFFS" },
     props: [
       { src: "/props/strawberry-1.png", width: 80, top: "12%", left: "8%", rotate: -20 },
       { src: "/props/strawberry-2.png", width: 64, top: "20%", right: "10%", rotate: 14 },
@@ -213,6 +214,8 @@ export const CAROUSEL_CARDS: CarouselCard[] = [
     rotation: 5,
     productSrc: "/products/Vozol50K.png",
     productRotation: 8,
+    heroStat: { value: "50K", unit: "PUFFS" },
+    textTone: "dark",
     props: [
       { src: "/props/cookie-1.png", width: 72, top: "10%", right: "12%", rotate: 22 },
       { src: "/props/cookie-2.png", width: 58, top: "26%", left: "8%", rotate: -15 },
@@ -230,6 +233,7 @@ export const CAROUSEL_CARDS: CarouselCard[] = [
     productSrc: "/products/NexBar.png",
     productRotation: -8,
     badgeColor: "#1A1A1A",
+    heroStat: { value: "18K", unit: "PUFFS" },
     props: [
       { src: "/props/chocolate-1.png", width: 66, top: "14%", left: "10%", rotate: -18 },
       { src: "/props/chocolate-1.png", width: 54, top: "22%", right: "8%", rotate: 12 },
@@ -246,6 +250,7 @@ export const CAROUSEL_CARDS: CarouselCard[] = [
     rotation: 7,
     productSrc: "/products/device-refill.png",
     productRotation: 10,
+    heroStat: { value: "50ML", unit: "SHORTFILL" },
     props: [
       { src: "/props/strawberry-1.png", width: 60, top: "15%", right: "8%", rotate: 25 },
       { src: "/props/strawberry-2.png", width: 70, bottom: "35%", left: "12%", rotate: -12 },
@@ -263,6 +268,8 @@ export const CAROUSEL_CARDS: CarouselCard[] = [
     productSrc: "/products/device-disposable-teal.png",
     productRotation: -5,
     badgeColor: "#A52A40",
+    heroStat: { value: "50ML", unit: "SHORTFILL" },
+    textTone: "dark",
     props: [
       { src: "/props/cookie-1.png", width: 80, top: "10%", left: "6%", rotate: 18 },
       { src: "/props/cookie-2.png", width: 55, top: "30%", right: "14%", rotate: -22 },
