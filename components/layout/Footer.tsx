@@ -250,7 +250,7 @@ export default function Footer() {
       //  the Lenis 'scroll' event, so all of these scrub smoothly.)
       // ═══════════════════════════════════════════════════════════════
 
-      // Vertical "LEGEND" spine — slow upward drift
+      // Vertical brand spine — slow upward drift
       gsap.to("[data-footer-spine]", {
         yPercent: -35,
         ease: "none",
@@ -486,7 +486,7 @@ export default function Footer() {
       </div>
 
       {/* ═══════════════════════════════════════════════════════════════
-          2. VERTICAL "LEGEND" SPINE — parallaxed
+          2. VERTICAL BRAND SPINE — parallaxed
       ═══════════════════════════════════════════════════════════════ */}
       <div
         aria-hidden
@@ -502,7 +502,7 @@ export default function Footer() {
             color: "rgba(200,169,110,0.55)",
           }}
         >
-          Legend · Vape · Store · 2024 · Premium · Vapor · Drop Club · Lab Certified
+          La · Maison · Des · Vapes · 2024 · Premium · Vapor · Drop Club · Lab Certified
         </span>
       </div>
 
@@ -556,7 +556,9 @@ export default function Footer() {
               >
                 #VAPEWITH
                 <br />
-                LEGEND
+                LA MAISON
+                <br />
+                DES VAPES
               </h2>
 
               {/* Foreground filled — each line clipped for stagger reveal */}
@@ -600,7 +602,25 @@ export default function Footer() {
                       backgroundClip: "text",
                     }}
                   >
-                    LEGEND.
+                    LA MAISON
+                  </span>
+                </span>
+                <span
+                  className="block overflow-hidden"
+                  style={{ paddingBottom: "0.1em" }}
+                >
+                  <span
+                    data-footer-headline-line
+                    className="inline-block"
+                    style={{
+                      background:
+                        "linear-gradient(180deg, #C8A96E 0%, #A88848 60%, #1A2332 100%)",
+                      WebkitBackgroundClip: "text",
+                      WebkitTextFillColor: "transparent",
+                      backgroundClip: "text",
+                    }}
+                  >
+                    DES VAPES.
                   </span>
                 </span>
               </h2>
@@ -618,7 +638,7 @@ export default function Footer() {
                   textShadow: "0 0 30px rgba(232,200,74,0.35)",
                 }}
               >
-                be a legend.
+                welcome home.
               </span>
             </div>
 
@@ -678,7 +698,7 @@ export default function Footer() {
                     fill="#C8A96E"
                   >
                     <textPath href="#sealCircle">
-                      ★ LEGEND VAPE STORE ★ DROP CLUB ★ MEMBERS ONLY ★ SINCE 2024
+                      ★ LA MAISON DES VAPES ★ DROP CLUB ★ MEMBERS ONLY ★ SINCE 2024
                     </textPath>
                   </text>
                 </svg>
@@ -696,7 +716,7 @@ export default function Footer() {
                     className="font-script"
                     style={{ fontSize: 28, color: "#C8A96E", lineHeight: 1 }}
                   >
-                    L
+                    M
                   </span>
                 </div>
               </div>
@@ -774,7 +794,7 @@ export default function Footer() {
             >
               <Image
                 src="/footer/product-hero-3d.png"
-                alt="LEGEND VAPE STORE flagship device"
+                alt="La Maison Des Vapes flagship device"
                 fill
                 sizes="(max-width: 768px) 90vw, 600px"
                 className="object-contain"
@@ -806,7 +826,7 @@ export default function Footer() {
                 color: "rgba(240,237,232,0.5)",
               }}
             >
-              ↑ Featured · Legend Titan V2 ↑
+              ↑ Featured · Maison Titan V2 ↑
             </span>
           </div>
         </div>
@@ -939,7 +959,7 @@ export default function Footer() {
               className="font-script"
               style={{ fontSize: 22, color: "#F0EDE8" }}
             >
-              Legend
+              La Maison
             </span>
           </div>
         </div>
@@ -1043,7 +1063,7 @@ export default function Footer() {
               lineHeight: 1.55,
             }}
           >
-            Tag <span style={{ color: "#C8A96E" }}>@legendvape</span> for the
+            Tag <span style={{ color: "#C8A96E" }}>@lamaisondesvapes</span> for the
             chance to be featured on our wall.
           </p>
 
@@ -1217,7 +1237,7 @@ export default function Footer() {
                 color: "#F0EDE8",
               }}
             >
-              Legend
+              La Maison
             </span>
             <span
               className="font-display uppercase"
@@ -1227,7 +1247,7 @@ export default function Footer() {
                 color: "#C8A96E",
               }}
             >
-              Vape Store
+              Des Vapes
             </span>
             <span
               className="font-mono"

@@ -40,10 +40,10 @@ export const LIQUID_TYPE_OPTIONS: { value: LiquidType; label: string; accent: st
 ];
 
 export const BRAND_OPTIONS: Brand[] = [
-  "LEGEND VAPE STORE Original",
-  "LEGEND VAPE STORE MAX",
-  "LEGEND VAPE STORE PRO",
-  "LEGEND VAPE STORE LITE",
+  "La Maison Des Vapes Original",
+  "La Maison Des Vapes MAX",
+  "La Maison Des Vapes PRO",
+  "La Maison Des Vapes LITE",
   "Vozol",
   "Wotofo",
 ];
@@ -93,10 +93,10 @@ export const INITIAL_FILTER_STATE: FilterState = {
 /** Number of products per brand — used by BrandFilter "(12)" badge. */
 export function brandCounts(products: ShopProduct[]): Record<Brand, number> {
   const counts = {
-    "LEGEND VAPE STORE Original": 0,
-    "LEGEND VAPE STORE MAX": 0,
-    "LEGEND VAPE STORE PRO": 0,
-    "LEGEND VAPE STORE LITE": 0,
+    "La Maison Des Vapes Original": 0,
+    "La Maison Des Vapes MAX": 0,
+    "La Maison Des Vapes PRO": 0,
+    "La Maison Des Vapes LITE": 0,
   } as Record<Brand, number>;
   products.forEach((p) => counts[p.brand]++);
   return counts;

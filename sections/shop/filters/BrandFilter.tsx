@@ -23,10 +23,10 @@ export default function BrandFilter({
       catalogue
         ? brandCounts(catalogue)
         : ({
-            "LEGEND VAPE STORE Original": 0,
-            "LEGEND VAPE STORE MAX": 0,
-            "LEGEND VAPE STORE PRO": 0,
-            "LEGEND VAPE STORE LITE": 0,
+            "La Maison Des Vapes Original": 0,
+            "La Maison Des Vapes MAX": 0,
+            "La Maison Des Vapes PRO": 0,
+            "La Maison Des Vapes LITE": 0,
           } as Record<Brand, number>),
     [catalogue],
   );

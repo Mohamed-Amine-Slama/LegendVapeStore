@@ -1,48 +1,47 @@
 "use client";
 
+import Image from "next/image";
 import { useLayoutEffect, useRef } from "react";
 import { gsap } from "@/lib/gsap";
 
-const TEXT = "Legend Vape Store";
-const LETTERS = TEXT.split("");
-
 /**
- * "Legend Vape Store" in Dancing Script — each letter reveals via clip-path L→R.
- * Subtle scale-in adds a hint of life on top of the wipe.
+ * Brand logo (LogoBlack) on the warm preloader background.
+ * Reveals via a left→right clip-path wipe + subtle scale-in.
  */
 export default function PreloaderLogo() {
-  const charsRef = useRef<HTMLSpanElement[]>([]);
+  const wrapRef = useRef<HTMLDivElement>(null);
 
   useLayoutEffect(() => {
-    const chars = charsRef.current.filter(Boolean);
-    if (!chars.length) return;
-    gsap.set(chars, { clipPath: "inset(0 100% 0 0)", opacity: 0, y: 8 });
-    gsap.to(chars, {
+    const el = wrapRef.current;
+    if (!el) return;
+    gsap.set(el, { clipPath: "inset(0 100% 0 0)", opacity: 0, y: 10, scale: 0.96 });
+    gsap.to(el, {
       clipPath: "inset(0 0% 0 0)",
       opacity: 1,
       y: 0,
-      duration: 0.65,
-      ease: "power2.inOut",
-      stagger: 0.05, // Faster stagger since it's a longer string
+      scale: 1,
+      duration: 1.1,
+      ease: "power3.out",
     });
   }, []);
 
   return (
     <div
-      className="flex flex-wrap justify-center font-script text-bg-dark leading-none"
-      style={{ fontSize: "clamp(48px, 9vw, 100px)", fontWeight: 700, letterSpacing: "-0.02em" }}
+      ref={wrapRef}
+      className="relative will-change-transform"
+      style={{
+        width: "clamp(120px, 22vw, 220px)",
+        height: "clamp(120px, 22vw, 220px)",
+      }}
     >
-      {LETTERS.map((char, i) => (
-        <span
-          key={i}
-          ref={(el) => {
-            if (el && char !== " ") charsRef.current[i] = el;
-          }}
-          className="inline-block will-change-transform"
-        >
-          {char === " " ? "\u00A0" : char}
-        </span>
-      ))}
+      <Image
+        src="/LogoBlack.png"
+        alt="La Maison Des Vapes"
+        fill
+        priority
+        sizes="(max-width: 640px) 140px, 220px"
+        className="object-contain"
+      />
     </div>
   );
 }

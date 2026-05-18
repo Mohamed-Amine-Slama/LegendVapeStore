@@ -5,7 +5,7 @@ import { gsap } from "@/lib/gsap";
 import { useI18n } from "@/context/I18nContext";
 
 /**
- * "The Legend Vape Store Breach" Cinematic Transition.
+ * "The La Maison Des Vapes Breach" Cinematic Transition.
  * 
  * 1. Three heavy horizontal black slabs slam into the screen from alternating sides.
  * 2. A subtle gold flash fires as the doors lock.

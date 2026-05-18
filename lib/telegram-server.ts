@@ -73,7 +73,7 @@ const HEADINGS: Record<Locale, {
   cod: string;
 }> = {
   en: {
-    title: "🛒 New order — LEGEND VAPE STORE",
+    title: "🛒 New order — LA MAISON DES VAPES",
     ref: "Reference",
     customer: "Customer",
     phone: "Phone",
@@ -89,7 +89,7 @@ const HEADINGS: Record<Locale, {
     cod: "Cash on delivery",
   },
   fr: {
-    title: "🛒 Nouvelle commande — LEGEND VAPE STORE",
+    title: "🛒 Nouvelle commande — LA MAISON DES VAPES",
     ref: "Référence",
     customer: "Client",
     phone: "Téléphone",
@@ -105,7 +105,7 @@ const HEADINGS: Record<Locale, {
     cod: "Paiement à la livraison",
   },
   ar: {
-    title: "🛒 طلب جديد — LEGEND VAPE STORE",
+    title: "🛒 طلب جديد — LA MAISON DES VAPES",
     ref: "المرجع",
     customer: "العميل",
     phone: "الهاتف",
@@ -322,7 +322,7 @@ export async function pingDiagnostic(): Promise<{
   }
   const r = await callBot(token, "sendMessage", {
     chat_id: chatId,
-    text: "LEGEND VAPE STORE — diagnostic ping ✅",
+    text: "LA MAISON DES VAPES — diagnostic ping ✅",
     disable_web_page_preview: true,
   });
   return { ok: r.ok, chatId, detail: r.detail };

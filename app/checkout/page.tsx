@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import CheckoutPageClient from "./CheckoutPageClient";
 
 export const metadata: Metadata = {
-  title: "Checkout — LEGEND VAPE STORE",
+  title: "Checkout — La Maison Des Vapes",
   description: "Complete your order. Delivery across Tunisia.",
 };
 

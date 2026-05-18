@@ -27,10 +27,10 @@ const en = {
   "nav.cart":              "Cart",
   "nav.findFlavor":        "Find your flavor",
   "nav.tagline":           "Premium Vapor",
-  "nav.logoAria":          "Legend Vape Store — home",
+  "nav.logoAria":          "La Maison Des Vapes — home",
 
   /* ── Menu overlay ─────────────────────────────────────────────── */
-  "menu.eyebrow":          "The Legend Vape Store Menu",
+  "menu.eyebrow":          "The La Maison Des Vapes Menu",
   "menu.shop":             "SHOP",
   "menu.flavors":          "FLAVORS",
   "menu.ourStory":         "OUR STORY",
@@ -42,11 +42,11 @@ const en = {
 
   /* ── Preloader ────────────────────────────────────────────────── */
   "preloader.eyebrow":     "Premium Vapor · Est. 2024",
-  "preloader.loading":     "Loading the legend-vape-store…",
+  "preloader.loading":     "Loading la maison des vapes…",
 
   /* ── Hero ─────────────────────────────────────────────────────── */
   "hero.ghost":            "Perfectly Crafted",
-  "hero.eyebrow":          "LEGEND VAPE STORE · Premium Vapor · Est. 2024",
+  "hero.eyebrow":          "LA MAISON DES VAPES · Premium Vapor · Est. 2024",
   "hero.bannerSticker":    "Vapor + Clarity",
   "hero.tagline":          "Engineered for the discerning palate. No compromise — just clean, deliberate vapor with every draw.",
   "hero.cta":              "Find your flavor",
@@ -55,11 +55,11 @@ const en = {
   /* ── Curtain wipe transition ──────────────────────────────────── */
   "curtain.line1":         "UNCOMPROMISING",
   "curtain.line2":         "EXCELLENCE",
-  "curtain.subtext":       "LEGEND VAPE STORE · EST. 2024",
+  "curtain.subtext":       "LA MAISON DES VAPES · EST. 2024",
 
   /* ── Manifesto ────────────────────────────────────────────────── */
-  "manifesto.ghost":       "Legend Vape Store your senses\nwith every pull",
-  "manifesto.brand":       "Legend Vape Store",
+  "manifesto.ghost":       "Awaken your senses\nwith every pull",
+  "manifesto.brand":       "La Maison Des Vapes",
   "manifesto.your":        "your",
   "manifesto.senses":      "senses",
   "manifesto.with":        "with",
@@ -74,7 +74,7 @@ const en = {
   "manifesto.tag.premium":        "Premium",
 
   /* ── Spotlight ────────────────────────────────────────────────── */
-  "spotlight.eyebrow":     "— Legend Vape Store Drop / 02",
+  "spotlight.eyebrow":     "— La Maison Des Vapes Drop / 02",
   "spotlight.line1":       "WE",
   "spotlight.line2":       "HAVE",
   "spotlight.line3":       "SOMETHING",
@@ -88,7 +88,7 @@ const en = {
   "spotlight.card.alt":    "Dark Crystal device",
 
   /* ── Carousel ─────────────────────────────────────────────────── */
-  "carousel.eyebrow":      "The Flavor Legend Vape Store · 03",
+  "carousel.eyebrow":      "The Flavor House · 03",
   "carousel.headline":     "Pick your draw",
   "carousel.cta":          "Get it now",
   "carousel.altLink":      "Other flavors",
@@ -115,14 +115,14 @@ const en = {
 
   /* ── Feature slam ─────────────────────────────────────────────── */
   "featureSlam.eyebrow":   "Built different.",
-  "featureSlam.headline":  "What’s inside the legend-vape-store.",
+  "featureSlam.headline":  "What’s inside la maison des vapes.",
   "featureSlam.tag.shelfStable":     "Shelf Stable",
   "featureSlam.tag.vaporClarity":    "Vapor + Clarity",
   "featureSlam.tag.premiumHardware": "Premium Hardware",
   "featureSlam.tag.labCertified":    "Lab Certified",
 
   /* ── Marquee ──────────────────────────────────────────────────── */
-  "marquee.0":             "LEGEND VAPE STORE VAPOR",
+  "marquee.0":             "LA MAISON DES VAPES VAPOR",
   "marquee.1":             "FIND YOUR FLAVOR",
   "marquee.2":             "ZERO COMPROMISE",
   "marquee.3":             "PREMIUM HARDWARE",
@@ -135,7 +135,7 @@ const en = {
   "socialProof.word1":     "Everyone",
   "socialProof.word2":     "Talking",
   "socialProof.word3":     "About.",
-  "socialProof.copy":      "Over 14,000 5-star reviews and counting. See why LEGEND VAPE STORE is the most talked-about premium vape on the internet.",
+  "socialProof.copy":      "Over 14,000 5-star reviews and counting. See why LA MAISON DES VAPES is the most talked-about premium vape on the internet.",
   "socialProof.shopAll":   "Shop All",
   "socialProof.readReviews":"Read Reviews",
 
@@ -283,9 +283,9 @@ const fr: Record<TranslationKey, string> = {
   "nav.cart":              "Panier",
   "nav.findFlavor":        "Trouvez votre saveur",
   "nav.tagline":           "Vapeur Premium",
-  "nav.logoAria":          "Legend Vape Store — accueil",
+  "nav.logoAria":          "La Maison Des Vapes — accueil",
 
-  "menu.eyebrow":          "Le menu Legend Vape Store",
+  "menu.eyebrow":          "Le menu La Maison Des Vapes",
   "menu.shop":             "BOUTIQUE",
   "menu.flavors":          "SAVEURS",
   "menu.ourStory":         "NOTRE HISTOIRE",
@@ -296,10 +296,10 @@ const fr: Record<TranslationKey, string> = {
   "menu.attribution":      "— Esquire, 2026",
 
   "preloader.eyebrow":     "Vapeur Premium · Depuis 2024",
-  "preloader.loading":     "Chargement du legend-vape-store…",
+  "preloader.loading":     "Chargement de la maison des vapes…",
 
   "hero.ghost":             "Œuvre d’Art",
-  "hero.eyebrow":           "LEGEND VAPE STORE · Vapeur Premium · Depuis 2024",
+  "hero.eyebrow":           "LA MAISON DES VAPES · Vapeur Premium · Depuis 2024",
   "hero.bannerSticker":     "Vapeur + Clarté",
   "hero.tagline":           "Conçu pour les palais exigeants. Aucun compromis — juste une vapeur propre et délibérée à chaque bouffée.",
   "hero.cta":               "Trouvez votre saveur",
@@ -307,10 +307,10 @@ const fr: Record<TranslationKey, string> = {
 
   "curtain.line1":          "SANS",
   "curtain.line2":          "COMPROMIS",
-  "curtain.subtext":        "LEGEND VAPE STORE · DEPUIS 2024",
+  "curtain.subtext":        "LA MAISON DES VAPES · DEPUIS 2024",
 
-  "manifesto.ghost":        "Legend Vape Store vos sens\nà chaque bouffée",
-  "manifesto.brand":        "Legend Vape Store",
+  "manifesto.ghost":        "Éveillez vos sens\nà chaque bouffée",
+  "manifesto.brand":        "La Maison Des Vapes",
   "manifesto.your":         "vos",
   "manifesto.senses":       "sens",
   "manifesto.with":         "à",
@@ -324,7 +324,7 @@ const fr: Record<TranslationKey, string> = {
   "manifesto.tag.labCertified":  "Certifié Laboratoire",
   "manifesto.tag.premium":       "Premium",
 
-  "spotlight.eyebrow":      "— Drop Legend Vape Store / 02",
+  "spotlight.eyebrow":      "— Drop La Maison Des Vapes / 02",
   "spotlight.line1":        "ON",
   "spotlight.line2":        "A",
   "spotlight.line3":        "QUELQUE",
@@ -337,7 +337,7 @@ const fr: Record<TranslationKey, string> = {
   "spotlight.card.badge":   "NOUVEAU DROP",
   "spotlight.card.alt":     "Appareil Dark Crystal",
 
-  "carousel.eyebrow":       "La saveur Legend Vape Store · 03",
+  "carousel.eyebrow":       "La Maison des saveurs · 03",
   "carousel.headline":      "Choisissez votre tirage",
   "carousel.cta":           "Je le veux",
   "carousel.altLink":       "Autres saveurs",
@@ -362,13 +362,13 @@ const fr: Record<TranslationKey, string> = {
   "stats.label.eliquid":    "E-liquide",
 
   "featureSlam.eyebrow":    "Pensé autrement.",
-  "featureSlam.headline":   "Ce qu’il y a dans le legend-vape-store.",
+  "featureSlam.headline":   "Ce qu’il y a dans la maison des vapes.",
   "featureSlam.tag.shelfStable":     "Stable en Rayon",
   "featureSlam.tag.vaporClarity":    "Vapeur + Clarté",
   "featureSlam.tag.premiumHardware": "Hardware Premium",
   "featureSlam.tag.labCertified":    "Certifié Labo",
 
-  "marquee.0":              "VAPEUR LEGEND VAPE STORE",
+  "marquee.0":              "VAPEUR LA MAISON DES VAPES",
   "marquee.1":              "TROUVEZ VOTRE SAVEUR",
   "marquee.2":              "ZÉRO COMPROMIS",
   "marquee.3":              "HARDWARE PREMIUM",
@@ -380,7 +380,7 @@ const fr: Record<TranslationKey, string> = {
   "socialProof.word1":      "Tout le monde",
   "socialProof.word2":      "Parle.",
   "socialProof.word3":      "Vraiment.",
-  "socialProof.copy":       "Plus de 14 000 avis 5 étoiles, et ça continue. Découvrez pourquoi LEGEND VAPE STORE est la vape premium dont tout le monde parle.",
+  "socialProof.copy":       "Plus de 14 000 avis 5 étoiles, et ça continue. Découvrez pourquoi LA MAISON DES VAPES est la vape premium dont tout le monde parle.",
   "socialProof.shopAll":    "Tout acheter",
   "socialProof.readReviews":"Lire les avis",
 
@@ -517,9 +517,9 @@ const ar: Record<TranslationKey, string> = {
   "nav.cart":               "السلة",
   "nav.findFlavor":         "اكتشف نكهتك",
   "nav.tagline":            "بخار فاخر",
-  "nav.logoAria":           "Legend Vape Store — الرئيسية",
+  "nav.logoAria":           "La Maison Des Vapes — الرئيسية",
 
-  "menu.eyebrow":           "قائمة Legend Vape Store",
+  "menu.eyebrow":           "قائمة La Maison Des Vapes",
   "menu.shop":              "المتجر",
   "menu.flavors":           "النكهات",
   "menu.ourStory":          "قصّتنا",
@@ -533,7 +533,7 @@ const ar: Record<TranslationKey, string> = {
   "preloader.loading":      "جارٍ تحميل المتجر…",
 
   "hero.ghost":             "صناعة متقنة",
-  "hero.eyebrow":           "LEGEND VAPE STORE · بخار فاخر · منذ 2024",
+  "hero.eyebrow":           "LA MAISON DES VAPES · بخار فاخر · منذ 2024",
   "hero.bannerSticker":     "بخار + نقاء",
   "hero.tagline":           "مصمَّم لمن يطلب الإتقان. لا حلول وسط — فقط بخار نقيّ ومدروس مع كلّ نَفَس.",
   "hero.cta":               "اكتشف نكهتك",
@@ -541,10 +541,10 @@ const ar: Record<TranslationKey, string> = {
 
   "curtain.line1":          "تميّز",
   "curtain.line2":          "بلا تنازل",
-  "curtain.subtext":        "LEGEND VAPE STORE · منذ 2024",
+  "curtain.subtext":        "LA MAISON DES VAPES · منذ 2024",
 
-  "manifesto.ghost":        "Legend Vape Store حواسّك\nمع كلّ نَفَس",
-  "manifesto.brand":        "Legend Vape Store",
+  "manifesto.ghost":        "أيقِظ حواسّك\nمع كلّ نَفَس",
+  "manifesto.brand":        "La Maison Des Vapes",
   "manifesto.your":         "حواسّك",
   "manifesto.senses":       "تنبض",
   "manifesto.with":         "مع",
@@ -558,7 +558,7 @@ const ar: Record<TranslationKey, string> = {
   "manifesto.tag.labCertified":  "معتمَد مخبريًّا",
   "manifesto.tag.premium":       "فاخر",
 
-  "spotlight.eyebrow":      "— إصدار Legend Vape Store / 02",
+  "spotlight.eyebrow":      "— إصدار La Maison Des Vapes / 02",
   "spotlight.line1":        "لدينا",
   "spotlight.line2":        "شيء",
   "spotlight.line3":        "استثنائي",
@@ -571,7 +571,7 @@ const ar: Record<TranslationKey, string> = {
   "spotlight.card.badge":   "إصدار جديد",
   "spotlight.card.alt":     "جهاز Dark Crystal",
 
-  "carousel.eyebrow":       "نكهة Legend Vape Store · 03",
+  "carousel.eyebrow":       "نكهة La Maison Des Vapes · 03",
   "carousel.headline":      "اختر سحبتك",
   "carousel.cta":           "اطلبه الآن",
   "carousel.altLink":       "نكهات أخرى",
@@ -596,13 +596,13 @@ const ar: Record<TranslationKey, string> = {
   "stats.label.eliquid":    "السائل",
 
   "featureSlam.eyebrow":    "صنع مختلف.",
-  "featureSlam.headline":   "ما يميّز legend-vape-store.",
+  "featureSlam.headline":   "ما يميّز la maison des vapes.",
   "featureSlam.tag.shelfStable":     "ثابت على الرفوف",
   "featureSlam.tag.vaporClarity":    "بخار + نقاء",
   "featureSlam.tag.premiumHardware": "عتاد فاخر",
   "featureSlam.tag.labCertified":    "معتمَد مخبريًّا",
 
-  "marquee.0":              "بخار LEGEND VAPE STORE",
+  "marquee.0":              "بخار LA MAISON DES VAPES",
   "marquee.1":              "اكتشف نكهتك",
   "marquee.2":              "صفر تنازلات",
   "marquee.3":              "عتاد فاخر",
@@ -614,7 +614,7 @@ const ar: Record<TranslationKey, string> = {
   "socialProof.word1":      "يتحدث عنه",
   "socialProof.word2":      "الجميع.",
   "socialProof.word3":      "حقًّا.",
-  "socialProof.copy":       "أكثر من 14٬000 تقييم بخمس نجوم وأعداد متزايدة. اكتشف لماذا LEGEND VAPE STORE هو الفايب الفاخر الأكثر تداولًا.",
+  "socialProof.copy":       "أكثر من 14٬000 تقييم بخمس نجوم وأعداد متزايدة. اكتشف لماذا LA MAISON DES VAPES هو الفايب الفاخر الأكثر تداولًا.",
   "socialProof.shopAll":    "تسوّق الكل",
   "socialProof.readReviews":"اقرأ التقييمات",
 

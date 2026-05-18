@@ -15,7 +15,7 @@ export const MENU_LINKS: NavItem[] = [
 
 export const FOOTER_COLUMNS: FooterColumn[] = [
   {
-    header: "LEGEND VAPE STORE FLAVORS",
+    header: "LA MAISON DES VAPES FLAVORS",
     links: [
       { label: "Shop Devices",  href: "/shop" },
       { label: "Starter Kits",  href: "/shop" },

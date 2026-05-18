@@ -5,7 +5,7 @@ import ShopPage from "@/sections/shop/ShopPage";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Shop · LEGEND VAPE STORE",
+  title: "Shop · La Maison Des Vapes",
   description: "Pods, puffs, capsules, liquid — engineered for the discerning palate.",
 };
 

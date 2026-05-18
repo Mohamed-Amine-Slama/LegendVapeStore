@@ -77,7 +77,7 @@ export const HERO_PRODUCTS: HeroProduct[] = [
  */
 export const HERO_CENTER_PRODUCT: HeroCenterProduct = {
   src: "/products/device-slim-gold.png",
-  alt: "LEGEND VAPE STORE slim gold — hero device",
+  alt: "La Maison Des Vapes slim gold — hero device",
   rotate: -6,
   width: 155,
   floatDuration: 3.2,

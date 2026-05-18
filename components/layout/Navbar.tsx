@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { useNavbarTheme } from "@/hooks/useNavbarTheme";
 import { useI18n } from "@/context/I18nContext";
 import HamburgerIcon from "./HamburgerIcon";
@@ -33,17 +34,29 @@ export default function Navbar() {
           className="group relative flex items-center gap-3"
           aria-label={t("nav.logoAria")}
         >
-          <span
-            className={cn(
-              "font-script leading-none transition-colors duration-500",
-              "group-hover:scale-[1.05] motion-safe:transition-transform",
-              "text-[22px] sm:text-[26px] md:text-[30px] lg:text-[32px]",
-              onDark ? "text-accent" : "text-bg-dark",
-            )}
-            style={{ fontWeight: 700, letterSpacing: "-0.01em" }}
-          >
-            <span className="sm:hidden">LEGEND</span>
-            <span className="hidden sm:inline">LEGEND VAPE STORE</span>
+          <span className="relative block h-[44px] w-[44px] sm:h-[48px] sm:w-[48px] md:h-[52px] md:w-[52px] transition-transform duration-500 motion-safe:group-hover:scale-[1.05]">
+            <Image
+              src="/LogoBlack.png"
+              alt={t("nav.logoAria")}
+              fill
+              priority
+              sizes="(max-width: 640px) 44px, (max-width: 768px) 48px, 52px"
+              className={cn(
+                "object-contain transition-opacity duration-500",
+                onDark ? "opacity-0" : "opacity-100",
+              )}
+            />
+            <Image
+              src="/LogoWhite.png"
+              alt=""
+              aria-hidden
+              fill
+              sizes="(max-width: 640px) 44px, (max-width: 768px) 48px, 52px"
+              className={cn(
+                "object-contain transition-opacity duration-500",
+                onDark ? "opacity-100" : "opacity-0",
+              )}
+            />
           </span>
           <span
             aria-hidden
